@@ -1,0 +1,7 @@
+init
+load --fn=test.txt --group_tag="raw"
+blocks --where="group_tag='raw'"
+transform --transformation="sentence-split"
+blocks
+blocks --where="token_count = 5"
+dump --source=blocks --delimiter="\n**********************\n"

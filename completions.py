@@ -9,7 +9,7 @@ import yaml
 from prompt_toolkit import PromptSession
 
 
-ENV_FILENAME = ".promptlab"
+ENV_FILENAME = ".prompter"
 
 console = Console()
 
@@ -46,7 +46,7 @@ def save_config(config):
     return
 
 
-# Write the API key to the .promptlab file in the home directory
+# Write the API key to the .prompter file in the home directory
 def action_set_api_key():
     session = PromptSession()
     # get the config
@@ -60,7 +60,7 @@ def action_set_api_key():
     save_config(config)
 
 
-# Check if the .promptlab file exists in the home directory
+# Check if the .prompter file exists in the home directory
 def load_env():
     home = str(Path.home())
     if not os.path.isfile(home + "/" + ENV_FILENAME):

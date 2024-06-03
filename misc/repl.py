@@ -49,7 +49,7 @@ def define_arguments(argString=None):
 
     # Universal arguments
     parser.add_argument(
-        "--db", help="The database file", required=False, default="promptlab.db"
+        "--db", help="The database file", required=False, default="prompter.db"
     )
     # Arguments related to loading files
     parser.add_argument("--fn", help="Filename", required=False)
@@ -114,7 +114,7 @@ def define_arguments(argString=None):
 
 version = "0.0.1"
 
-Art = text2art("Promptlab")
+Art = text2art("prompter")
 print(f"[green]{Art}")
 # print(f"v{version}\n")
 
@@ -123,7 +123,7 @@ session = PromptSession()
 
 if __name__ == "__main__":
     while True:
-        argString = session.prompt("promptlab> ")
+        argString = session.prompt("prompter> ")
         if argString == "exit":
             break
         try:

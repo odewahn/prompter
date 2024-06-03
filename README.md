@@ -1,6 +1,6 @@
-# Promptlab
+# prompter
 
-Promptlab is a utility for managing common activities when processing large amounts of text with an LLM. It lets you:
+prompter is a utility for managing common activities when processing large amounts of text with an LLM. It lets you:
 
 - Load text from files or EPUBs into a database
 - Transform text using a variety of transformations. For example, convert an EPUB to markdown, split a long block into smaller blocks, or split a block into sentences. A lot of this work is required to fit the text into the LLM's token limit.
@@ -26,7 +26,7 @@ topic: Python Programming
 author: A. N. Other
 ```
 
-When you run the `prompt` command in Promptlab, a block of text and the metadata is passed into the template:
+When you run the `prompt` command in prompter, a block of text and the metadata is passed into the template:
 
 ```jinja
 You are a technical instructional designer who is reviewing
@@ -39,50 +39,50 @@ some text in markdown format for you to use summarize:
 
 This fully rendered text is sent to an LLM for completion. The process is repeated for the other blocks of content until all the sections you select are processed. You can then convert these resposes into new blocks or metadata, or just dump them out an save them in a file.
 
-You can run it in an interactive mode or as a script. To run it interactively, run `promptlab` with no arguments. You then enter commands at the prompt as if you were using the CLI.
+You can run it in an interactive mode or as a script. To run it interactively, run `prompter` with no arguments. You then enter commands at the prompt as if you were using the CLI.
 
-![promptlab interactive](misc/promptlab-repl.png)
+![prompter interactive](misc/prompter-repl.png)
 
-Finally, Promptlab can be used as part of a script to automate the process of generating prompts and responses. For example, here's an example of how tou might summarize the full contents of a book:
+Finally, prompter can be used as part of a script to automate the process of generating prompts and responses. For example, here's an example of how tou might summarize the full contents of a book:
 
 ```bash
 # Make sure the bash script exits if any command fails
 set -e
 # Create a new database
-promptlab init
+prompter init
 # Load the epub
-promptlab load --fn=book.epub
+prompter load --fn=book.epub
 # Apply a filter to only work on chapter
-promptlab filter --where="block_tag like 'ch%'"
+prompter filter --where="block_tag like 'ch%'"
 # Clean up the extraneous HTML, split the text into sections, and convert to markdown
-promptlab transform --transformation="clean-epub, html-h1-split, html2md"
+prompter transform --transformation="clean-epub, html-h1-split, html2md"
 # Only work on sections with more than 1000 tokens
-promptlab filter --where="token_count > 1000" --group_tag=key-sections
+prompter filter --where="token_count > 1000" --group_tag=key-sections
 # Apply the summarization template using the metadata in metadata.yml
-promptlab prompt --fn=summarize.jinja --globals=metadata.yml
+prompter prompt --fn=summarize.jinja --globals=metadata.yml
 # Write the results to a file
-promptlab dump --source=prompts > key-points.md
+prompter dump --source=prompts > key-points.md
 ```
 
 # Installation
 
-Promptlab uses Pyinstaller to create a single executable file. To install it, [download the latest release](https://github.com/oreillymedia/promptlab/releases), unzip it, and then put it somewhere in your path. You will likely also need to [enable it to run on a mac by changing the permissions](https://iboysoft.com/howto/cannot-be-opened-because-it-is-from-an-unidentified-developer.html).
+prompter uses Pyinstaller to create a single executable file. To install it, [download the latest release](https://github.com/oreillymedia/prompter/releases), unzip it, and then put it somewhere in your path. You will likely also need to [enable it to run on a mac by changing the permissions](https://iboysoft.com/howto/cannot-be-opened-because-it-is-from-an-unidentified-developer.html).
 
 To test that it's working correctly, run:
 
 ```
-./promptlab/promptlab/promptlab version
+./prompter/prompter/prompter version
 ```
 
 Note that it's pretty slow to start. This is an artifact of the way Pyinstaller works when it builds a single file for distribution. Once it's running, it's pretty fast. I should probably make a REPL for it.
 
 # Usage
 
-Promptlab is meant to help you explore the vairous transformations and prompts required to transform large amounts of content (like, a book). Here's a pretty typical way you might start a new project:
+prompter is meant to help you explore the vairous transformations and prompts required to transform large amounts of content (like, a book). Here's a pretty typical way you might start a new project:
 
 - Create a directory to hold your content. For example, you might download an EPUB or some files there.
-- Run `promptlab init` to create a new database. This will create a SQLITE database called `promptlab.db` in the current directory (unless you override the name with the `--db` option).
-- Load the content into the database with `promptlab load --fn=*.epub`. This will create a new group with blocks for each chapter in the EPUB.
+- Run `prompter init` to create a new database. This will create a SQLITE database called `prompter.db` in the current directory (unless you override the name with the `--db` option).
+- Load the content into the database with `prompter load --fn=*.epub`. This will create a new group with blocks for each chapter in the EPUB.
 
 At this point, you might need to poke around a bit in the data to figure out how it's structured. You can use the `dump` command to inspect the blocks. Once you have an idea of how it looks, you can use the various transformations to clean up the data and split it into smaller blocks that will fit into the LLM's context window, which is typically around 8192 tokens. For example, you might use the `html-h1-split` transformation to split the text into blocks based on the H1 tags in the HTML. Finally, you might also want to restrict the blocks you're working with to a subset of the data. You can use the `filter` command to do this. For example, you might only want to work with blocks that have more than 1000 tokens.
 
@@ -92,11 +92,11 @@ Finally, you can use the `dump` command to write the results to a file, or trans
 
 Once you've found the right set of transformations and filters, you can script the whole process to automate the generation of prompts and responses and save it as a bash script.
 
-Note that promptlab isn't meant to be a production tool -- it's mostly for exploratoy work to figure out how to structure your data and what prompts are effective for whatever you're trying to do. Once you've figured that out, it's likely that you would want to condense those operations into a single program that you can run at scale.
+Note that prompter isn't meant to be a production tool -- it's mostly for exploratoy work to figure out how to structure your data and what prompts are effective for whatever you're trying to do. Once you've figured that out, it's likely that you would want to condense those operations into a single program that you can run at scale.
 
 # Command Reference
 
-Promptlab has the following commands:
+prompter has the following commands:
 
 - `init` -- create a new sqlite database to store data
 - `load` -- load a file or files into a new group with blocks
@@ -115,16 +115,16 @@ Promptlab has the following commands:
 
 ## `init`
 
-Creates an empty database. If no db is provided, the default is `promptlab.db`.
+Creates an empty database. If no db is provided, the default is `prompter.db`.
 
 ### Arguments
 
-- `--db` (optional) The name of the database file. Default is `promptlab.db`.
+- `--db` (optional) The name of the database file. Default is `prompter.db`.
 
 ### Examples
 
 ```
-promptlab init --db=database.db
+prompter init --db=database.db
 ```
 
 ## `load`
@@ -141,19 +141,19 @@ Loads a file or files into a new group, each of which contains a set of blocks. 
 Load all HTML files:
 
 ```
-promptlab load --fn=*.html
+prompter load --fn=*.html
 ```
 
 Loading an EPUB will create a group for each chapter and a block for each chapter:
 
 ```
-promptlab load --fn=example.epub
+prompter load --fn=example.epub
 ```
 
 You can provide a tag for the group so you can reference it later, like this:
 
 ```
-promptlab load --fn=example.epub --group_tag=example
+prompter load --fn=example.epub --group_tag=example
 ```
 
 ## `transform`
@@ -179,13 +179,13 @@ The `transform` command creates new groups of blocks by applying a transformatio
 Apply 3 transformations to the current group:
 
 ```
-promptlab transform --transformation="clean-epub, html-h1-split, html2md"
+prompter transform --transformation="clean-epub, html-h1-split, html2md"
 ```
 
 Name a group:
 
 ```
-promptlab transform --transformation="clean-epub" --group_tag=cleaned-up-files
+prompter transform --transformation="clean-epub" --group_tag=cleaned-up-files
 ```
 
 ## `filter`
@@ -203,13 +203,13 @@ The `filter` command creates a new group of blocks by applying a filter to the c
 Filter blocks whose tag name starts with "chapter":
 
 ```
-promptlab filter --where="block_tag like 'chapter%'"
+prompter filter --where="block_tag like 'chapter%'"
 ```
 
 Filter blocks with more than 1000 tokens:
 
 ```
-promptlab filter --where="token_count > 1000"
+prompter filter --where="token_count > 1000"
 ```
 
 ## `groups`
@@ -226,13 +226,13 @@ Lists all groups.
 Show all current groups:
 
 ```
-promptlab groups
+prompter groups
 ```
 
 Show all groups with more than 50 blocks:
 
 ```
-promptlab groups --where="block_count > 50"
+prompter groups --where="block_count > 50"
 ```
 
 ## `set-group`
@@ -246,7 +246,7 @@ Sets the group to the provided group tag.
 ### Examples
 
 ```
-promptlab set-group --group_tag=example
+prompter set-group --group_tag=example
 ```
 
 ## `blocks`
@@ -263,19 +263,19 @@ List all blocks in the current group:
 Show all blocks in the current group
 
 ```
-promptlab blocks
+prompter blocks
 ```
 
 Show all blocks with more than 1000 characters:
 
 ```
-promptlab blocks --where="token_count > 1000"
+prompter blocks --where="token_count > 1000"
 ```
 
 Select all blocks that match a tag:
 
 ```
-promptlab blocks --where="block_tag like 'chapter%'"
+prompter blocks --where="block_tag like 'chapter%'"
 ```
 
 ## `dump`
@@ -296,7 +296,7 @@ Write blocks or prompts to standard output.
 Dump all blocks to standard output:
 
 ```
-promptlab dump
+prompter dump
 ```
 
 Dump all blocks with more than 1000 characters:
@@ -326,7 +326,7 @@ Generate prompts from a set of blocks based on metadata and a template, and then
 - `--prompt` (required) The name of the prompt template.
 - `--where` (optional) A SQL WHERE clause to filter the blocks that will be used to create the prompts.
 - `--order` (optional) A SQL ORDER BY clause to order the results.
-- `--model` (optional) The name of the model to use in the format `provider:model`, where provider is `openai` or `groq`, and model is the name of the model. The default is `openai:gpt-4o`. You can find the names of the models for each provider by running `promptlab models --provider=openai|groq`.
+- `--model` (optional) The name of the model to use in the format `provider:model`, where provider is `openai` or `groq`, and model is the name of the model. The default is `openai:gpt-4o`. You can find the names of the models for each provider by running `prompter models --provider=openai|groq`.
 - `--prompt_tag` (optional) A tag to use for the prompt; this tag can be referred to later in queries.
 - `--globals` (optional) A YAML file with global metadata values that can be used in the prompt template.
 - `--fake` (optional) Generates a fake response data (mostly for testing)
@@ -337,19 +337,19 @@ Generate prompts from a set of blocks based on metadata and a template, and then
 You run the prompt against a block using the `prompt` command:
 
 ```
-promptlab prompt --fn=extract-key-points.jinja --model=gpt-3.5-turbo --prompt_tag="extract-key-points"
+prompter prompt --fn=extract-key-points.jinja --model=gpt-3.5-turbo --prompt_tag="extract-key-points"
 ```
 
 Prompt for a specific group:
 
 ```
-promptlab prompt --fn=summarize.jinja --where="block_tag like 'ch12%'"
+prompter prompt --fn=summarize.jinja --where="block_tag like 'ch12%'"
 ```
 
 Prompt and provide global metadata from a file:
 
 ```
-promptlab prompt --fn=extract-key-points.jinja --globals=metadata.yml
+prompter prompt --fn=extract-key-points.jinja --globals=metadata.yml
 ```
 
 ## `models`
@@ -365,7 +365,7 @@ Prints all models available for a provider.
 Print all models for OpenAI:
 
 ```
-promptlab models --provider=openai
+prompter models --provider=openai
 ```
 
 ## `prompts`
@@ -382,13 +382,13 @@ Prints all prompts to standard output.
 Print all prompts:
 
 ```
-promptlab prompts
+prompter prompts
 ```
 
 Print all prompts with a specific tag:
 
 ```
-promptlab prompts --where="prompt_tag like 'ch12%'"
+prompter prompts --where="prompt_tag like 'ch12%'"
 ```
 
 ## `transfer-prompts`
@@ -407,13 +407,13 @@ Convert prompts into blocks or metadata. This is useful is you want to do later 
 Transfer prompts to blocks:
 
 ```
-promptlab transfer-prompts --to=blocks
+prompter transfer-prompts --to=blocks
 ```
 
 Transfer prompts to metadata:
 
 ```
-promptlab transfer-prompts --to=metadata --metadata_key=key-points
+prompter transfer-prompts --to=metadata --metadata_key=key-points
 ```
 
 ## `version`
@@ -423,17 +423,17 @@ Prints the version of the software.
 ### Examples
 
 ```
-promptlab version
+prompter version
 ```
 
 ## `set-api-key`
 
-Sets the API key used for the LLM. This is required to use the `prompt` command. NB: This key is stored in plain text in a file called `~/.promptlab`.
+Sets the API key used for the LLM. This is required to use the `prompt` command. NB: This key is stored in plain text in a file called `~/.prompter`.
 
 ### Examples
 
 ```
-promptlab set-api-key
+prompter set-api-key
 ```
 
 ## `run`
@@ -447,10 +447,10 @@ Runs a script that contains a series of commands. This is useful for automating 
 ### Examples
 
 ```
-promptlab run --fn=script.promptlab
+prompter run --fn=script.prompter
 ```
 
-The `script.promptlab` file might look like this:
+The `script.prompter` file might look like this:
 
 ```
 cd --dir=~/Desktop/content/test
@@ -500,10 +500,11 @@ From the root directory, run the following command:
 ```
 
 pyinstaller \
- --name=promptlab \
+ --name=prompter \
  --add-data="sql:sql" \
  --hidden-import=prompt_toolkit \
  --noconfirm \
+ --clean \
  main.py
 
 ```
