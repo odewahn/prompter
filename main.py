@@ -58,6 +58,7 @@ ACTIONS = [
     "models",
     "run",
     "exit",
+    "stats",
 ]
 TRANSFORMATIONS = [
     "token-split",
@@ -355,6 +356,19 @@ def response_already_exists(prompt_text):
     return len(result) > 0
 
 
+def action_stats():
+    sql = load_system_file("sql/prompt_stats.sql")
+    headers, results = fetch_from_db(sql, ())
+    results = transform_by_key(
+        results,
+        {
+            "approximate_tokens_processed": lambda x: "{:,}".format(x),
+            "elapsed_seconds": lambda x: f"{x:,.0f}",
+        },
+    )
+    print_results("Prompt Stats", headers, results)
+
+
 # *****************************************************************************************
 # Action groups
 # *****************************************************************************************
@@ -395,11 +409,12 @@ def action_load():
                 data.append({"block": html, "tag": item.get_name(), "parent_id": 0})
                 idx += 1
     else:
-        files = sorted(glob.glob(args.fn))
+        files = sorted(glob.glob(os.path.expanduser(args.fn)))
         idx = 0
         for f in files:
+            console.log("Loading file", f)
             txt = load_user_file(f)
-            data.append({"block": txt, "tag": f, "parent_id": idx})
+            data.append({"block": txt, "tag": os.path.basename(f), "parent_id": idx})
             idx += 1
     insert_blocks_in_new_group(data)
 
@@ -469,15 +484,16 @@ def action_transform(transformation):
     insert_blocks_in_new_group(data)
 
 
-def action_prompt(prompt_fn):
-    prompt = load_user_file(prompt_fn)
+def action_prompt():
+    task_prompt = load_user_file(args.task)
+    persona_prompt = load_user_file(args.persona) if args.persona is not None else ""
     metadata = {}
     if args.globals is not None:
         metadata = read_metadata(args.globals)
-    template = Template(prompt)
+    template = Template(task_prompt)
     headers, blocks = fetch_blocks()
     # Apply the template to each block
-    prompt_log_id, prompt_tag = create_prompt_log(prompt_fn, prompt)
+    prompt_log_id, prompt_tag = create_prompt_log(args.task, task_prompt)
     idx = 1
     for b in blocks:
         prompt_text = template.render(block=b["block"], **metadata)
@@ -511,7 +527,7 @@ def action_prompt(prompt_fn):
         if args.fake:
             response_txt = fake.text(500)
         else:
-            response_txt = complete(args, prompt_text)
+            response_txt = complete(args, prompt_text, persona_prompt)
         idx += 1
         end = time.time()
         # Save the response to the database
@@ -594,6 +610,8 @@ def action_prompts():
     sql = load_system_file("sql/v_current_prompts.sql")
     sql = apply_sql_clauses(sql)
     columns, results = fetch_from_db(sql, ())
+    # Sum up the elapsed_time_in_seconds key
+    total_time = sum([r["elapsed_time_in_seconds"] for r in results])
     results = transform_by_key(
         results,
         {
@@ -603,6 +621,7 @@ def action_prompts():
     )
     print_results("Prompts", columns, results)
     console.print(f"\n{len(results)} prompts in total")
+    console.print(f"Total time: {total_time:.2f} seconds")
     console.print("The following fields available in --where clause:", columns)
 
 
@@ -654,6 +673,10 @@ def define_arguments(argString=None):
     parser.add_argument("--order", help="SQLITE order by clause", required=False)
     # Arguments related to prompting
     parser.add_argument("--prompt", help="Prompt to use", required=False)
+    parser.add_argument("--task", help="Filenaame of task template", required=False)
+    parser.add_argument(
+        "--persona", help="Filename of persona template", required=False
+    )
     parser.add_argument(
         "--model", help="Model to use", required=False, default="gpt-4o"
     )
@@ -686,7 +709,7 @@ def define_arguments(argString=None):
         help="Where to transfer prompts",
         choices=["metadata", "blocks"],
         required=False,
-        default="metadata",
+        default="blocks",
     )
     parser.add_argument(
         "--source",
@@ -779,10 +802,9 @@ def process_command():
 
     if args.action == "prompt":
         check_db(args.db)
-        console.log(args.fn)
-        if args.fn is None:
-            raise Exception("You must provide a --fn argument for the prompt")
-        action_prompt(args.fn)
+        if args.task is None:
+            raise Exception("You must provide a --task argument for the prompt")
+        action_prompt()
         return
 
     if args.action == "set-group":
@@ -871,6 +893,11 @@ def process_command():
     if args.action == "exit":
         console.log("Bye!")
         sys.exit(0)
+
+    if args.action == "stats":
+        check_db(args.db)
+        action_stats()
+        return
 
 
 # accepts a command

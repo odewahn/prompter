@@ -5,7 +5,7 @@ SELECT
 FROM
   prompt_responses pr
   join blocks b on b.id = pr.block_id 
-  join current_group cg on cg.id = b.group_id
+  left join current_group cg on cg.id = b.group_id
 group by
   tag,
 	parent_id

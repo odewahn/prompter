@@ -70,10 +70,15 @@ def load_env():
     return True
 
 
-def openai_completion(args, config, text):
+def openai_completion(args, config, text, persona_text=None):
     openai.api_key = config["openai"]
     response = openai.ChatCompletion.create(
-        model=args.model, messages=[{"role": "user", "content": text}], temperature=0.1
+        model=args.model,
+        messages=[
+            {"role": "user", "content": text},
+            {"role": "system", "content": persona_text},
+        ],
+        temperature=0.1,
     )
     response_txt = str(response.choices[0].message.content)
     return response_txt
@@ -89,7 +94,7 @@ def openai_models(args):
     return sorted(out)
 
 
-def groq_completion(args, config, text):
+def groq_completion(args, config, text, persona_text=None):
     provider, model = parse_model(args.model)
     client = Groq(
         # This is the default and can be omitted
@@ -98,7 +103,7 @@ def groq_completion(args, config, text):
 
     chat_completion = client.chat.completions.create(
         messages=[
-            {"role": "system", "content": "you are a helpful assistant."},
+            {"role": "system", "content": persona_text},
             {
                 "role": "user",
                 "content": text,
@@ -135,7 +140,7 @@ def action_models(args):
     return "Unknown provider"
 
 
-def complete(args, text):
+def complete(args, text, persona_text=None):
     provider, model = parse_model(args.model)
     # Load the config file
     config = load_config()
@@ -146,8 +151,8 @@ def complete(args, text):
         )
     # Perform the correct call
     if provider == "openai":
-        return openai_completion(args, config, text)
+        return openai_completion(args, config, text, persona_text)
     elif provider == "groq":
-        return groq_completion(args, config, text)
+        return groq_completion(args, config, text, persona_text)
 
     return "Unknown provider"

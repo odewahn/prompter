@@ -1,4 +1,3 @@
-python-dotenv
 ebooklib
 html2text
 jinja2
