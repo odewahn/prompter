@@ -438,11 +438,26 @@ prompter set-api-key
 
 ## `run`
 
-Runs a script that contains a series of commands. This is useful for automating the process of generating prompts and responses.
+Runs a script that contains a series of commands. This is useful for automating the process of generating prompts and responses. The script is treated as a Jinja template, so that you can also do some basic logic in the script. For example, you might want to only run a command if a certain condition is met.
+
+```
+{% if format == "book" %}
+   # Load a book
+   load --fn=source/*.html
+   transform --transformation="html2md,token-split"
+   filter --where="block_tag like '%-ch%'"
+{% else %}
+   # Loading {{format}}
+   load --fn=source/*.md
+   transform --transformation="token-split"
+{% endif %}
+```
 
 ### Arguments
 
 - `--fn` (required) The name of the script file to run.
+- `--globals` (optional) A YAML file with global metadata values that can be used in the script
+- `--preview` (optional) Prints the rendered script to standard output only (does not execute it).
 
 ### Examples
 
@@ -459,6 +474,28 @@ load --fn=test.txt --group_tag="raw"
 blocks --where="group_tag='raw'"
 transform --transformation="sentence-split"
 blocks --order=block_id
+```
+
+Here's an example of a script that uses global metadata and a preview:
+
+```
+run --fn=/Users/odewahn/Desktop/content/summaries/summarizer.jinja --globals=metadata.yaml --preview
+```
+
+## `squash`
+
+Concatenates all prompts with the same block tag into a new block. This is useful when recombining prompts computed from segments of a total work. For example, if you have a book that you've split into chapters, and you've generated prompts for each chapter, you can use `squash` to recombine the prompts into a single block.
+
+### Arguments
+
+- `--where` (optional) A SQL WHERE clause to filter the results. Running `promplab prompts` will show the columns available for filtering. These are currently `['prompt_id', 'block_id', 'prompt', 'response', 'model', 'prompt_tag', 'created_at']`
+
+### Examples
+
+Squash all prompts:
+
+```
+squash --group_tag='condensed-chapter-blocks'
 ```
 
 # Development

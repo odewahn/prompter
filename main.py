@@ -187,6 +187,23 @@ def print_results(title, column_names, results):
     console.print(table)
 
 
+# Take a command file used in the "run" option and render it using the metadata
+def render_command_file():
+    console.log("Rendering command file", args.fn)
+    instructions = load_user_file(args.fn)
+    metadata = {}
+    if args.globals is not None:
+        metadata = read_metadata(args.globals)
+    # Render the template
+    template = Template(instructions)
+    instructions = template.render(**metadata)
+    out = []
+    for instruction in instructions.split("\n"):
+        if len(instruction) > 0:
+            out.append(instruction.strip())
+    return out
+
+
 # *****************************************************************************************
 #  Metadata
 # *****************************************************************************************
@@ -692,7 +709,7 @@ def define_arguments(argString=None):
     )
     parser.add_argument(
         "--preview",
-        help="Generate the prompt with metadata only (not submitted to LLM)",
+        help="Preview the command",
         required=False,
         default=False,
         action=BooleanOptionalAction,
@@ -903,9 +920,22 @@ def process_command():
 # accepts a command
 def run():
     commands = load_user_file(args.fn)
+    # Load the metadata
+    metadata = {}
+    if args.globals is not None:
+        metadata = read_metadata(args.globals)
+    # Render the template
+    template = Template(commands)
+    commands = template.render(**metadata)
+    # Print the commands
+    console.log(commands)
+    # Leave if we're just previewing
+    if args.preview:
+        return
+
     for command in commands.split("\n"):
         # skip lines that start with a #
-        if command.strip().startswith("#"):
+        if command.strip().startswith("#") or len(command) == 0:
             continue
         args = define_arguments(command)
         process_command()
@@ -923,10 +953,10 @@ if __name__ == "__main__":
                     raise Exception(
                         "You must provide a --fn argument for the file to run"
                     )
-                instructions = load_user_file(args.fn)
-                for instruction in instructions.split("\n"):
+                instructions = render_command_file()
+                for instruction in instructions:
                     print(instruction)
-                    if command.strip().startswith("#"):
+                    if instruction.strip().startswith("#"):
                         continue
                     args = define_arguments(instruction)
                     process_command()
@@ -960,12 +990,18 @@ if __name__ == "__main__":
                         raise Exception(
                             "You must provide a --fn argument for the file to run"
                         )
-                    instructions = load_user_file(args.fn)
-                    for instruction in instructions.split("\n"):
-                        if instruction.strip().startswith("#"):
-                            continue
-                        args = define_arguments(instruction)
-                        process_command()
+                    instructions = render_command_file()
+                    console.log(instructions)
+                    # Leave if we're just previewing
+                    if not args.preview:
+                        for instruction in instructions:
+                            if (
+                                instruction.strip().startswith("#")
+                                or len(instruction) == 0
+                            ):
+                                continue
+                            args = define_arguments(instruction)
+                            process_command()
                 else:
                     process_command()
             except Exception as e:

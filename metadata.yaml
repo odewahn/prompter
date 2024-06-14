@@ -1,0 +1,40 @@
+authors: Huyen, Chip
+content_format: book
+description: "Recent breakthroughs in AI have not only increased demand for AI products,\
+  \ they've also lowered the barriers to entry for those who want to build AI products.\
+  \ The model-as-a-service approach has transformed AI from an esoteric discipline\
+  \ into a powerful development tool that anyone can use. Everyone, including those\
+  \ with minimal or no prior AI experience, can now leverage AI models to build applications.\
+  \ In this book, author Chip Huyen discusses AI engineering: the process of building\
+  \ applications with readily available foundation models. \n\n\n\nThe book starts\
+  \ with an overview of AI engineering, explaining how it differs from traditional\
+  \ ML engineering and discussing the new AI stack. The more AI is used, the more\
+  \ opportunities there are for catastrophic failures, and therefore, the more important\
+  \ evaluation becomes. This book discusses different approaches to evaluating open-ended\
+  \ models, including the rapidly growing AI-as-a-judge approach.\n\n\n\nAI application\
+  \ developers will discover how to navigate the AI landscape, including models, datasets,\
+  \ evaluation benchmarks, and the seemingly infinite number of use cases and application\
+  \ patterns. You'll learn a framework for developing an AI application, starting\
+  \ with simple techniques and progressing toward more sophisticated methods, and\
+  \ discover how to efficiently deploy these applications.\n\n\n* Understand what\
+  \ AI engineering is and how it differs from traditional machine learning engineering\n\
+  * Learn the process for developing an AI application, the challenges at each step,\
+  \ and approaches to address them\n* Explore various model adaptation techniques,\
+  \ including prompt engineering, RAG, fine-tuning, agents, and dataset engineering,\
+  \ and understand how and why they work\n* Examine the bottlenecks for latency and\
+  \ cost when serving foundation models and learn how to overcome them\n* Choose the\
+  \ right model, dataset, evaluation benchmarks, and metrics for your needs\n\nChip\
+  \ Huyen works to accelerate data analytics on GPUs at Voltron Data. Previously,\
+  \ she was with Snorkel AI and NVIDIA, founded an AI infrastructure startup, and\
+  \ taught Machine Learning Systems Design at Stanford. She\xC3\xA2??s the author\
+  \ of the book Designing Machine Learning Systems, an Amazon bestseller in AI.\n\n\
+  \n*AI Engineering* builds upon and is complementary to *Designing Machine Learning\
+  \ Systems*.\n\n"
+duration_seconds: null
+format: book
+identifier: '9781098166298'
+issued: '2025-01-25'
+publishers: O'Reilly Media, Inc.
+title: AI Engineering
+topics: Artificial Intelligence
+virtual_pages: 217
