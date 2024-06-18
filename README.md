@@ -553,3 +553,21 @@ du -hs *
 ```
 
 Originally, I compiled this using `--onefile` but found that it became incredibly slow to start up. Ths seems to be a common complaint about pyinstaller. I think it also has to do with a virus scanner, which has to scan each file in the package as it's unzipped every time. So, I started just directibuting the dist folder. It's less convenient and clear, but gives an acceptable startup time.
+
+### Codesigning
+
+https://pyinstaller.org/en/v4.7/feature-notes.html#macos-binary-code-signing
+
+https://haim.dev/posts/2020-08-08-python-macos-app/
+
+https://gist.github.com/txoof/0636835d3cc65245c6288b2374799c43
+
+https://www.linkedin.com/pulse/looking-distribute-your-python-script-mac-users-jai-goyal-aotsc/
+
+https://forums.developer.apple.com/forums/thread/735581
+
+https://apple.stackexchange.com/questions/395763/how-to-code-sign-my-python-script-package-packaged-for-mac-using-pyinstaller-w
+
+https://stackoverflow.com/questions/21736367/signing-code-for-os-x-application-bundle
+
+https://stackoverflow.com/questions/68884906/pyinstaller-error-systemerror-codesign-failure-on-macos

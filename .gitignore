@@ -10,7 +10,6 @@ build
 .env.old
 *.sqbpro
 .DS_Store
-prompter.spec
 __pycache__/
 *.zip
 .pytest_cache/
