@@ -6,7 +6,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('sql', 'sql')],
+    datas=[('sql', 'sql'),('resources', 'resources')],
     hiddenimports=['prompt_toolkit'],
     hookspath=[],
     hooksconfig={},

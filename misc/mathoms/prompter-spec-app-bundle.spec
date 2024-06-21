@@ -6,7 +6,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('sql', 'sql')],
+    datas=[('sql', 'sql'),('resources', 'resources')],
     hiddenimports=['prompt_toolkit'],
     hookspath=[],
     hooksconfig={},
@@ -29,3 +29,17 @@ exe = EXE(pyz,
           console=True )
 
 
+
+app = BUNDLE(exe,
+    name='prompter.app',
+    icon='resources/prompter.icns',
+    bundle_identifier='com.oreilly.prompter',
+    info_plist={
+      'CFBundleName': 'prompter',
+      'CFBundleDisplayName': 'prompter',
+      'CFBundleVersion': package_version,
+      'CFBundleShortVersionString': package_version,
+      'NSRequiresAquaSystemAppearance': 'No',
+      'NSHighResolutionCapable': 'True',
+    },
+)
