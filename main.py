@@ -790,7 +790,7 @@ def process_command():
         if args.transformation is None:
             raise Exception("You must provide a --transformation argument to use")
         transformations = args.transformation.split(",")
-        if len(transformations) > 0 and args.group_tag is not None:
+        if len(transformations) > 1 and args.group_tag is not None:
             raise Exception("You cannot use --group_tag with multiple transformations")
         for t in transformations:
             console.log("Applying transformation", t)
@@ -973,7 +973,7 @@ if __name__ == "__main__":
         print(f"[green]{Art}")
         session = PromptSession()
         while True:
-            argString = session.prompt("prompter> ")
+            argString = session.prompt(f"prompter> ")
             # If the user just hits enter, skip parsing because it will exit the program
             if len(argString) == 0:
                 continue

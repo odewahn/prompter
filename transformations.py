@@ -61,7 +61,10 @@ def transformation_html2txt(b):
 
 
 def transformation_newline_split(b):
-    return b.split("\n")
+    # split text text by newline and only return non-empty strings
+    out = b.split("\n")
+    out = list(filter(None, out))
+    return out
 
 
 def transformation_sentence_split(b):

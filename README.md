@@ -502,6 +502,10 @@ squash --group_tag='condensed-chapter-blocks'
 
 This section is a little light right now since this is a single person project. I should probably write some tests, for example....
 
+## TO DO
+
+- Add the persona prompt into the hash computation in prompter
+
 ## Set up the environment
 
 ```
