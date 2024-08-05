@@ -15,7 +15,7 @@ import hashlib
 import logging
 import glob
 from transformations import *
-from completions import *
+from completions_common import *
 import os
 from faker import Faker
 import yaml
