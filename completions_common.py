@@ -6,6 +6,9 @@ import yaml
 from prompt_toolkit import PromptSession
 from completions_openai import *
 from completions_groq import *
+import asyncio
+from openai import AsyncOpenAI
+from groq import AsyncGroq
 
 
 ENV_FILENAME = ".prompter"
@@ -77,7 +80,7 @@ def action_models(args):
     return "Unknown provider"
 
 
-def complete(args, text, persona_text=None):
+async def complete(args, tasks, persona_text=None):
     provider, model = parse_model(args.model)
     # Load the config file
     config = load_config()
@@ -88,7 +91,13 @@ def complete(args, text, persona_text=None):
         )
     # Perform the correct call
     if provider == "openai":
-        return openai_completion(args, config, text, persona_text)
+        client = AsyncOpenAI(api_key=config["openai"])
+        requests = [
+            openai_completion(args, client, persona_text, task) for task in tasks
+        ]
+        print(f"Requesting {len(requests)} completions from OpenAI")
+        results = await asyncio.gather(*requests)
+        return results
     elif provider == "groq":
         return groq_completion(args, config, text, persona_text)
 

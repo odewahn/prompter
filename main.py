@@ -20,16 +20,20 @@ import os
 from faker import Faker
 import yaml
 from prompt_toolkit import PromptSession
+from prompt_toolkit.patch_stdout import patch_stdout
 from shlex import split as shlex_split
 from art import text2art
 from sys import exit
 from os import system, chdir
 import traceback
+import json
+import asyncio
 
 
 console = Console()
 fake = Faker()
 log = logging.getLogger("rich")
+args = None
 
 VERSION = "0.3.0"
 
@@ -501,7 +505,42 @@ def action_transform(transformation):
     insert_blocks_in_new_group(data)
 
 
-def action_prompt():
+async def action_prompt():
+    task_prompt = load_user_file(args.task)
+    persona_prompt = load_user_file(args.persona) if args.persona is not None else ""
+    metadata = {}
+    if args.globals is not None:
+        metadata = read_metadata(args.globals)
+    template = Template(task_prompt)
+    headers, blocks = fetch_blocks()
+    # Load the tasks to be processed into a list
+    tasks = []
+    for b in blocks:
+        prompt_text = template.render(block=b["block"], **metadata)
+        if not response_already_exists(prompt_text):
+            tasks.append({"block_id": b["block_id"], "prompt_text": prompt_text})
+    # Call the completion service with the tasks using asyncio
+    print(f"Processing {len(tasks)} blocks")
+    start = time.time()
+    results = await complete(args, tasks, persona_prompt)
+    end = time.time()
+    # Write results to the database
+    prompt_log_id, prompt_tag = create_prompt_log(args.task, task_prompt)
+    for r in results:
+        # Save the response to the database
+        create_prompt_response(
+            prompt_log_id,
+            r["block_id"],
+            r["prompt_text"],
+            r["prompt_response"],
+            end - start,
+        )
+    console.log(
+        f"\nPrompt response saved with id {prompt_log_id} and prompt_tag {prompt_tag}"
+    )
+
+
+def OLD_action_prompt():
     task_prompt = load_user_file(args.task)
     persona_prompt = load_user_file(args.persona) if args.persona is not None else ""
     metadata = {}
@@ -769,7 +808,7 @@ def define_arguments(argString=None):
 # *****************************************************************************************
 
 
-def process_command():
+async def process_command():
     if args.action == "init":
         action_init()
         return
@@ -821,7 +860,7 @@ def process_command():
         check_db(args.db)
         if args.task is None:
             raise Exception("You must provide a --task argument for the prompt")
-        action_prompt()
+        await action_prompt()
         return
 
     if args.action == "set-group":
@@ -918,7 +957,7 @@ def process_command():
 
 
 # accepts a command
-def run():
+async def run():
     commands = load_user_file(args.fn)
     # Load the metadata
     metadata = {}
@@ -938,13 +977,11 @@ def run():
         if command.strip().startswith("#") or len(command) == 0:
             continue
         args = define_arguments(command)
-        process_command()
+        await process_command()
 
 
-# *****************************************************************************************
-# Main
-# *****************************************************************************************
-if __name__ == "__main__":
+async def main():
+    global args
     if len(sys.argv) > 1:
         args = define_arguments()
         try:
@@ -959,9 +996,9 @@ if __name__ == "__main__":
                     if instruction.strip().startswith("#"):
                         continue
                     args = define_arguments(instruction)
-                    process_command()
+                    await process_command()
             else:
-                process_command()
+                await process_command()
         except Exception as e:
             console.log("[red]An error occurred on this request[/red]")
             console.log(" ".join(sys.argv))
@@ -973,7 +1010,7 @@ if __name__ == "__main__":
         print(f"[green]{Art}")
         session = PromptSession()
         while True:
-            argString = session.prompt(f"prompter> ")
+            argString = await session.prompt_async(f"prompter> ")
             # If the user just hits enter, skip parsing because it will exit the program
             if len(argString) == 0:
                 continue
@@ -1001,11 +1038,19 @@ if __name__ == "__main__":
                             ):
                                 continue
                             args = define_arguments(instruction)
-                            process_command()
+                            await process_command()
                 else:
-                    process_command()
+                    await process_command()
             except Exception as e:
                 console.log("[red]An error occurred on this request[/red]")
                 console.log(" ".join(sys.argv))
                 console.log(f"\nThe following error occurred:\n\n[red]{e}[/red]\n")
                 print(traceback.format_exc())
+
+
+# *****************************************************************************************
+# Main
+# *****************************************************************************************
+if __name__ == "__main__":
+    os.chdir(os.path.expanduser("~/Desktop/cat-essay"))
+    asyncio.run(main())

@@ -3,18 +3,18 @@ import openai
 from completions_common import *
 
 
-def openai_completion(args, config, text, persona_text=None):
-    openai.api_key = config["openai"]
-    response = openai.ChatCompletion.create(
+async def openai_completion(args, client, persona_text=None, task={}):
+    print("openai_completion for task", task["block_id"])
+    response = await client.chat.completions.create(
         model=args.model,
         messages=[
-            {"role": "user", "content": text},
+            {"role": "user", "content": task["prompt_text"]},
             {"role": "system", "content": persona_text},
         ],
         temperature=0.1,
     )
     response_txt = str(response.choices[0].message.content)
-    return response_txt
+    return {**task, "prompt_response": response_txt}
 
 
 def openai_models(args):

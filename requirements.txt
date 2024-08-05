@@ -5,7 +5,7 @@ requests
 bs4
 markdownify
 markdown
-openai==0.28
+openai
 rich
 Faker
 pyyaml
