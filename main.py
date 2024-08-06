@@ -2,6 +2,7 @@ from argparse import ArgumentParser, BooleanOptionalAction
 from rich.console import Console
 from rich import print
 from rich.table import Table
+from rich.progress import track
 from ebooklib import epub
 from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
 from bs4 import BeautifulSoup
@@ -522,7 +523,8 @@ async def action_prompt():
     # Call the completion service with the tasks using asyncio
     print(f"Processing {len(tasks)} blocks")
     start = time.time()
-    results = await complete(args, tasks, persona_prompt)
+    with console.status(f"[bold green]Completing {len(tasks)} blocks...") as status:
+        results = await complete(args, tasks, persona_prompt)
     end = time.time()
     # Write results to the database
     prompt_log_id, prompt_tag = create_prompt_log(args.task, task_prompt)

@@ -4,7 +4,6 @@ from completions_common import *
 
 
 async def openai_completion(args, client, persona_text=None, task={}):
-    print("openai_completion for task", task["block_id"])
     response = await client.chat.completions.create(
         model=args.model,
         messages=[
