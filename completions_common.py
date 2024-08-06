@@ -5,11 +5,11 @@ import os
 from dotenv import load_dotenv
 import yaml
 from prompt_toolkit import PromptSession
-from completions_openai import *
-from completions_groq import *
 import asyncio
 from openai import AsyncOpenAI
 from groq import AsyncGroq
+import openai
+from groq import Groq
 
 
 ENV_FILENAME = ".prompter"
@@ -100,6 +100,101 @@ async def complete(args, tasks, persona_text=None):
         results = await asyncio.gather(*requests)
         return results
     elif provider == "groq":
-        return groq_completion(args, config, text, persona_text)
+        client = AsyncGroq(api_key=config["groq"])
+        requests = [groq_completion(args, client, persona_text, task) for task in tasks]
+        print(f"Requesting {len(requests)} completions from Groq")
+        results = await asyncio.gather(*requests)
+        return results
+        # return groq_completion(args, config, text, persona_text)
 
     return "Unknown provider"
+
+
+# **************************************************************************************************
+# OpenAI related code
+# **************************************************************************************************
+
+# from completions_common import parse_model, load_config
+
+
+async def openai_completion(args, client, persona_text=None, task={}):
+    _, model = parse_model(args.model)
+    response = await client.chat.completions.create(
+        model=args.model,
+        messages=[
+            {"role": "user", "content": task["prompt_text"]},
+            {"role": "system", "content": persona_text},
+        ],
+        temperature=0.1,
+    )
+    response_txt = str(response.choices[0].message.content)
+    return {**task, "prompt_response": response_txt}
+
+
+def openai_models(args):
+    # Load the config file
+    config = load_config()
+    # Check if the API key is set
+    openai.api_key = config["openai"]
+    models = openai.Model.list()
+    out = [model.id for model in models.data]
+    return sorted(out)
+
+
+# **************************************************************************************************
+# Groq related code
+# **************************************************************************************************
+
+
+async def groq_completion(args, client, persona_text=None, task={}):
+    _, model = parse_model(args.model)
+    response = await client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "user", "content": task["prompt_text"]},
+            {"role": "system", "content": persona_text},
+        ],
+        temperature=0.1,
+    )
+    response_txt = str(response.choices[0].message.content)
+    return {**task, "prompt_response": response_txt}
+
+
+def groq_models(args):
+    provider, model = parse_model(args.model)
+    # Load the config file
+    config = load_config()
+    # Check if the API key is set
+    client = Groq(
+        # This is the default and can be omitted
+        api_key=config["groq"],
+    )
+
+    models = client.models.list()
+
+    out = [model.id for model in models.data]
+
+    return sorted(out)
+
+
+"""
+def groq_completion(args, config, text, persona_text=None):
+    provider, model = parse_model(args.model)
+    client = Groq(
+        # This is the default and can be omitted
+        api_key=config["groq"],
+    )
+
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": persona_text},
+            {
+                "role": "user",
+                "content": text,
+            },
+        ],
+        model=model,
+    )
+
+    return chat_completion.choices[0].message.content
+"""
