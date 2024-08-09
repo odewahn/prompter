@@ -36,7 +36,7 @@ fake = Faker()
 log = logging.getLogger("rich")
 args = None
 
-VERSION = "0.3.0"
+VERSION = "0.4.0"
 
 
 ACTIONS = [
@@ -542,64 +542,6 @@ async def action_prompt():
     )
 
 
-def OLD_action_prompt():
-    task_prompt = load_user_file(args.task)
-    persona_prompt = load_user_file(args.persona) if args.persona is not None else ""
-    metadata = {}
-    if args.globals is not None:
-        metadata = read_metadata(args.globals)
-    template = Template(task_prompt)
-    headers, blocks = fetch_blocks()
-    # Apply the template to each block
-    prompt_log_id, prompt_tag = create_prompt_log(args.task, task_prompt)
-    idx = 1
-    for b in blocks:
-        prompt_text = template.render(block=b["block"], **metadata)
-        # Check if we're only previwewing the prompt.  If so, print it andbreak the loop
-        if args.preview:
-            console.log(
-                f"({idx}/{len(blocks)}) Previewing block",
-                b["block_id"],
-                b["block_tag"],
-                b["block"][:40].replace("\n", " "),
-            )
-            print("\n\n", prompt_text, "\n\n")
-            break
-        if response_already_exists(prompt_text):
-            console.log(
-                f"({idx}/{len(blocks)}) Prompt already exists for",
-                b["block_id"],
-                b["block_tag"],
-                b["block"][:40].replace("\n", " "),
-            )
-            idx += 1
-            continue
-        console.log(
-            f"({idx}/{len(blocks)}) Prompting block",
-            b["block_id"],
-            b["block_tag"],
-            b["block"][:40].replace("\n", " "),
-        )
-        start = time.time()
-        response = "TBD"
-        if args.fake:
-            response_txt = fake.text(500)
-        else:
-            response_txt = complete(args, prompt_text, persona_prompt)
-        idx += 1
-        end = time.time()
-        # Save the response to the database
-        create_prompt_response(
-            prompt_log_id, b["block_id"], prompt_text, response_txt, end - start
-        )
-        console.log(
-            "Elapsed time", end - start, " -> ", response_txt[:40].replace("\n", " ")
-        )
-    console.log(
-        f"\nPrompt response saved with id {prompt_log_id} and prompt_tag {prompt_tag}"
-    )
-
-
 def action_filter():
     console.log("Filtering blocks")
     # Fetch the block or blocks to use
@@ -741,13 +683,7 @@ def define_arguments(argString=None):
     parser.add_argument(
         "--provider", help="LLM service provider", required=False, default="openai"
     )
-    parser.add_argument(
-        "--fake",
-        help="Generate fake prompt response data",
-        required=False,
-        default=False,
-        action=BooleanOptionalAction,
-    )
+
     parser.add_argument(
         "--preview",
         help="Preview the command",
@@ -1031,6 +967,7 @@ async def main():
                         )
                     instructions = render_command_file()
                     console.log(instructions)
+                    start = time.time()
                     # Leave if we're just previewing
                     if not args.preview:
                         for instruction in instructions:
@@ -1041,6 +978,8 @@ async def main():
                                 continue
                             args = define_arguments(instruction)
                             await process_command()
+                    end = time.time()
+                    console.log(f"Elapsed time: {end - start:.2f} seconds")
                 else:
                     await process_command()
             except Exception as e:
@@ -1054,5 +993,4 @@ async def main():
 # Main
 # *****************************************************************************************
 if __name__ == "__main__":
-    os.chdir(os.path.expanduser("~/Desktop/cat-essay"))
     asyncio.run(main())

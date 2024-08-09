@@ -329,8 +329,6 @@ Generate prompts from a set of blocks based on metadata and a template, and then
 - `--model` (optional) The name of the model to use in the format `provider:model`, where provider is `openai` or `groq`, and model is the name of the model. The default is `openai:gpt-4o`. You can find the names of the models for each provider by running `prompter models --provider=openai|groq`.
 - `--prompt_tag` (optional) A tag to use for the prompt; this tag can be referred to later in queries.
 - `--globals` (optional) A YAML file with global metadata values that can be used in the prompt template.
-- `--fake` (optional) Generates a fake response data (mostly for testing)
-- `--preview` (optional) Prints the prompt and response to standard output without sending it to the LLM.
 
 ### Examples
 
