@@ -2,7 +2,8 @@ from argparse import ArgumentParser, BooleanOptionalAction
 from rich.console import Console
 from rich import print
 from rich.table import Table
-from rich.progress import track
+
+# from rich.progress import track
 from ebooklib import epub
 from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
 from bs4 import BeautifulSoup
@@ -21,13 +22,10 @@ import os
 from faker import Faker
 import yaml
 from prompt_toolkit import PromptSession
-from prompt_toolkit.patch_stdout import patch_stdout
 from shlex import split as shlex_split
 from art import text2art
-from sys import exit
 from os import system, chdir
 import traceback
-import json
 import asyncio
 
 
