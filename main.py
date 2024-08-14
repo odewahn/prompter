@@ -471,21 +471,23 @@ def action_transform(transformation):
         # Apply the transformation to the block
         match transformation:
             case "token-split":
-                result = transformation_token_split(b["block"])
+                result = transformation_token_split(args, b["block"])
             case "clean-epub":
-                result = transformation_clean_epub(b["block"])
+                result = transformation_clean_epub(args, b["block"])
             case "html-h1-split":
-                result = transformation_html_heading_split(b["block"], ["h1"])
+                result = transformation_html_heading_split(args, b["block"], ["h1"])
             case "html-h2-split":
-                result = transformation_html_heading_split(b["block"], ["h1", "h2"])
+                result = transformation_html_heading_split(
+                    args, b["block"], ["h1", "h2"]
+                )
             case "html2md":
-                result = transformation_html2md(b["block"])
+                result = transformation_html2md(args, b["block"])
             case "html2txt":
-                result = transformation_html2txt(b["block"])
+                result = transformation_html2txt(args, b["block"])
             case "new-line-split":
-                result = transformation_newline_split(b["block"])
+                result = transformation_newline_split(args, b["block"])
             case "sentence-split":
-                result = transformation_sentence_split(b["block"])
+                result = transformation_sentence_split(args, b["block"])
             case _:
                 raise Exception(f"Unknown transformation {args.transformation}")
         # If the result is a list, then create a block for each element
@@ -694,6 +696,14 @@ def define_arguments(argString=None):
         "--transformation",
         help=f"Transformation to use ({','.join(TRANSFORMATIONS)})",
         required=False,
+    )
+    # Arguments related to individual transformations
+    parser.add_argument(
+        "--N",
+        help="The block size for token-split",
+        required=False,
+        default=2000,
+        type=int,
     )
     # Arguments related to tranferring data from prompts to metadata or blocks
     parser.add_argument(
