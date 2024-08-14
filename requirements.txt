@@ -12,4 +12,5 @@ pyyaml
 art
 prompt_toolkit
 groq
-pytest
+python-dotenv
+pyinstaller

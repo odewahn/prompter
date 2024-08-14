@@ -530,6 +530,8 @@ pip install -r requirements.txt
 
 I've noticed that sometimes `pyinstaller` doesn't pick up these packages unless you also run them in the global environment where Python is installed, rather than in the virtual environment. I'm not sure why this is, but it's something to keep in mind.
 
+NB: MAKE SURE YOU INCLUDE PYINSTALLER IN THE REQUIREMENTS FILE! OTHERWISE, WHEN YOU BUILD A BINARY, IT WILL INCLUDE ALL THE PACKAGES IN THE GLOBAL ENVIRONMENT, WHICH IS NOT WHAT YOU WANT.
+
 ## Building the binary
 
 Go through all the rigamarole to build the binary.
@@ -545,6 +547,14 @@ xcrun notarytool store-credentials ODEWAHN \
 ```
 pyinstaller --noconfirm --clean prompter.spec
 ```
+
+To inspect the packaged contents, you can do this:
+
+```
+pyi-archive_viewer -l prompter > archive.csv
+```
+
+I found this helpful when trying to debug why the binary was so big.
 
 ## To package, sign, and notarize
 
