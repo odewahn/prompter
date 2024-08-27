@@ -1,40 +1,47 @@
-from argparse import ArgumentParser, BooleanOptionalAction
+# For pyinstaller, we want to show something as quickly as possible
+print("Starting prompter.  This may take a minute, so please be patient...")
 from rich.console import Console
-from rich import print
-from rich.table import Table
-
-# from rich.progress import track
-from ebooklib import epub
-from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
-from bs4 import BeautifulSoup
-import sqlite3
-import time
-import shutil
-import os
-from jinja2 import Template
-import sys
-import hashlib
-import logging
-import glob
-from transformations import *
-from completions_common import *
-import os
-from faker import Faker
-import yaml
-from prompt_toolkit import PromptSession
-from shlex import split as shlex_split
-from art import text2art
-from os import system, chdir
-import traceback
-import asyncio
-
 
 console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    from argparse import ArgumentParser, BooleanOptionalAction
+
+    from rich import print
+    from rich.table import Table
+
+    # from rich.progress import track
+    from ebooklib import epub
+    from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
+    from bs4 import BeautifulSoup
+    import sqlite3
+    import time
+    import shutil
+    import os
+    from jinja2 import Template
+    import sys
+    import hashlib
+    import logging
+    import glob
+    from transformations import *
+    from completions_common import *
+    import os
+    from faker import Faker
+    import yaml
+    from prompt_toolkit import PromptSession
+    from shlex import split as shlex_split
+    from art import text2art
+    from os import system, chdir
+    import traceback
+    import asyncio
+
+
 fake = Faker()
 log = logging.getLogger("rich")
 args = None
 
-VERSION = "0.4.0"
+VERSION = "0.4.1"
 
 
 ACTIONS = [
@@ -518,8 +525,8 @@ async def action_prompt():
     tasks = []
     for b in blocks:
         prompt_text = template.render(block=b["block"], **metadata)
-        if not response_already_exists(prompt_text):
-            tasks.append({"block_id": b["block_id"], "prompt_text": prompt_text})
+        # if not response_already_exists(prompt_text):
+        tasks.append({"block_id": b["block_id"], "prompt_text": prompt_text})
     # Call the completion service with the tasks using asyncio
     print(f"Processing {len(tasks)} blocks")
     start = time.time()

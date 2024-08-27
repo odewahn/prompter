@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-package_version = "0.3.0"
+package_version = "0.4.1"
 
 a = Analysis(
     ['main.py'],
@@ -26,6 +26,6 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True )
+          console=True)
 
 
