@@ -632,7 +632,7 @@ def action_prompts():
     console.print("The following fields available in --where clause:", columns)
 
 
-def action_dump_blocks():
+async def action_dump_blocks():
     headers, blocks = fetch_blocks()
     # Pull out the block element into it's own list
     if args.dir is None:
@@ -646,7 +646,7 @@ def action_dump_blocks():
                 console.log("Wrote block to", fn)
 
 
-def action_dump_prompts():
+async def action_dump_prompts():
     headers, prompts = fetch_prompts()
     # Pull out the block element into it's own list
     out = [p["response"] for p in prompts]
@@ -804,9 +804,9 @@ async def process_command():
         if args.source is None:
             raise Exception("You must provide a --source argument for the source")
         if args.source == "blocks":
-            action_dump_blocks()
+            await action_dump_blocks()
         elif args.source == "prompts":
-            action_dump_prompts()
+            await action_dump_prompts()
         return
 
     if args.action == "prompt":
@@ -1008,4 +1008,5 @@ async def main():
 # Main
 # *****************************************************************************************
 if __name__ == "__main__":
+    os.chdir("/Users/odewahn/Desktop/cat-essay")
     asyncio.run(main())
