@@ -112,6 +112,7 @@ prompter has the following commands:
 - `set-api-key` - set the api key used for the LLM
 - `dump` - write blocks or prompts to standard output
 - `squash` - concatenates all prompts with the same block tag into a new block; useful when recombining prompts computed from segments of a total work.
+- `speak` -- converts the selected blocks into MP3 files using the OpenAI TTS API
 
 ## `init`
 

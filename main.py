@@ -41,7 +41,7 @@ fake = Faker()
 log = logging.getLogger("rich")
 args = None
 
-VERSION = "0.5.0"
+VERSION = "0.5.1"
 
 
 ACTIONS = [
@@ -650,8 +650,15 @@ async def action_dump_blocks():
 async def action_dump_prompts():
     headers, prompts = fetch_prompts()
     # Pull out the block element into it's own list
-    out = [p["response"] for p in prompts]
-    console.print(get_delimiter().join(out))
+    if args.dir is None:
+        out = [b["response"] for b in prompts]
+        console.print(get_delimiter().join(out))
+    else:
+        for idx, b in enumerate(prompts):
+            fn = f"{os.path.expanduser(args.dir)}/{b['block_tag']}.{idx:05d}.{args.extension}"
+            with open(fn, "w") as f:
+                f.write(b["response"])
+                console.log("Wrote prompt to", fn)
 
 
 async def action_speak():
