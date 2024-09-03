@@ -175,26 +175,3 @@ def groq_models(args):
     out = [model.id for model in models.data]
 
     return sorted(out)
-
-
-"""
-def groq_completion(args, config, text, persona_text=None):
-    provider, model = parse_model(args.model)
-    client = Groq(
-        # This is the default and can be omitted
-        api_key=config["groq"],
-    )
-
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {"role": "system", "content": persona_text},
-            {
-                "role": "user",
-                "content": text,
-            },
-        ],
-        model=model,
-    )
-
-    return chat_completion.choices[0].message.content
-"""
