@@ -41,7 +41,7 @@ fake = Faker()
 log = logging.getLogger("rich")
 args = None
 
-VERSION = "0.4.1"
+VERSION = "0.5.0"
 
 
 ACTIONS = [
@@ -69,6 +69,7 @@ ACTIONS = [
     "run",
     "exit",
     "stats",
+    "speak",
 ]
 TRANSFORMATIONS = [
     "token-split",
@@ -653,6 +654,13 @@ async def action_dump_prompts():
     console.print(get_delimiter().join(out))
 
 
+async def action_speak():
+    headers, blocks = fetch_blocks()
+    for b in blocks:
+        console.log("Speaking block", b["block_tag"])
+        await dump_to_audio(b["block"], f"{b['block_tag']}.mp3")
+
+
 # *****************************************************************************************
 # Define commandline arguments and flags
 # *****************************************************************************************
@@ -908,6 +916,11 @@ async def process_command():
         action_stats()
         return
 
+    if args.action == "speak":
+        check_db(args.db)
+        await action_speak()
+        return
+
 
 # accepts a command
 async def run():
@@ -1008,5 +1021,5 @@ async def main():
 # Main
 # *****************************************************************************************
 if __name__ == "__main__":
-    os.chdir("/Users/odewahn/Desktop/cat-essay")
+    # os.chdir("/Users/odewahn/Desktop/cat-essay")
     asyncio.run(main())

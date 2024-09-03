@@ -14,3 +14,4 @@ prompt_toolkit
 groq
 python-dotenv
 pyinstaller
+pydub
