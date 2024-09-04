@@ -17,7 +17,7 @@ ENV_FILENAME = ".prompter"
 
 console = Console()
 
-MAX_SPEECH_LENGTH = 4096
+MAX_SPEECH_LENGTH = 2048
 
 
 # model looks like this: "openai:gpt-4o" or "groq:llama-3"
