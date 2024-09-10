@@ -211,18 +211,23 @@ async def dump_to_audio(text, fn, voice="alloy"):
     config = load_config()
     client = AsyncOpenAI(api_key=config["openai"])
     chunks = chunk_text(text)
-    chunck_audio_name = [f"tmp-{fn}-{idx}.mp3" for idx in range(len(chunks))]
+    chunk_audio_name = [f".tmp-{fn}-{idx}.mp3" for idx in range(len(chunks))]
     print(chunks)
     requests = [
-        speak(client, chunk, chunck_audio_name[idx], voice)
+        speak(client, chunk, chunk_audio_name[idx], voice)
         for idx, chunk in enumerate(chunks)
     ]
     await asyncio.gather(*requests)
-    # Reassemble the chunks
-    audio = AudioSegment.empty()
-    for chunk_name in chunck_audio_name:
-        audio += AudioSegment.from_mp3(chunk_name)
-    audio.export(f"{fn}", format="mp3")
-    # Clean up
-    for chunk_name in chunck_audio_name:
-        os.remove(chunk_name)
+    # Reassemble the chunks.  If there is only one chunk, just rename it
+    # Otherwise, concatenate the chunks and save the result
+    if len(chunk_audio_name) == 1:
+        os.rename(chunk_audio_name[0], fn)
+        return
+    else:
+        audio = AudioSegment.empty()
+        for chunk_name in chunk_audio_name:
+            audio += AudioSegment.from_mp3(chunk_name)
+        audio.export(f"{fn}", format="mp3")
+        # Clean up
+        for chunk_name in chunk_audio_name:
+            os.remove(chunk_name)

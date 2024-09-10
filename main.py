@@ -4,6 +4,8 @@ from rich.console import Console
 
 console = Console()
 
+VERSION = "0.5.2"
+
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
     from argparse import ArgumentParser, BooleanOptionalAction
@@ -40,8 +42,6 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 fake = Faker()
 log = logging.getLogger("rich")
 args = None
-
-VERSION = "0.5.1"
 
 
 ACTIONS = [
@@ -469,6 +469,15 @@ def action_squash():
     insert_blocks_in_new_group(results)
 
 
+def action_squash_to_file():
+    sql = load_system_file("sql/v_current_prompts.sql")
+    sql = apply_sql_clauses(sql)
+    headers, results = fetch_from_db(sql, ())
+    out = [r["response"] for r in results]
+    with open(args.fn, "w") as f:
+        f.write(get_delimiter().join(out))
+
+
 def action_transform(transformation):
     transformation = transformation.lower().strip()
     # Fetch the block or blocks to use
@@ -881,7 +890,10 @@ async def process_command():
 
     if args.action == "squash":
         check_db(args.db)
-        action_squash()
+        if args.fn is not None:
+            action_squash_to_file()
+        else:
+            action_squash()
         return
 
     if args.action == "ls":
@@ -1028,5 +1040,5 @@ async def main():
 # Main
 # *****************************************************************************************
 if __name__ == "__main__":
-    # os.chdir("/Users/odewahn/Desktop/cat-essay")
+    # os.chdir("/Users/odewahn/Desktop/back-cover-copy")
     asyncio.run(main())
