@@ -207,14 +207,21 @@ def chunk_text(text, chunk_size=MAX_SPEECH_LENGTH):
     return chunks
 
 
-async def dump_to_audio(text, fn, voice="alloy"):
+async def dump_to_audio(args, text, fn, voice):
+    # Save the current working directory so that we can return to it
+    cwd = os.getcwd()
+    # change to the output directory if one is specified
+    if args.dir:
+        # expand the direcotry if it includes a ~
+        os.chdir(os.path.expanduser(args.dir))
+    # Load the config file
     config = load_config()
     client = AsyncOpenAI(api_key=config["openai"])
     chunks = chunk_text(text)
     chunk_audio_name = [f".tmp-{fn}-{idx}.mp3" for idx in range(len(chunks))]
     print(chunks)
     requests = [
-        speak(client, chunk, chunk_audio_name[idx], voice)
+        speak(client, chunk, chunk_audio_name[idx], args.voice)
         for idx, chunk in enumerate(chunks)
     ]
     await asyncio.gather(*requests)
@@ -231,3 +238,5 @@ async def dump_to_audio(text, fn, voice="alloy"):
         # Clean up
         for chunk_name in chunk_audio_name:
             os.remove(chunk_name)
+    # Return to the original working directory
+    os.chdir(cwd)

@@ -45,6 +45,8 @@ def transformation_html_heading_split(args, b, splits):
         if tag is not None and tag.name in splits:
             blocks.append(s.replace("'\n'", "\n"))
             s = ""
+    # Now append the last block, which is everything that comes after the last h2 tag
+    blocks.append(s.replace("'\n'", "\n"))
     return blocks
 
 

@@ -4,7 +4,7 @@ from rich.console import Console
 
 console = Console()
 
-VERSION = "0.5.2"
+VERSION = "0.5.4"
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
@@ -674,7 +674,7 @@ async def action_speak():
     headers, blocks = fetch_blocks()
     for b in blocks:
         console.log("Speaking block", b["block_tag"])
-        await dump_to_audio(b["block"], f"{b['block_tag']}.mp3")
+        await dump_to_audio(args, b["block"], f"{b['block_tag']}.mp3", args.voice)
 
 
 # *****************************************************************************************
@@ -775,6 +775,13 @@ def define_arguments(argString=None):
     )
     # arguments related to files and the current directory
     parser.add_argument("--dir", help="Directory name", required=False)
+
+    parser.add_argument(
+        "--voice",
+        help="Voice to use for speaking",
+        required=False,
+        default="alloy",
+    )
 
     if argString:
         return parser.parse_args(shlex_split(argString))
@@ -1040,5 +1047,5 @@ async def main():
 # Main
 # *****************************************************************************************
 if __name__ == "__main__":
-    # os.chdir("/Users/odewahn/Desktop/back-cover-copy")
+    os.chdir("/Users/odewahn/Desktop/book-to-audiobook")
     asyncio.run(main())
