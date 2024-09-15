@@ -4,7 +4,7 @@ from rich.console import Console
 
 console = Console()
 
-VERSION = "0.5.5"
+VERSION = "0.5.6"
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
