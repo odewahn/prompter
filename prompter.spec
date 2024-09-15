@@ -1,7 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-package_version = "0.5.2"
-
 a = Analysis(
     ['main.py'],
     pathex=[],

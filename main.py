@@ -4,7 +4,7 @@ from rich.console import Console
 
 console = Console()
 
-VERSION = "0.5.4"
+VERSION = "0.5.5"
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
@@ -805,7 +805,7 @@ async def process_command():
         return
 
     if args.action == "auth":
-        action_set_api_key()
+        await action_set_api_key()
         return
 
     if args.action == "transform":
@@ -1047,5 +1047,5 @@ async def main():
 # Main
 # *****************************************************************************************
 if __name__ == "__main__":
-    os.chdir("/Users/odewahn/Desktop/book-to-audiobook")
+    # os.chdir("/Users/odewahn/Desktop/book-to-audiobook")
     asyncio.run(main())

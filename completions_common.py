@@ -53,13 +53,14 @@ def save_config(config):
 
 
 # Write the API key to the .prompter file in the home directory
-def action_set_api_key():
+async def action_set_api_key():
     session = PromptSession()
     # get the config
-    config = load_config()
+    config = load_config() or {}
     # get the provider and API key
-    provider = session.prompt("Provider (openai | groq)> ")
-    api_key = session.prompt(f"API key > ")
+    provider = await session.prompt_async("Provider (openai | groq)> ")
+    api_key = await session.prompt_async(f"API key > ")
+    print("You entered: ", provider, api_key)
     # write the key to the config
     config[provider] = api_key
     # save the config
