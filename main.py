@@ -4,7 +4,7 @@ from rich.console import Console
 
 console = Console()
 
-VERSION = "0.5.6"
+VERSION = "0.5.7"
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
@@ -37,6 +37,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from os import system, chdir
     import traceback
     import asyncio
+    from urllib.parse import urlparse
+    import requests
 
 
 fake = Faker()
@@ -115,8 +117,23 @@ def load_system_file(fn):
     return load_file(fn, True)
 
 
+# From https://blog.finxter.com/5-best-ways-to-check-for-urls-in-a-python-string/
+def is_valid_url(url):
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except:
+        return False
+
+
+# Loads a file.  If the file is a URL, it will use requests to fetch the file
+# Otherwise, it will use the standard file loader
 def load_user_file(fn):
-    return load_file(os.path.expanduser(fn), False)
+    if is_valid_url(fn):
+        response = requests.get(fn)
+        return response.text
+    else:
+        return load_file(os.path.expanduser(fn), False)
 
 
 def hash(txt):

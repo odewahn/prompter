@@ -324,7 +324,8 @@ Generate prompts from a set of blocks based on metadata and a template, and then
 
 ### Arguments
 
-- `--prompt` (required) The name of the prompt template.
+- `--task` (required) -- the filename or URL of the jinja template for the task
+- `--persona` (optional) -- the filename or URL of the jinja template for the persona
 - `--where` (optional) A SQL WHERE clause to filter the blocks that will be used to create the prompts.
 - `--order` (optional) A SQL ORDER BY clause to order the results.
 - `--model` (optional) The name of the model to use in the format `provider:model`, where provider is `openai` or `groq`, and model is the name of the model. The default is `openai:gpt-4o`. You can find the names of the models for each provider by running `prompter models --provider=openai|groq`.
@@ -496,6 +497,15 @@ Squash all prompts:
 ```
 squash --group_tag='condensed-chapter-blocks'
 ```
+
+## `speak`
+
+Uses the openai API to convert the selected blocks into MP3 files. This is useful if you want to listen to the responses instead of reading them. Note that this command requires an OpenAI API key to be set, as well as that you have [ffmpeg](https://ffmpeg.org/) installed on your system.
+
+### Arguments
+
+- `--voice` - one of the [voices from the OpenAI API](https://platform.openai.com/docs/guides/text-to-speech/voice-options).
+- `--where` (optional) A SQL WHERE clause to filter the results. Running `promplab prompts` will show the columns available for filtering. These are currently `['prompt_id', 'block_id', 'prompt', 'response', 'model', 'prompt_tag', 'created_at']`
 
 # Development
 
