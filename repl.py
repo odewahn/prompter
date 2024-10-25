@@ -13,7 +13,7 @@ async def interactive_repl():
             command_input = await session.prompt_async("Enter command: ")
             try:
                 args = parser.parse_args(command_input.split())
-                await handle_command(args)
+                await handle_command(args, command_input)
             except SystemExit:
                 print("Invalid command or arguments.")
         except (EOFError, KeyboardInterrupt):

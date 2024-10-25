@@ -18,7 +18,7 @@ class ExitREPLException(Exception):
     pass
 
 
-async def handle_command(args):
+async def handle_command(args, command_input):
 
     if args.command == "use":
         new_db_url = f"sqlite+aiosqlite:///{args.db_name}.db"
@@ -30,7 +30,6 @@ async def handle_command(args):
     elif args.command == "load":
         files = args.files  # Assume args.files is a list of file paths
         tag = args.tag or "default"
-        command_input = " ".join(args.files) + (f" --tag {args.tag}" if args.tag else "")
         await business.load_files(files, tag, command_input)
     elif args.command == "exit":
         print("Exiting...")
