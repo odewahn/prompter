@@ -52,7 +52,9 @@ class DatabaseManager:
             bind=self.engine, class_=AsyncSession, expire_on_commit=False
         )
 
-    async def close(self):
+    async def initialize_db(self):
+        async with self.engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
         await self.engine.dispose()
 
     async def create_block_group(self, tag, command):
