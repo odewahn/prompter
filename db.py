@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey, text
 from sqlalchemy.sql import func
 
 Base = declarative_base()
@@ -62,7 +62,7 @@ class DatabaseManager:
             async with session.begin():
                 # Set is_current to False for all existing BlockGroups
                 await session.execute(
-                    "UPDATE block_groups SET is_current = False WHERE is_current = True"
+                    text("UPDATE block_groups SET is_current = False WHERE is_current = True")
                 )
                 # Create a new BlockGroup with is_current set to True
                 block_group = BlockGroup(tag=tag, command=command, is_current=True)
