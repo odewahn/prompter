@@ -58,7 +58,12 @@ class DatabaseManager:
     async def create_block_group(self, tag, command):
         async with self.SessionLocal() as session:
             async with session.begin():
-                block_group = BlockGroup(tag=tag, command=command)
+                # Set is_current to False for all existing BlockGroups
+                await session.execute(
+                    "UPDATE block_groups SET is_current = False WHERE is_current = True"
+                )
+                # Create a new BlockGroup with is_current set to True
+                block_group = BlockGroup(tag=tag, command=command, is_current=True)
                 session.add(block_group)
                 await session.flush()  # Ensure the block_group.id is available
                 return block_group.id
