@@ -39,12 +39,3 @@ async def get_blocks(block_group_id: int = None):
             return [dict(block) for block in result]
 
 
-import asyncio
-
-
-async def shutdown_webapp():
-    # Implement the logic to gracefully shutdown the web application
-    print("Shutting down the web application...")
-    # Add any necessary cleanup or shutdown logic here
-    await asyncio.sleep(1)  # Simulate some async cleanup work
-    print("Web application shutdown complete.")
