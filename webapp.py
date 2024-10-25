@@ -50,12 +50,12 @@ async def get_blocks(block_group_id: int = None):
                 text("SELECT * FROM blocks WHERE block_group_id = :group_id"),
                 {"group_id": block_group_id}
             )
-            result = blocks.fetchall()
+            result = blocks.mappings().all()
 
             if not result:
                 raise HTTPException(status_code=404, detail="Block group not found")
 
-            return [dict(block.items()) for block in result]
+            return [dict(block) for block in result]
 async def list_users(request: Request):
     users = await db_manager.get_all_users()
     user_list_html = "<ul>" + "".join(f"<li>{user.username}</li>" for user in users) + "</ul>"
