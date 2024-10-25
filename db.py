@@ -55,6 +55,23 @@ class DatabaseManager:
     async def close(self):
         await self.engine.dispose()
 
-    async def initialize_db(self):
+    async def create_block_group(self, tag):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                block_group = BlockGroup(tag=tag)
+                session.add(block_group)
+                await session.flush()  # Ensure the block_group.id is available
+                return block_group.id
+
+    async def add_block(self, block_group_id, block_content, tag):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                block = Block(
+                    block_group_id=block_group_id,
+                    block=block_content,
+                    tag=tag,
+                    token_count=len(block_content.split())
+                )
+                session.add(block)
         async with self.engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
