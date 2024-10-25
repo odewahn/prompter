@@ -1,6 +1,7 @@
 from business import BusinessLogic
 from db import DatabaseManager
 import sys
+import glob
 
 db_manager = None
 business = None
@@ -37,7 +38,9 @@ async def handle_use_command(args, command):
     print(f"Using database: {args.db_name}.db")
 
 async def handle_load_command(args, command):
-    files = args.files  # Assume args.files is a list of file paths
+    files = []
+    for file_pattern in args.files:
+        files.extend(glob.glob(file_pattern))
     tag = args.tag or "default"
     await business.load_files(files, tag, command)
 
