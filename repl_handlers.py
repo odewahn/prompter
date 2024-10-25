@@ -28,9 +28,9 @@ async def handle_command(args):
         print(f"Using database: {args.db_name}.db")
     elif args.command == "load":
         files = args.files  # Assume args.files is a list of file paths
-        group_tag = args.group_tag or "default"
-        await business.load_files(files, group_tag)
-        print(f"Loaded files into BlockGroup with tag: {group_tag}")
+        tag = args.group_tag or "default"
+        await business.load_files(files, tag)
+        print(f"Loaded files into BlockGroup with tag: {tag}")
         print("Exiting...")
         await shutdown_webapp()
         await db_manager.close()
