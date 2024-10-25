@@ -1,6 +1,6 @@
 import asyncio
 import sys
-from repl_handlers import handle_command, init_db_manager as init_repl_db_manager
+from repl_handlers import handle_command, init_db_manager as init_repl_db_manager, ExitREPLException
 import uvicorn
 from webapp import app, init_db_manager
 from repl import interactive_repl
