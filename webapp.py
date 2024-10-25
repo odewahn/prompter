@@ -34,3 +34,11 @@ async def list_users(request: Request):
     users = await db_manager.get_all_users()
     user_list_html = "<ul>" + "".join(f"<li>{user.username}</li>" for user in users) + "</ul>"
     return HTMLResponse(content=f"<html><body><h1>User List</h1>{user_list_html}</body></html>")
+import asyncio
+
+async def shutdown_webapp():
+    # Implement the logic to gracefully shutdown the web application
+    print("Shutting down the web application...")
+    # Add any necessary cleanup or shutdown logic here
+    await asyncio.sleep(1)  # Simulate some async cleanup work
+    print("Web application shutdown complete.")
