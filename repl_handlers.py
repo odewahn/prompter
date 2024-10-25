@@ -4,7 +4,7 @@ import sys
 import glob
 
 db_manager = None
-current_db_url = None
+current_db_url = "sqlite+aiosqlite:///default.db"
 business = None
 
 

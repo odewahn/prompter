@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
-db_manager = DatabaseManager(current_db_url)
+db_manager = DatabaseManager(current_db_url or "sqlite+aiosqlite:///default.db")
 
 
 @app.get("/api/blocks/{block_group_id}", response_model=list[dict])
