@@ -30,7 +30,8 @@ async def handle_command(args):
     elif args.command == "load":
         files = args.files  # Assume args.files is a list of file paths
         tag = args.tag or "default"
-        await business.load_files(files, tag)
+        command_input = " ".join(args.files) + (f" --tag {args.tag}" if args.tag else "")
+        await business.load_files(files, tag, command_input)
     elif args.command == "exit":
         print("Exiting...")
         await shutdown_webapp()

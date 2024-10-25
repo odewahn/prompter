@@ -8,8 +8,8 @@ class BusinessLogic:
     def __init__(self, db_manager):
         self.db_manager = db_manager
 
-    async def load_files(self, files, tag):
-        block_group_id = await self.db_manager.create_block_group(tag)
+    async def load_files(self, files, tag, command):
+        block_group_id = await self.db_manager.create_block_group(tag, command)
         for file in files:
             if file.endswith(".epub"):
                 await self._load_epub(file, block_group_id)

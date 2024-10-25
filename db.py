@@ -55,10 +55,10 @@ class DatabaseManager:
     async def close(self):
         await self.engine.dispose()
 
-    async def create_block_group(self, tag):
+    async def create_block_group(self, tag, command):
         async with self.SessionLocal() as session:
             async with session.begin():
-                block_group = BlockGroup(tag=tag)
+                block_group = BlockGroup(tag=tag, command=command)
                 session.add(block_group)
                 await session.flush()  # Ensure the block_group.id is available
                 return block_group.id
