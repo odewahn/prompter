@@ -51,6 +51,10 @@ async def main():
     except ExitREPLException:
         web_server_task.cancel()
         await server.shutdown()
+        # Cancel all running tasks
+        tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
+        [task.cancel() for task in tasks]
+        await asyncio.gather(*tasks, return_exceptions=True)
 
 
 if __name__ == "__main__":

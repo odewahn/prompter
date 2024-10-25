@@ -29,4 +29,5 @@ async def handle_command(args):
     elif args.command == "exit":
         print("Exiting...")
         await shutdown_webapp()
+        await db_manager.close()
         raise ExitREPLException()
