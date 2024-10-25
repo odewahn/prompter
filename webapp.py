@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from db import DatabaseManager
+from db import DatabaseManager, Block
 from pydantic import BaseModel
 
 
@@ -29,7 +29,25 @@ async def get_users():
     users = await db_manager.get_all_users()
     return [user.to_dict() for user in users]
 
-@app.get("/users/", response_class=HTMLResponse)
+@app.get("/api/blocks", response_model=list[dict])
+async def get_blocks_in_current_group():
+    # Fetch the current block group
+    async with db_manager.SessionLocal() as session:
+        async with session.begin():
+            current_group = await session.execute(
+                text("SELECT id FROM block_groups WHERE is_current = True")
+            )
+            current_group_id = current_group.scalar_one_or_none()
+
+            if current_group_id is None:
+                return []
+
+            # Fetch blocks in the current group
+            blocks = await session.execute(
+                text("SELECT * FROM blocks WHERE block_group_id = :group_id"),
+                {"group_id": current_group_id}
+            )
+            return [dict(block) for block in blocks.fetchall()]
 async def list_users(request: Request):
     users = await db_manager.get_all_users()
     user_list_html = "<ul>" + "".join(f"<li>{user.username}</li>" for user in users) + "</ul>"
