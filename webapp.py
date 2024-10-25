@@ -2,13 +2,14 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from db import DatabaseManager, Block
+from repl_handlers import current_db_url
 from sqlalchemy import text
 from pydantic import BaseModel
 
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
-db_manager = DatabaseManager("sqlite+aiosqlite:///mydatabase.db")
+db_manager = DatabaseManager(current_db_url)
 
 
 @app.get("/api/blocks/{block_group_id}", response_model=list[dict])
