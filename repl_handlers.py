@@ -4,13 +4,11 @@ import sys
 import glob
 
 db_manager = None
-current_db_url = "sqlite+aiosqlite:///default.db"
 business = None
 
 
 def init_db_manager(db_url):
     global db_manager, business
-    global current_db_url
     db_manager = DatabaseManager(db_url)
     current_db_url = db_url
     business = BusinessLogic(db_manager)

@@ -46,7 +46,10 @@ class Completion(Base):
     created_at = Column(DateTime, server_default=func.now())
 
 class DatabaseManager:
+    current_db_url = None
+
     def __init__(self, db_url):
+        DatabaseManager.current_db_url = db_url
         self.engine = create_async_engine(db_url, echo=False)
         self.SessionLocal = sessionmaker(
             bind=self.engine, class_=AsyncSession, expire_on_commit=False
