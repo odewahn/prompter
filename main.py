@@ -46,7 +46,11 @@ async def main():
     with patch_stdout():
         repl_task = asyncio.create_task(interactive_repl())
 
-    await asyncio.gather(web_server_task, repl_task)
+    try:
+        await asyncio.gather(web_server_task, repl_task)
+    except ExitREPLException:
+        web_server_task.cancel()
+        await server.shutdown()
 
 
 if __name__ == "__main__":
