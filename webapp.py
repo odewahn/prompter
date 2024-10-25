@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from db import DatabaseManager, Block
@@ -30,25 +30,32 @@ async def get_users():
     users = await db_manager.get_all_users()
     return [user.to_dict() for user in users]
 
+@app.get("/api/blocks/{block_group_id}", response_model=list[dict])
 @app.get("/api/blocks", response_model=list[dict])
-async def get_blocks_in_current_group():
-    # Fetch the current block group
+async def get_blocks(block_group_id: int = None):
+    # Determine the block group to fetch
     async with db_manager.SessionLocal() as session:
         async with session.begin():
-            current_group = await session.execute(
-                text("SELECT id FROM block_groups WHERE is_current = True")
-            )
-            current_group_id = current_group.scalar_one_or_none()
+            if block_group_id is None:
+                current_group = await session.execute(
+                    text("SELECT id FROM block_groups WHERE is_current = True")
+                )
+                block_group_id = current_group.scalar_one_or_none()
 
-            if current_group_id is None:
-                return []
+                if block_group_id is None:
+                    return []
 
-            # Fetch blocks in the current group
+            # Fetch blocks in the specified or current group
             blocks = await session.execute(
                 text("SELECT * FROM blocks WHERE block_group_id = :group_id"),
-                {"group_id": current_group_id}
+                {"group_id": block_group_id}
             )
-            return [dict(block) for block in blocks.fetchall()]
+            result = blocks.fetchall()
+
+            if not result:
+                raise HTTPException(status_code=404, detail="Block group not found")
+
+            return [dict(block) for block in result]
 async def list_users(request: Request):
     users = await db_manager.get_all_users()
     user_list_html = "<ul>" + "".join(f"<li>{user.username}</li>" for user in users) + "</ul>"
