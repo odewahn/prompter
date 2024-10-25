@@ -2,7 +2,7 @@ import asyncio
 import sys
 from repl_handlers import handle_command, init_db_manager as init_repl_db_manager, ExitREPLException
 import uvicorn
-from webapp import app, init_db_manager
+from webapp import app
 from repl import interactive_repl
 from prompt_toolkit.patch_stdout import patch_stdout
 from db import DatabaseManager
@@ -29,7 +29,6 @@ sqlalchemy_logger.addHandler(sqlalchemy_handler)
 async def initialize_database(db_url):
     db_manager = DatabaseManager(db_url)
     await db_manager.initialize_db()
-    init_db_manager(db_url)
     init_repl_db_manager(db_url)
 
 

@@ -1,6 +1,5 @@
 from business import BusinessLogic
 from db import DatabaseManager
-from webapp import init_db_manager as init_webapp_db_manager
 import sys
 
 db_manager = None
@@ -35,7 +34,6 @@ async def handle_use_command(args, command):
     new_db_manager = DatabaseManager(new_db_url)
     await new_db_manager.initialize_db()
     init_db_manager(new_db_url)
-    init_webapp_db_manager(new_db_url)
     print(f"Using database: {args.db_name}.db")
 
 async def handle_load_command(args, command):
