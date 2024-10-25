@@ -17,6 +17,7 @@ def init_db_manager(db_url):
 class ExitREPLException(Exception):
     pass
 
+
 async def handle_command(args):
 
     if args.command == "use":
@@ -28,9 +29,9 @@ async def handle_command(args):
         print(f"Using database: {args.db_name}.db")
     elif args.command == "load":
         files = args.files  # Assume args.files is a list of file paths
-        tag = args.group_tag or "default"
+        tag = args.tag or "default"
         await business.load_files(files, tag)
-        print(f"Loaded files into BlockGroup with tag: {tag}")
+    elif args.command == "exit":
         print("Exiting...")
         await shutdown_webapp()
         await db_manager.close()
