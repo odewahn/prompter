@@ -57,6 +57,9 @@ class DatabaseManager:
             await conn.run_sync(Base.metadata.create_all)
         await self.engine.dispose()
 
+    async def close(self):
+        await self.engine.dispose()
+
     async def create_block_group(self, tag, command):
         async with self.SessionLocal() as session:
             async with session.begin():
