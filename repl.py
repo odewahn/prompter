@@ -2,7 +2,7 @@ import asyncio
 from prompt_toolkit import PromptSession
 from prompt_toolkit.patch_stdout import patch_stdout
 from repl_parser import create_parser
-from repl_handlers import handle_command
+from repl_handlers import handle_command, ExitREPLException
 
 
 async def interactive_repl():
@@ -18,5 +18,5 @@ async def interactive_repl():
                     await handle_command(args)
                 except SystemExit:
                     print("Invalid command or arguments.")
-            except (EOFError, KeyboardInterrupt):
+            except (EOFError, KeyboardInterrupt, ExitREPLException):
                 break  # Exit the loop on Ctrl-C or Ctrl-D

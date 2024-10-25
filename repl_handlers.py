@@ -14,6 +14,9 @@ def init_db_manager(db_url):
     business = BusinessLogic(db_manager)
 
 
+class ExitREPLException(Exception):
+    pass
+
 async def handle_command(args):
 
     if args.command == "use":
@@ -26,4 +29,4 @@ async def handle_command(args):
     elif args.command == "exit":
         print("Exiting...")
         await shutdown_webapp()
-        sys.exit(0)
+        raise ExitREPLException()
