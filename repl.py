@@ -18,5 +18,7 @@ async def interactive_repl():
                     await handle_command(args)
                 except SystemExit:
                     print("Invalid command or arguments.")
-            except (EOFError, KeyboardInterrupt, ExitREPLException):
+            except (EOFError, KeyboardInterrupt):
                 break  # Exit the loop on Ctrl-C or Ctrl-D
+            except ExitREPLException:
+                raise  # Propagate the exception to stop the REPL
