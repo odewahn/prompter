@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from db import DatabaseManager, Block
+from sqlalchemy import text
 from pydantic import BaseModel
 
 
