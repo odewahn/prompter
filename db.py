@@ -65,7 +65,6 @@ class DatabaseManager:
                     text(
                         "UPDATE block_groups SET is_current = False WHERE is_current = True"
                     )
-                    position=position
                 )
                 # Create a new BlockGroup with is_current set to True
                 block_group = BlockGroup(
