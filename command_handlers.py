@@ -12,7 +12,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import glob
     import uuid
     from rich import print
-    import VERSION from main
+    from main import VERSION
 
 db_manager = None
 business = None
