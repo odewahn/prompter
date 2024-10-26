@@ -29,13 +29,14 @@ async def get_blocks(block_group_id: int = None):
                 )
 
             # If current_group is empty, return 404
-            if not current_group:
+            current_group_result = current_group.first()
+            if not current_group_result:
                 raise HTTPException(status_code=404, detail="Block group not found")
 
             # Create the response payload, which should be a dictionary where the root keys
             # are the fields from the current_group query, and the values are lists of blocks
             # are an array under the key "blocks"
-            result = current_group.first()._asdict()
+            result = current_group_result._asdict()
             result["blocks"] = []
             blocks = await session.execute(
                 text("select * from blocks where block_group_id = :group_id"),
