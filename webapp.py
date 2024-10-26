@@ -37,12 +37,10 @@ async def get_blocks(block_group_id: int = None):
             # are the fields from the current_group query, and the values are lists of blocks
             # are an array under the key "blocks"
             result = current_group_result._asdict()
-            result["blocks"] = []
             blocks = await session.execute(
                 text("select * from blocks where block_group_id = :group_id"),
                 {"group_id": result["id"]},
             )
-            for block in blocks:
-                result["blocks"].append(block._asdict())
+            result["blocks"] = [block._asdict() for block in blocks]
 
             return result
