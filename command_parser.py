@@ -28,4 +28,8 @@ def create_parser():
     # Adding a command to exit the repl
     exit_parser = subparsers.add_parser("exit", help="Exit the repl")
 
+    # Adding a command to transform a block
+    transform_parser = subparsers.add_parser("transform", help="Transform a block")
+    transform_parser.add_argument("transformation", help="Transformation to apply")
+
     return parser
