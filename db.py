@@ -33,6 +33,7 @@ class Block(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     tag = Column(String)
     block_group_id = Column(Integer, ForeignKey("block_groups.id", ondelete="CASCADE"))
+    position = Column(Integer)
     created_at = Column(DateTime, server_default=func.now())
     block = Column(String)
     token_count = Column(Integer)
@@ -64,6 +65,7 @@ class DatabaseManager:
                     text(
                         "UPDATE block_groups SET is_current = False WHERE is_current = True"
                     )
+                    position=position
                 )
                 # Create a new BlockGroup with is_current set to True
                 block_group = BlockGroup(
@@ -78,6 +80,16 @@ class DatabaseManager:
                 return block_group.id
 
     async def add_block(self, block_group_id, block_content, tag):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                # Get the current max position for the block group
+                result = await session.execute(
+                    text("SELECT MAX(position) FROM blocks WHERE block_group_id = :group_id"),
+                    {"group_id": block_group_id}
+                )
+                max_position = result.scalar() or 0
+                # Assign the next position
+                position = max_position + 1
         async with self.SessionLocal() as session:
             async with session.begin():
                 block = Block(
