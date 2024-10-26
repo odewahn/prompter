@@ -44,4 +44,4 @@ async def get_blocks(block_group_id: int = None):
             for block in blocks:
                 result["blocks"].append(block._asdict())
 
-            return result
+            return [result]
