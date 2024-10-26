@@ -12,6 +12,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from command_parser import create_parser
     from command_handlers import handle_command, ExitREPLException
     from art import text2art
+    from constants import *
+    import os
 
 
 async def interactive_repl():
@@ -19,6 +21,10 @@ async def interactive_repl():
     parser = create_parser()
     Art = text2art("prompter")
     print(f"[green]{Art}")
+    print(f"Prompter version {VERSION}")
+    # is os.environ["OPENAI_API_KEY"] is not set then print a warning
+    if "OPENAI_API_KEY" not in os.environ:
+        print(OPENAI_KEY_NOT_SET)
 
     while True:
         try:

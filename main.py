@@ -20,9 +20,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from db import DatabaseManager
     from command_handlers import init_db_manager as init_repl_db_manager
     import logging
+    from constants import DEFAULT_DB_URL
 
-
-VERSION = "0.6.0"
 
 # Configure logging
 logging.basicConfig(
@@ -48,7 +47,7 @@ async def initialize_database(db_url):
 
 
 async def main():
-    db_url = f"sqlite+aiosqlite:///mydatabase.db"
+    db_url = DEFAULT_DB_URL
     await initialize_database(db_url)
 
     config = uvicorn.Config(

@@ -22,6 +22,9 @@ def create_parser():
     load_parser.add_argument("files", nargs="+", help="List of files to load")
     load_parser.add_argument("--tag", help="Tag to use for the block", required=False)
 
+    # Adding command to print the version
+    version_parser = subparsers.add_parser("version", help="Print the version")
+
     # Adding a command to exit the repl
     exit_parser = subparsers.add_parser("exit", help="Exit the repl")
 

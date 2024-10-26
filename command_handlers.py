@@ -12,7 +12,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import glob
     import uuid
     from rich import print
-    from main import VERSION
+    from constants import *
 
 db_manager = None
 business = None
@@ -45,9 +45,8 @@ async def handle_command(args, command):
         "use": handle_use_command,
         "load": handle_load_command,
         "exit": handle_exit_command,
-        "version": handle_version,
+        "version": handle_version_command,
     }
-
     handler = command_handlers.get(args.command)
     if handler:
         await handler(args, command)
@@ -76,5 +75,6 @@ async def handle_exit_command(args, command):
     await db_manager.close()
     raise ExitREPLException()
 
-async def handle_version():
+
+async def handle_version_command(args, command):
     print(f"Version: {VERSION}")
