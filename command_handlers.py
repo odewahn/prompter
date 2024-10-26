@@ -13,7 +13,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import uuid
     from rich import print
     from constants import *
-    from mathoms.transformations import TRANSFORMATIONS
+    from transformations import TRANSFORMATIONS
 
 db_manager = None
 business = None
@@ -47,6 +47,7 @@ async def handle_command(args, command):
         "load": handle_load_command,
         "exit": handle_exit_command,
         "version": handle_version_command,
+        "transform": handle_transform_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -79,3 +80,7 @@ async def handle_exit_command(args, command):
 
 async def handle_version_command(args, command):
     print(f"Version: {VERSION}")
+
+
+async def handle_transform_command(args, command):
+    console.log(f"More than meets the eye")
