@@ -29,7 +29,7 @@ async def get_blocks(block_group_id: int = None):
                 )
 
             # If current_group is empty, return 404
-            current_group_result = current_group.first()
+            current_group_result = current_group.one_or_none()
             if not current_group_result:
                 raise HTTPException(status_code=404, detail="Block group not found")
 
