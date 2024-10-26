@@ -1,11 +1,21 @@
-from business import BusinessLogic
-from db import DatabaseManager
-import sys
-import glob
-import uuid
+# For pyinstaller, we want to show something as quickly as possible
+print("Initializing handlers...")
+from rich.console import Console
+
+console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    from business import BusinessLogic
+    from db import DatabaseManager
+    import sys
+    import glob
+    import uuid
+    from rich import print
 
 db_manager = None
 business = None
+current_db_url = None
 
 
 def init_db_manager(db_url):
@@ -48,7 +58,7 @@ async def handle_use_command(args, command):
     new_db_manager = DatabaseManager(new_db_url)
     await new_db_manager.initialize_db()
     init_db_manager(new_db_url)
-    print(f"Using database: {args.db_name}.db")
+    console.log(f"Using database: {args.db_name}.db")
 
 
 async def handle_load_command(args, command):

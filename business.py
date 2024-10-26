@@ -1,8 +1,16 @@
-from db import DatabaseManager
-import os
-from ebooklib import epub
-from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
-import warnings
+# For pyinstaller, we want to show something as quickly as possible
+print("Initializing business logic...")
+from rich.console import Console
+
+console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    from db import DatabaseManager
+    import os
+    from ebooklib import epub
+    from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
+    import warnings
 
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -21,6 +29,7 @@ class BusinessLogic:
                 await self._load_text_file(file, block_group_id)
 
     async def _load_epub(self, file, block_group_id):
+        console.log(f"Loading EPUB file: {file}")
         book = epub.read_epub(file, {"ignore_ncx": True})
         for item in book.get_items():
             if item.get_type() == ebooklib_ITEM_DOCUMENT:
@@ -30,6 +39,7 @@ class BusinessLogic:
                 )
 
     async def _load_text_file(self, file, block_group_id):
+        console.log(f"Loading text file: {file}")
         with open(file, "r") as f:
             content = f.read()
             await self.db_manager.add_block(

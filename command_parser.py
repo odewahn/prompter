@@ -1,4 +1,12 @@
-import argparse
+# For pyinstaller, we want to show something as quickly as possible
+print("Initializing parser...")
+from rich.console import Console
+
+console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    import argparse
 
 
 def create_parser():
