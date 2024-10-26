@@ -11,8 +11,8 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 
-@app.get("/api/blocks/{block_group_id}", response_model=list[dict])
-@app.get("/api/blocks", response_model=list[dict])
+@app.get("/api/blocks/{block_group_id}", response_model=dict)
+@app.get("/api/blocks", response_model=dict)
 async def get_blocks(block_group_id: int = None):
     db_manager = DatabaseManager(DatabaseManager.current_db_url)
     # Determine the block group to fetch
@@ -44,4 +44,4 @@ async def get_blocks(block_group_id: int = None):
             for block in blocks:
                 result["blocks"].append(block._asdict())
 
-            return [result]
+            return result
