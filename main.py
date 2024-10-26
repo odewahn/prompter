@@ -21,6 +21,9 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from command_handlers import init_db_manager as init_repl_db_manager
     import logging
 
+
+VERSION = "0.6.0"
+
 # Configure logging
 logging.basicConfig(
     filename="app_logs.log",
