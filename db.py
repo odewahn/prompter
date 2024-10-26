@@ -48,6 +48,7 @@ class DatabaseManager:
         self.SessionLocal = sessionmaker(
             bind=self.engine, class_=AsyncSession, expire_on_commit=False
         )
+        self.block_position = 0
 
     async def initialize_db(self):
         async with self.engine.begin() as conn:
@@ -76,19 +77,11 @@ class DatabaseManager:
                 )
                 session.add(block_group)
                 await session.flush()  # Ensure the block_group.id is available
+                self.block_position = 0  # Reset the block position
                 return block_group.id
 
     async def add_block(self, block_group_id, block_content, tag):
-        async with self.SessionLocal() as session:
-            async with session.begin():
-                # Get the current max position for the block group
-                result = await session.execute(
-                    text("SELECT MAX(position) FROM blocks WHERE block_group_id = :group_id"),
-                    {"group_id": block_group_id}
-                )
-                max_position = result.scalar() or 0
-                # Assign the next position
-                position = max_position + 1
+        self.block_position += 1
         async with self.SessionLocal() as session:
             async with session.begin():
                 block = Block(
@@ -96,7 +89,24 @@ class DatabaseManager:
                     block=block_content,
                     tag=tag,
                     token_count=len(block_content.split()),
+                    position=self.block_position,
                 )
                 session.add(block)
         async with self.engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+
+
+"""
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                # Get the current max position for the block group
+                result = await session.execute(
+                    text(
+                        "SELECT MAX(position) FROM blocks WHERE block_group_id = :group_id"
+                    ),
+                    {"group_id": block_group_id},
+                )
+                max_position = result.scalar() or 0
+                # Assign the next position
+                position = max_position + 1
+"""

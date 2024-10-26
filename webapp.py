@@ -1,9 +1,17 @@
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from db import DatabaseManager, Block
-from sqlalchemy import text
-from pydantic import BaseModel
+# For pyinstaller, we want to show something as quickly as possible
+print("Starting web UI...")
+from rich.console import Console
+
+console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    from fastapi import FastAPI, Request, HTTPException
+    from fastapi.responses import HTMLResponse
+    from fastapi.staticfiles import StaticFiles
+    from db import DatabaseManager, Block
+    from sqlalchemy import text
+    from pydantic import BaseModel
 
 
 app = FastAPI()

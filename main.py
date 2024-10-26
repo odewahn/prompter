@@ -1,13 +1,25 @@
-import asyncio
-import sys
-from repl_handlers import handle_command, init_db_manager as init_repl_db_manager, ExitREPLException
-import uvicorn
-from webapp import app
-from repl import interactive_repl
-from prompt_toolkit.patch_stdout import patch_stdout
-from db import DatabaseManager
-from repl_handlers import init_db_manager as init_repl_db_manager
-import logging
+# For pyinstaller, we want to show something as quickly as possible
+print("Starting prompter...")
+from rich.console import Console
+
+console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    import asyncio
+    import sys
+    from command_handlers import (
+        handle_command,
+        init_db_manager as init_repl_db_manager,
+        ExitREPLException,
+    )
+    import uvicorn
+    from webapp import app
+    from repl import interactive_repl
+    from prompt_toolkit.patch_stdout import patch_stdout
+    from db import DatabaseManager
+    from command_handlers import init_db_manager as init_repl_db_manager
+    import logging
 
 # Configure logging
 logging.basicConfig(
