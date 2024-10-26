@@ -78,3 +78,16 @@ def transformation_sentence_split(args, b):
     # Add period to the end of each sentence
     out = [x + "." for x in out]
     return out
+
+
+# Dictionary to map transformation names to functions
+TRANSFORMATIONS = {
+    "token-split": transformation_token_split,
+    "clean-epub": transformation_clean_epub,
+    "html-h1-split": lambda args, b: transformation_html_heading_split(args, b, ["h1"]),
+    "html-h2-split": lambda args, b: transformation_html_heading_split(args, b, ["h1", "h2"]),
+    "html2md": transformation_html2md,
+    "html2txt": transformation_html2txt,
+    "new-line-split": transformation_newline_split,
+    "sentence-split": transformation_sentence_split,
+}
