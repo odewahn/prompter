@@ -12,9 +12,7 @@ def create_parser():
     # Adding a command to load files into a BlockGroup
     load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup")
     load_parser.add_argument("files", nargs="+", help="List of files to load")
-    load_parser.add_argument(
-        "--tag", help="Tag for the group", required=False, default="default"
-    )
+    load_parser.add_argument("--tag", help="Tag to use for the block", required=False)
 
     # Adding a command to exit the repl
     exit_parser = subparsers.add_parser("exit", help="Exit the repl")
