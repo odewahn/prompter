@@ -97,6 +97,7 @@ class DatabaseManager:
                     {"group_id": current_group_result},
                 )
                 return blocks.fetchall()
+    async def add_block(self, block_group_id, block_content, tag):
         self.block_position += 1
         async with self.SessionLocal() as session:
             async with session.begin():
