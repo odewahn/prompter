@@ -18,8 +18,8 @@ CURRENT_BLOCKS_SQL = """
 select
    b.*
  FROM
-   block_groups g
-   join blocks b on b.block_group_id = g.id
+   groups g
+   join blocks b on b.group_id = g.id
  WHERE
     g.is_current = 1
 order by
@@ -44,7 +44,7 @@ class Block(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     tag = Column(String)
-    block_group_id = Column(Integer, ForeignKey("groups.id", ondelete="CASCADE"))
+    group_id = Column(Integer, ForeignKey("groups.id", ondelete="CASCADE"))
     position = Column(Integer)
     created_at = Column(DateTime, server_default=func.now())
     block = Column(String)
