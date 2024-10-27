@@ -11,11 +11,11 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from bs4 import BeautifulSoup
 
 
-def transformation_token_split(args, b):
+def transformation_token_split(b, N=1000):
     res = []
     tokens = b.split()
-    for i in range(0, len(tokens), args.N):
-        res.append(" ".join(tokens[i : i + args.N]))
+    for i in range(0, len(tokens), N):
+        res.append(" ".join(tokens[i : i + N]))
     return res
 
 
