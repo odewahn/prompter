@@ -12,8 +12,32 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 def create_parser():
     parser = argparse.ArgumentParser(description="Prompter repl")
 
+    # Create a parent parser with common arguments
+    parent_parser = argparse.ArgumentParser(add_help=False)
+    parent_parser.add_argument("--tag", help="Tag to use for the group", required=False)
+
     subparsers = parser.add_subparsers(dest="command")
-    subparsers.add_argument("--tag", help="Tag to use for the group", required=False)
+
+    # Use the parent parser for each subparser
+    use_parser = subparsers.add_parser("use", help="Use a new database", parents=[parent_parser])
+    use_parser.add_argument("db_name", type=str, help="Database name to use")
+
+    load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup", parents=[parent_parser])
+    load_parser.add_argument("files", nargs="+", help="List of files to load")
+
+    version_parser = subparsers.add_parser("version", help="Print the version", parents=[parent_parser])
+
+    exit_parser = subparsers.add_parser("exit", help="Exit the repl", parents=[parent_parser])
+
+    transform_parser = subparsers.add_parser("transform", help="Transform a block", parents=[parent_parser])
+    transform_parser.add_argument(
+        "transformation", nargs="+", help="Transformations to apply"
+    )
+    transform_parser.add_argument(
+        "--N", type=int, help="Number of tokens to split", required=False
+    )
+
+    blocks_parser = subparsers.add_parser("blocks", help="List all blocks", parents=[parent_parser])
 
     # Adding a command to create a new database
     use_parser = subparsers.add_parser("use", help="Use a new database")
