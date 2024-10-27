@@ -90,12 +90,12 @@ def transformation_sentence_split(b, **kwargs):
 
 # Dictionary to map transformation names to functions
 TRANSFORMATIONS = {
-    "token-split": transformation_token_split,
-    "clean-epub": lambda b: transformation_clean_epub(b),
-    "html-h1-split": lambda b: transformation_html_heading_split(b, ["h1"]),
-    "html-h2-split": lambda b: transformation_html_heading_split(b, ["h1", "h2"]),
-    "html2md": lambda b: transformation_html2md(b),
-    "html2txt": lambda b: transformation_html2txt(b),
-    "new-line-split": lambda b: transformation_newline_split(b),
-    "sentence-split": lambda b: transformation_sentence_split(b),
+    "token-split": lambda b, **kwargs: transformation_token_split(b, **kwargs),
+    "clean-epub": lambda b, **kwargs: transformation_clean_epub(b, **kwargs),
+    "html-h1-split": lambda b, **kwargs: transformation_html_heading_split(b, splits=["h1"], **kwargs),
+    "html-h2-split": lambda b, **kwargs: transformation_html_heading_split(b, splits=["h1", "h2"], **kwargs),
+    "html2md": lambda b, **kwargs: transformation_html2md(b, **kwargs),
+    "html2txt": lambda b, **kwargs: transformation_html2txt(b, **kwargs),
+    "new-line-split": lambda b, **kwargs: transformation_newline_split(b, **kwargs),
+    "sentence-split": lambda b, **kwargs: transformation_sentence_split(b, **kwargs),
 }
