@@ -71,28 +71,28 @@ def generate_random_tag():
 # Functions related to loading files
 # ******************************************************************************
 async def load_files(files, tag, command):
-    block_group_id = await db_manager.create_groups(tag, command)
+    group_id = await db_manager.add_group(tag, command)
     for file in files:
         if file.endswith(".epub"):
-            await _load_epub(file, block_group_id)
+            await _load_epub(file, group_id)
         else:
-            await _load_text_file(file, block_group_id)
+            await _load_text_file(file, group_id)
 
 
-async def _load_epub(file, block_group_id):
+async def _load_epub(file, group_id):
     console.log(f"Loading EPUB file: {file}")
     book = epub.read_epub(file, {"ignore_ncx": True})
     for item in book.get_items():
         if item.get_type() == ebooklib_ITEM_DOCUMENT:
             content = item.get_content().decode("utf-8")
-            await db_manager.add_block(block_group_id, content, item.get_name())
+            await db_manager.add_block(group_id, content, item.get_name())
 
 
-async def _load_text_file(file, block_group_id):
+async def _load_text_file(file, group_id):
     console.log(f"Loading text file: {file}")
     with open(file, "r") as f:
         content = f.read()
-        await db_manager.add_block(block_group_id, content, os.path.basename(file))
+        await db_manager.add_block(group_id, content, os.path.basename(file))
 
 
 # ******************************************************************************

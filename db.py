@@ -27,7 +27,7 @@ order by
 """
 
 
-class Groups(Base):
+class Group(Base):
     __tablename__ = "groups"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -70,34 +70,32 @@ class DatabaseManager:
     async def close(self):
         await self.engine.dispose()
 
-    async def create_block_group(self, tag, command, task_prompt="", persona_prompt=""):
+    async def add_group(self, tag, command, task_prompt="", persona_prompt=""):
         async with self.SessionLocal() as session:
             async with session.begin():
                 # Set is_current to False for all existing Groups
                 await session.execute(
-                    text(
-                        "UPDATE block_groups SET is_current = False WHERE is_current = True"
-                    )
+                    text("UPDATE groups SET is_current = False WHERE is_current = True")
                 )
                 # Create a new Groups with is_current set to True
-                block_group = Groups(
+                group = Group(
                     tag=tag,
                     command=command,
                     is_current=True,
                     task_prompt=task_prompt,
                     persona_prompt=persona_prompt,
                 )
-                session.add(block_group)
+                session.add(group)
                 await session.flush()  # Ensure the block_group.id is available
                 self.block_position = 0  # Reset the block position
-                return block_group.id
+                return group.id
 
-    async def add_block(self, block_group_id, block_content, tag):
+    async def add_block(self, group_id, block_content, tag):
         self.block_position += 1
         async with self.SessionLocal() as session:
             async with session.begin():
                 block = Block(
-                    block_group_id=block_group_id,
+                    group_id=group_id,
                     block=block_content,
                     tag=tag,
                     token_count=len(block_content.split()),
