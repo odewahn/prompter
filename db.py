@@ -28,7 +28,7 @@ order by
 
 
 class Groups(Base):
-    __tablename__ = "block_groups"
+    __tablename__ = "groups"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     is_current = Column(Boolean, default=False)
