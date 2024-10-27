@@ -94,19 +94,3 @@ class DatabaseManager:
                 session.add(block)
         async with self.engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-
-
-"""
-        async with self.SessionLocal() as session:
-            async with session.begin():
-                # Get the current max position for the block group
-                result = await session.execute(
-                    text(
-                        "SELECT MAX(position) FROM blocks WHERE block_group_id = :group_id"
-                    ),
-                    {"group_id": block_group_id},
-                )
-                max_position = result.scalar() or 0
-                # Assign the next position
-                position = max_position + 1
-"""
