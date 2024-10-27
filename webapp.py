@@ -28,11 +28,11 @@ async def get_blocks(block_group_id: int = None):
         async with session.begin():
             if block_group_id is None:
                 current_group = await session.execute(
-                    text("select * from block_groups where is_current = True")
+                    text("select * from groups where is_current = True")
                 )
             else:
                 current_group = await session.execute(
-                    text("select * from block_groups where id = :group_id"),
+                    text("select * from groups where id = :group_id"),
                     {"group_id": block_group_id},
                 )
 

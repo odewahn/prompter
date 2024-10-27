@@ -71,7 +71,7 @@ def generate_random_tag():
 # Functions related to loading files
 # ******************************************************************************
 async def load_files(files, tag, command):
-    block_group_id = await db_manager.create_block_group(tag, command)
+    block_group_id = await db_manager.create_groups(tag, command)
     for file in files:
         if file.endswith(".epub"):
             await _load_epub(file, block_group_id)

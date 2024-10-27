@@ -27,7 +27,7 @@ order by
 """
 
 
-class BlockGroup(Base):
+class Groups(Base):
     __tablename__ = "block_groups"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -44,7 +44,7 @@ class Block(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     tag = Column(String)
-    block_group_id = Column(Integer, ForeignKey("block_groups.id", ondelete="CASCADE"))
+    block_group_id = Column(Integer, ForeignKey("groups.id", ondelete="CASCADE"))
     position = Column(Integer)
     created_at = Column(DateTime, server_default=func.now())
     block = Column(String)
@@ -73,14 +73,14 @@ class DatabaseManager:
     async def create_block_group(self, tag, command, task_prompt="", persona_prompt=""):
         async with self.SessionLocal() as session:
             async with session.begin():
-                # Set is_current to False for all existing BlockGroups
+                # Set is_current to False for all existing Groups
                 await session.execute(
                     text(
                         "UPDATE block_groups SET is_current = False WHERE is_current = True"
                     )
                 )
-                # Create a new BlockGroup with is_current set to True
-                block_group = BlockGroup(
+                # Create a new Groups with is_current set to True
+                block_group = Groups(
                     tag=tag,
                     command=command,
                     is_current=True,
