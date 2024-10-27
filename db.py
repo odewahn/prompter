@@ -80,7 +80,23 @@ class DatabaseManager:
                 self.block_position = 0  # Reset the block position
                 return block_group.id
 
-    async def add_block(self, block_group_id, block_content, tag):
+    async def get_blocks_in_current_group(self):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                # Get the current block group
+                current_group = await session.execute(
+                    text("SELECT id FROM block_groups WHERE is_current = True")
+                )
+                current_group_result = current_group.scalar_one_or_none()
+                if not current_group_result:
+                    return []
+
+                # Get all blocks in the current block group
+                blocks = await session.execute(
+                    text("SELECT * FROM blocks WHERE block_group_id = :group_id"),
+                    {"group_id": current_group_result},
+                )
+                return blocks.fetchall()
         self.block_position += 1
         async with self.SessionLocal() as session:
             async with session.begin():
