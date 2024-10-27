@@ -27,7 +27,8 @@ def create_parser():
     ])
 
     add_subparser("load", "Load files into a BlockGroup", [
-        ("files", {"nargs": "+", "help": "List of files to load"})
+        ("files", {"nargs": "+", "help": "List of files to load"}),
+        ("--tag", {"help": "Tag to use for the group", "required": False})
     ])
 
     add_subparser("version", "Print the version", [])
