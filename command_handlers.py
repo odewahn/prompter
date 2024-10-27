@@ -17,6 +17,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from rich import print
     from constants import *
     from transformations import apply_transformation
+    import json
 
 db_manager = None
 current_db_url = None
@@ -136,8 +137,15 @@ async def handle_version_command(args, command):
 
 
 async def handle_transform_command(args, command):
-    for transformation in args.transformation:
-        console.log(f"Applying transformation: {transformation}")
+    blocks = await db_manager.get_current_blocks()
+    new_block = None
+    for block in blocks:
+        new_block = block.content
+        for transformation in args.transformation:
+            new_block = apply_transformation(
+                transformation, new_block, **args_to_kwargs(args)
+            )
+        print(json.dumps(new_block, indent=4))
 
 
 async def handle_blocks_command(args, command):

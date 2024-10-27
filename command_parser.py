@@ -22,23 +22,37 @@ def create_parser():
             subparser.add_argument(arg, **kwargs)
         return subparser
 
-    add_subparser("use", "Use a new database", [
-        ("db_name", {"type": str, "help": "Database name to use"})
-    ])
+    add_subparser(
+        "use",
+        "Use a new database",
+        [("db_name", {"type": str, "help": "Database name to use"})],
+    )
 
-    add_subparser("load", "Load files into a BlockGroup", [
-        ("files", {"nargs": "+", "help": "List of files to load"}),
-        ("--tag", {"help": "Tag to use for the group", "required": False})
-    ])
+    add_subparser(
+        "load",
+        "Load a file or files as a new group",
+        [
+            ("files", {"nargs": "+", "help": "List of files to load"}),
+            ("--tag", {"help": "Tag to use for the group", "required": False}),
+        ],
+    )
 
     add_subparser("version", "Print the version", [])
 
     add_subparser("exit", "Exit the repl", [])
 
-    add_subparser("transform", "Transform a block", [
-        ("transformation", {"nargs": "+", "help": "Transformations to apply"}),
-        ("--N", {"type": int, "help": "Number of tokens to split", "required": False})
-    ])
+    add_subparser(
+        "transform",
+        "Transform a block",
+        [
+            ("transformation", {"nargs": "+", "help": "Transformations to apply"}),
+            ("--tag", {"help": "Tag to use for the group", "required": False}),
+            (
+                "--N",
+                {"type": int, "help": "Number of tokens to split", "required": False},
+            ),
+        ],
+    )
 
     add_subparser("blocks", "List all blocks", [])
 
