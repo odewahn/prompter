@@ -19,7 +19,7 @@ def transformation_token_split(b, N=1000):
     return res
 
 
-def transformation_clean_epub(args, b):
+def transformation_clean_epub(b):
     # Convert the raw block of epub html to markdown
     out = md(b, heading_style="ATX")
     out = out.replace("xml version='1.0' encoding='utf-8'?", "")
@@ -36,7 +36,7 @@ def transformation_clean_epub(args, b):
 #
 # Split an HTML into blocks based on the h1 and h2 tags
 #
-def transformation_html_heading_split(args, b, splits):
+def transformation_html_heading_split(b, splits):
     # Construct a BeautifulSoup out of the raw HTML
     soup = BeautifulSoup(b, "html.parser")
     blocks = []
@@ -56,26 +56,26 @@ def transformation_html_heading_split(args, b, splits):
     return blocks
 
 
-def transformation_html2md(args, b):
+def transformation_html2md(b):
     out = md(b, heading_style="ATX")
     out = out.replace("xml version='1.0' encoding='utf-8'?", "")
     out = out.replace("\n\n", "\n")
     return out
 
 
-def transformation_html2txt(args, b):
+def transformation_html2txt(b):
     soup = BeautifulSoup(b, "html.parser")
     return soup.prettify()
 
 
-def transformation_newline_split(args, b):
+def transformation_newline_split(b):
     # split text text by newline and only return non-empty strings
     out = b.split("\n")
     out = list(filter(None, out))
     return out
 
 
-def transformation_sentence_split(args, b):
+def transformation_sentence_split(b):
     out = b.split(".")
     # Remove empty strings
     out = list(filter(None, out))
@@ -89,13 +89,11 @@ def transformation_sentence_split(args, b):
 # Dictionary to map transformation names to functions
 TRANSFORMATIONS = {
     "token-split": transformation_token_split,
-    "clean-epub": transformation_clean_epub,
-    "html-h1-split": lambda args, b: transformation_html_heading_split(args, b, ["h1"]),
-    "html-h2-split": lambda args, b: transformation_html_heading_split(
-        args, b, ["h1", "h2"]
-    ),
-    "html2md": transformation_html2md,
-    "html2txt": transformation_html2txt,
-    "new-line-split": transformation_newline_split,
-    "sentence-split": transformation_sentence_split,
+    "clean-epub": lambda b: transformation_clean_epub(b),
+    "html-h1-split": lambda b: transformation_html_heading_split(b, ["h1"]),
+    "html-h2-split": lambda b: transformation_html_heading_split(b, ["h1", "h2"]),
+    "html2md": lambda b: transformation_html2md(b),
+    "html2txt": lambda b: transformation_html2txt(b),
+    "new-line-split": lambda b: transformation_newline_split(b),
+    "sentence-split": lambda b: transformation_sentence_split(b),
 }
