@@ -16,7 +16,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import uuid
     from rich import print
     from constants import *
-    from transformations import TRANSFORMATIONS
+    from transformations import apply_transformations
 
 db_manager = None
 current_db_url = None
@@ -38,13 +38,8 @@ class ExitREPLException(Exception):
 # ******************************************************************************
 # Utility function to convert argparse args to kwargs for transformations
 # ******************************************************************************
-def args_to_kwargs(args):
-    kwargs = {}
-    for arg in vars(args):
-        kwargs[arg] = getattr(args, arg)
-    return kwargs
-# Command handler
-# ******************************************************************************
+
+
 async def handle_command(args, command):
     command_handlers = {
         "use": handle_use_command,
@@ -64,6 +59,13 @@ async def handle_command(args, command):
 # ******************************************************************************
 # Utility functions
 # ******************************************************************************
+def args_to_kwargs(args):
+    kwargs = {}
+    for arg in vars(args):
+        kwargs[arg] = getattr(args, arg)
+    return kwargs
+
+
 def generate_random_tag():
     # Return a random identifier in the format "ABC-123"
     # The goal is for the identifier to be easy to remember and type
