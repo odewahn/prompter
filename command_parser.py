@@ -18,16 +18,16 @@ def create_parser():
 
     subparsers = parser.add_subparsers(dest="command")
 
-    # Use the parent parser for each subparser
-    use_parser = subparsers.add_parser("use", help="Use a new database", parents=[parent_parser])
+    # Use the parent parser for each subparser that requires the --tag option
+    use_parser = subparsers.add_parser("use", help="Use a new database")
     use_parser.add_argument("db_name", type=str, help="Database name to use")
 
     load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup", parents=[parent_parser])
     load_parser.add_argument("files", nargs="+", help="List of files to load")
 
-    version_parser = subparsers.add_parser("version", help="Print the version", parents=[parent_parser])
+    version_parser = subparsers.add_parser("version", help="Print the version")
 
-    exit_parser = subparsers.add_parser("exit", help="Exit the repl", parents=[parent_parser])
+    exit_parser = subparsers.add_parser("exit", help="Exit the repl")
 
     transform_parser = subparsers.add_parser("transform", help="Transform a block", parents=[parent_parser])
     transform_parser.add_argument(
@@ -37,7 +37,7 @@ def create_parser():
         "--N", type=int, help="Number of tokens to split", required=False
     )
 
-    blocks_parser = subparsers.add_parser("blocks", help="List all blocks", parents=[parent_parser])
+    blocks_parser = subparsers.add_parser("blocks", help="List all blocks")
 
     # Adding a command to create a new database
     use_parser = subparsers.add_parser("use", help="Use a new database")
