@@ -12,24 +12,22 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 def create_parser():
     parser = argparse.ArgumentParser(description="Prompter repl")
 
-    # Create a parent parser with common arguments
-    parent_parser = argparse.ArgumentParser(add_help=False)
-    parent_parser.add_argument("--tag", help="Tag to use for the group", required=False)
+    parser.add_argument("--tag", help="Tag to use for the group", required=False)
 
     subparsers = parser.add_subparsers(dest="command")
 
-    # Use the parent parser for each subparser that requires the --tag option
+    # Use the main parser for each subparser that requires the --tag option
     use_parser = subparsers.add_parser("use", help="Use a new database")
     use_parser.add_argument("db_name", type=str, help="Database name to use")
 
-    load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup", parents=[parent_parser])
+    load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup")
     load_parser.add_argument("files", nargs="+", help="List of files to load")
 
     version_parser = subparsers.add_parser("version", help="Print the version")
 
     exit_parser = subparsers.add_parser("exit", help="Exit the repl")
 
-    transform_parser = subparsers.add_parser("transform", help="Transform a block", parents=[parent_parser])
+    transform_parser = subparsers.add_parser("transform", help="Transform a block")
     transform_parser.add_argument(
         "transformation", nargs="+", help="Transformations to apply"
     )
