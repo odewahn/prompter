@@ -11,16 +11,17 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 def create_parser():
     parser = argparse.ArgumentParser(description="Prompter repl")
+
     subparsers = parser.add_subparsers(dest="command")
+    subparsers.add_argument("--tag", help="Tag to use for the group", required=False)
 
     # Adding a command to create a new database
     use_parser = subparsers.add_parser("use", help="Use a new database")
     use_parser.add_argument("db_name", type=str, help="Database name to use")
 
-    # Adding a command to load files into a BlockGroup
+    # Adding a command to load files into a Group
     load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup")
     load_parser.add_argument("files", nargs="+", help="List of files to load")
-    load_parser.add_argument("--tag", help="Tag to use for the block", required=False)
 
     # Adding command to print the version
     version_parser = subparsers.add_parser("version", help="Print the version")
@@ -32,6 +33,10 @@ def create_parser():
     transform_parser = subparsers.add_parser("transform", help="Transform a block")
     transform_parser.add_argument(
         "transformation", nargs="+", help="Transformations to apply"
+    )
+
+    transform_parser.add_argument(
+        "--N", type=int, help="Number of tokens to split", required=False
     )
 
     # Adding a command to list all blocks
