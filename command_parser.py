@@ -16,52 +16,29 @@ def create_parser():
 
     subparsers = parser.add_subparsers(dest="command")
 
-    # Use the main parser for each subparser that requires the --tag option
-    use_parser = subparsers.add_parser("use", help="Use a new database")
-    use_parser.add_argument("db_name", type=str, help="Database name to use")
+    def add_subparser(name, help_text, arguments):
+        subparser = subparsers.add_parser(name, help=help_text)
+        for arg, kwargs in arguments:
+            subparser.add_argument(arg, **kwargs)
+        return subparser
 
-    load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup")
-    load_parser.add_argument("files", nargs="+", help="List of files to load")
+    add_subparser("use", "Use a new database", [
+        ("db_name", {"type": str, "help": "Database name to use"})
+    ])
 
-    version_parser = subparsers.add_parser("version", help="Print the version")
+    add_subparser("load", "Load files into a BlockGroup", [
+        ("files", {"nargs": "+", "help": "List of files to load"})
+    ])
 
-    exit_parser = subparsers.add_parser("exit", help="Exit the repl")
+    add_subparser("version", "Print the version", [])
 
-    transform_parser = subparsers.add_parser("transform", help="Transform a block")
-    transform_parser.add_argument(
-        "transformation", nargs="+", help="Transformations to apply"
-    )
-    transform_parser.add_argument(
-        "--N", type=int, help="Number of tokens to split", required=False
-    )
+    add_subparser("exit", "Exit the repl", [])
 
-    blocks_parser = subparsers.add_parser("blocks", help="List all blocks")
+    add_subparser("transform", "Transform a block", [
+        ("transformation", {"nargs": "+", "help": "Transformations to apply"}),
+        ("--N", {"type": int, "help": "Number of tokens to split", "required": False})
+    ])
 
-    # Adding a command to create a new database
-    use_parser = subparsers.add_parser("use", help="Use a new database")
-    use_parser.add_argument("db_name", type=str, help="Database name to use")
-
-    # Adding a command to load files into a Group
-    load_parser = subparsers.add_parser("load", help="Load files into a BlockGroup")
-    load_parser.add_argument("files", nargs="+", help="List of files to load")
-
-    # Adding command to print the version
-    version_parser = subparsers.add_parser("version", help="Print the version")
-
-    # Adding a command to exit the repl
-    exit_parser = subparsers.add_parser("exit", help="Exit the repl")
-
-    # Adding a command to transform a block
-    transform_parser = subparsers.add_parser("transform", help="Transform a block")
-    transform_parser.add_argument(
-        "transformation", nargs="+", help="Transformations to apply"
-    )
-
-    transform_parser.add_argument(
-        "--N", type=int, help="Number of tokens to split", required=False
-    )
-
-    # Adding a command to list all blocks
-    blocks_parser = subparsers.add_parser("blocks", help="List all blocks")
+    add_subparser("blocks", "List all blocks", [])
 
     return parser
