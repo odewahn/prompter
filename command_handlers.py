@@ -40,11 +40,8 @@ class ExitREPLException(Exception):
 # ******************************************************************************
 def args_to_kwargs(args):
     kwargs = {}
-    if hasattr(args, 'N'):
-        kwargs['N'] = args.N
-    if hasattr(args, 'splits'):
-        kwargs['splits'] = args.splits
-    # Add more arguments as needed
+    for arg in vars(args):
+        kwargs[arg] = getattr(args, arg)
     return kwargs
 # Command handler
 # ******************************************************************************
