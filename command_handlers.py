@@ -134,4 +134,4 @@ async def handle_transform_command(args, command):
 async def handle_blocks_command(args, command):
     blocks = await db_manager.get_current_blocks()
     for block in blocks:
-        print(block.tag, " -> ", block.block[:20])
+        print(block.tag, " -> ", block.content[:20])

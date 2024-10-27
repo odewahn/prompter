@@ -47,7 +47,7 @@ class Block(Base):
     group_id = Column(Integer, ForeignKey("groups.id", ondelete="CASCADE"))
     position = Column(Integer)
     created_at = Column(DateTime, server_default=func.now())
-    block = Column(String)
+    content = Column(String)
     token_count = Column(Integer)
 
 
@@ -96,7 +96,7 @@ class DatabaseManager:
             async with session.begin():
                 block = Block(
                     group_id=group_id,
-                    block=block_content,
+                    content=block_content,
                     tag=tag,
                     token_count=len(block_content.split()),
                     position=self.block_position,
@@ -134,7 +134,7 @@ class DatabaseManager:
                 for block_data in blocks_data:
                     block = Block(
                         group_id=group.id,
-                        block=block_data.get("content"),
+                        content=block_data.get("content"),
                         tag=block_data.get("tag"),
                         token_count=len(block_data.get("content", "").split()),
                         position=block_data.get("position", 0),
@@ -142,6 +142,8 @@ class DatabaseManager:
                     session.add(block)
 
                 return group.id
+
+    async def get_current_blocks(self):
         async with self.SessionLocal() as session:
             async with session.begin():
                 # Get all blocks in the current block group
