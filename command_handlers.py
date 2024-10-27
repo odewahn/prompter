@@ -16,7 +16,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import uuid
     from rich import print
     from constants import *
-    from transformations import apply_transformations
+    from transformations import apply_transformation
 
 db_manager = None
 current_db_url = None
