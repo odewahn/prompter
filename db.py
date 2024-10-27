@@ -105,7 +105,43 @@ class DatabaseManager:
         async with self.engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
 
-    async def get_current_blocks(self):
+    async def add_group_with_blocks(self, group_data, blocks_data):
+        """
+        Add a new group and its associated blocks as a single transaction.
+
+        :param group_data: A dictionary containing group details like tag, command, etc.
+        :param blocks_data: A list of dictionaries, each containing block details like content and tag.
+        :return: The ID of the newly created group.
+        """
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                # Set is_current to False for all existing Groups
+                await session.execute(
+                    text("UPDATE groups SET is_current = False WHERE is_current = True")
+                )
+                # Create a new Group with is_current set to True
+                group = Group(
+                    tag=group_data.get("tag"),
+                    command=group_data.get("command"),
+                    is_current=True,
+                    task_prompt=group_data.get("task_prompt", ""),
+                    persona_prompt=group_data.get("persona_prompt", ""),
+                )
+                session.add(group)
+                await session.flush()  # Ensure the group.id is available
+
+                # Add blocks associated with the new group
+                for block_data in blocks_data:
+                    block = Block(
+                        group_id=group.id,
+                        block=block_data.get("content"),
+                        tag=block_data.get("tag"),
+                        token_count=len(block_data.get("content", "").split()),
+                        position=block_data.get("position", 0),
+                    )
+                    session.add(block)
+
+                return group.id
         async with self.SessionLocal() as session:
             async with session.begin():
                 # Get all blocks in the current block group
