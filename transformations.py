@@ -17,7 +17,10 @@ def apply_transformation(transformation_name, b, **kwargs):
         return perform(transformation_name, b, **kwargs)
     # if b is list, apply the transformation to each element of the list
     elif isinstance(b, list):
-        out = [x for item in b for x in perform(transformation_name, item, **kwargs)]
+        out = []
+        transformed = [perform(transformation_name, x, **kwargs) for x in b]
+        for x in transformed:
+            out.extend(x)
     else:
         raise ValueError(f"Unrecognized type: {type(b)}")
 
