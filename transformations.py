@@ -1,8 +1,14 @@
-# This file contains the various transformations you can use
+# For pyinstaller, we want to show something as quickly as possible
+print("Loading transformations...")
+from rich.console import Console
 
-from markdownify import markdownify as md
-import markdown
-from bs4 import BeautifulSoup
+console = Console()
+
+# Set up a loading message as the libraries are loaded
+with console.status(f"[bold green]Loading required libraries...") as status:
+    from markdownify import markdownify as md
+    import markdown
+    from bs4 import BeautifulSoup
 
 
 def transformation_token_split(args, b):
@@ -85,7 +91,9 @@ TRANSFORMATIONS = {
     "token-split": transformation_token_split,
     "clean-epub": transformation_clean_epub,
     "html-h1-split": lambda args, b: transformation_html_heading_split(args, b, ["h1"]),
-    "html-h2-split": lambda args, b: transformation_html_heading_split(args, b, ["h1", "h2"]),
+    "html-h2-split": lambda args, b: transformation_html_heading_split(
+        args, b, ["h1", "h2"]
+    ),
     "html2md": transformation_html2md,
     "html2txt": transformation_html2txt,
     "new-line-split": transformation_newline_split,

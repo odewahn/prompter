@@ -7,3 +7,6 @@ fastapi
 sqlalchemy 
 aiosqlite
 ebooklib
+markdownify
+markdown
+bs4

@@ -30,6 +30,11 @@ def create_parser():
 
     # Adding a command to transform a block
     transform_parser = subparsers.add_parser("transform", help="Transform a block")
-    transform_parser.add_argument("transformation", nargs='+', help="Transformations to apply")
+    transform_parser.add_argument(
+        "transformation", nargs="+", help="Transformations to apply"
+    )
+
+    # Adding a command to list all blocks
+    blocks_parser = subparsers.add_parser("blocks", help="List all blocks")
 
     return parser

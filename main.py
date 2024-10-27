@@ -25,7 +25,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 # Configure logging
 logging.basicConfig(
-    filename="app_logs.log",
+    filename="log_app.log",
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - [%(name)s] - %(message)s",
 )
@@ -33,7 +33,7 @@ logging.basicConfig(
 # Configure SQLAlchemy logging
 sqlalchemy_logger = logging.getLogger("sqlalchemy.engine")
 sqlalchemy_logger.setLevel(logging.ERROR)
-sqlalchemy_handler = logging.FileHandler("sqlalchemy_logs.log")
+sqlalchemy_handler = logging.FileHandler("log_sqlalchemy.log")
 sqlalchemy_handler.setFormatter(
     logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 )

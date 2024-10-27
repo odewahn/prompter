@@ -503,27 +503,10 @@ def action_transform(transformation):
     for b in blocks:
         console.log("Processing block", b["block_tag"])
         # Apply the transformation to the block
-        match transformation:
-            case "token-split":
-                result = transformation_token_split(args, b["block"])
-            case "clean-epub":
-                result = transformation_clean_epub(args, b["block"])
-            case "html-h1-split":
-                result = transformation_html_heading_split(args, b["block"], ["h1"])
-            case "html-h2-split":
-                result = transformation_html_heading_split(
-                    args, b["block"], ["h1", "h2"]
-                )
-            case "html2md":
-                result = transformation_html2md(args, b["block"])
-            case "html2txt":
-                result = transformation_html2txt(args, b["block"])
-            case "new-line-split":
-                result = transformation_newline_split(args, b["block"])
-            case "sentence-split":
-                result = transformation_sentence_split(args, b["block"])
-            case _:
-                raise Exception(f"Unknown transformation {args.transformation}")
+        if transformation in TRANSFORMATIONS:
+            result = TRANSFORMATIONS[transformation](args, b["block"])
+        else:
+            raise Exception(f"Unknown transformation {transformation}")
         # If the result is a list, then create a block for each element
         if type(result) is list:
             for r in result:

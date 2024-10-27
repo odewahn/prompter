@@ -14,6 +14,18 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
+CURRENT_BLOCKS_SQL = """
+select
+   b.*
+ FROM
+   block_groups g
+   join blocks b on b.block_group_id = g.id
+ WHERE
+    g.is_current = 1
+order by
+   b.position
+"""
+
 
 class BlockGroup(Base):
     __tablename__ = "block_groups"
@@ -80,23 +92,6 @@ class DatabaseManager:
                 self.block_position = 0  # Reset the block position
                 return block_group.id
 
-    async def get_blocks_in_current_group(self):
-        async with self.SessionLocal() as session:
-            async with session.begin():
-                # Get the current block group
-                current_group = await session.execute(
-                    text("SELECT id FROM block_groups WHERE is_current = True")
-                )
-                current_group_result = current_group.scalar_one_or_none()
-                if not current_group_result:
-                    return []
-
-                # Get all blocks in the current block group
-                blocks = await session.execute(
-                    text("SELECT * FROM blocks WHERE block_group_id = :group_id"),
-                    {"group_id": current_group_result},
-                )
-                return blocks.fetchall()
     async def add_block(self, block_group_id, block_content, tag):
         self.block_position += 1
         async with self.SessionLocal() as session:
@@ -111,3 +106,10 @@ class DatabaseManager:
                 session.add(block)
         async with self.engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+
+    async def get_current_blocks(self):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                # Get all blocks in the current block group
+                blocks = await session.execute(text(CURRENT_BLOCKS_SQL))
+                return blocks.fetchall()
