@@ -11,8 +11,25 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from bs4 import BeautifulSoup
 
 
+# Dictionary to map transformation names to functions
+TRANSFORMATIONS = {
+    "token-split": lambda b, **kwargs: transformation_token_split(b, **kwargs),
+    "clean-epub": lambda b, **kwargs: transformation_clean_epub(b, **kwargs),
+    "html-h1-split": lambda b, **kwargs: transformation_html_heading_split(
+        b, splits=["h1"], **kwargs
+    ),
+    "html-h2-split": lambda b, **kwargs: transformation_html_heading_split(
+        b, splits=["h1", "h2"], **kwargs
+    ),
+    "html2md": lambda b, **kwargs: transformation_html2md(b, **kwargs),
+    "html2txt": lambda b, **kwargs: transformation_html2txt(b, **kwargs),
+    "new-line-split": lambda b, **kwargs: transformation_newline_split(b, **kwargs),
+    "sentence-split": lambda b, **kwargs: transformation_sentence_split(b, **kwargs),
+}
+
+
 def transformation_token_split(b, **kwargs):
-    N = kwargs.get('N', 1000)
+    N = kwargs.get("N", 1000)
     res = []
     tokens = b.split()
     for i in range(0, len(tokens), N):
@@ -38,7 +55,7 @@ def transformation_clean_epub(b, **kwargs):
 # Split an HTML into blocks based on the h1 and h2 tags
 #
 def transformation_html_heading_split(b, **kwargs):
-    splits = kwargs.get('splits', ['h1'])
+    splits = kwargs.get("splits", ["h1"])
     # Construct a BeautifulSoup out of the raw HTML
     soup = BeautifulSoup(b, "html.parser")
     blocks = []
@@ -86,16 +103,3 @@ def transformation_sentence_split(b, **kwargs):
     # Add period to the end of each sentence
     out = [x + "." for x in out]
     return out
-
-
-# Dictionary to map transformation names to functions
-TRANSFORMATIONS = {
-    "token-split": lambda b, **kwargs: transformation_token_split(b, **kwargs),
-    "clean-epub": lambda b, **kwargs: transformation_clean_epub(b, **kwargs),
-    "html-h1-split": lambda b, **kwargs: transformation_html_heading_split(b, splits=["h1"], **kwargs),
-    "html-h2-split": lambda b, **kwargs: transformation_html_heading_split(b, splits=["h1", "h2"], **kwargs),
-    "html2md": lambda b, **kwargs: transformation_html2md(b, **kwargs),
-    "html2txt": lambda b, **kwargs: transformation_html2txt(b, **kwargs),
-    "new-line-split": lambda b, **kwargs: transformation_newline_split(b, **kwargs),
-    "sentence-split": lambda b, **kwargs: transformation_sentence_split(b, **kwargs),
-}
