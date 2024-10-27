@@ -36,6 +36,16 @@ class ExitREPLException(Exception):
 
 
 # ******************************************************************************
+# Utility function to convert argparse args to kwargs for transformations
+# ******************************************************************************
+def args_to_kwargs(args):
+    kwargs = {}
+    if hasattr(args, 'N'):
+        kwargs['N'] = args.N
+    if hasattr(args, 'splits'):
+        kwargs['splits'] = args.splits
+    # Add more arguments as needed
+    return kwargs
 # Command handler
 # ******************************************************************************
 async def handle_command(args, command):
