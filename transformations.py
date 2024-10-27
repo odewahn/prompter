@@ -11,21 +11,25 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from bs4 import BeautifulSoup
 
 
-# Dictionary to map transformation names to functions
-TRANSFORMATIONS = {
-    "token-split": lambda b, **kwargs: transformation_token_split(b, **kwargs),
-    "clean-epub": lambda b, **kwargs: transformation_clean_epub(b, **kwargs),
-    "html-h1-split": lambda b, **kwargs: transformation_html_heading_split(
-        b, splits=["h1"], **kwargs
-    ),
-    "html-h2-split": lambda b, **kwargs: transformation_html_heading_split(
-        b, splits=["h1", "h2"], **kwargs
-    ),
-    "html2md": lambda b, **kwargs: transformation_html2md(b, **kwargs),
-    "html2txt": lambda b, **kwargs: transformation_html2txt(b, **kwargs),
-    "new-line-split": lambda b, **kwargs: transformation_newline_split(b, **kwargs),
-    "sentence-split": lambda b, **kwargs: transformation_sentence_split(b, **kwargs),
-}
+def apply_transformation(transformation_name, b, **kwargs):
+    if transformation_name == "token-split":
+        return transformation_token_split(b, **kwargs)
+    elif transformation_name == "clean-epub":
+        return transformation_clean_epub(b, **kwargs)
+    elif transformation_name == "html-h1-split":
+        return transformation_html_heading_split(b, splits=["h1"], **kwargs)
+    elif transformation_name == "html-h2-split":
+        return transformation_html_heading_split(b, splits=["h1", "h2"], **kwargs)
+    elif transformation_name == "html2md":
+        return transformation_html2md(b, **kwargs)
+    elif transformation_name == "html2txt":
+        return transformation_html2txt(b, **kwargs)
+    elif transformation_name == "new-line-split":
+        return transformation_newline_split(b, **kwargs)
+    elif transformation_name == "sentence-split":
+        return transformation_sentence_split(b, **kwargs)
+    else:
+        raise ValueError(f"Unrecognized transformation: {transformation_name}")
 
 
 def transformation_token_split(b, **kwargs):
