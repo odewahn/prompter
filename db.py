@@ -131,13 +131,13 @@ class DatabaseManager:
                 await session.flush()  # Ensure the group.id is available
 
                 # Add blocks associated with the new group
-                for block_data in blocks_data:
+                for idx, block_data in enumerate(blocks_data):
                     block = Block(
                         group_id=group.id,
                         content=block_data.get("content"),
                         tag=block_data.get("tag"),
                         token_count=len(block_data.get("content", "").split()),
-                        position=block_data.get("position", 0),
+                        position=idx,
                     )
                     session.add(block)
 
