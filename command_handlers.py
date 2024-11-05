@@ -170,27 +170,29 @@ async def handle_transform_command(args, command):
 
 async def handle_blocks_command(args, command):
 
-    blocks = await db_manager.get_current_blocks()
-    # Use SQLAlchemy's inspection to get column names
-    inspector = inspect(Block)
+    blocks, column_names = await db_manager.get_current_blocks()
+
     # Specify the columns to display
-    display_columns = ["id", "tag", "content", "token_count"]
-    column_names = [column.name for column in inspector.columns if column.name in display_columns]
+    display_columns = ["group_tag", "id", "tag", "content", "token_count"]
 
     table = Table(title="Current Blocks")
 
     # Add columns to the table using introspected column names
-    for column_name in column_names:
-        table.add_column(column_name.capitalize(), style="magenta")
+    for column_name in display_columns:
+        table.add_column(column_name, style="magenta")
 
     for block in blocks:
         # Create a row with the block's attributes
-        row = [str(getattr(block, column_name)) for column_name in column_names]
+        row = [str(getattr(block, column_name)) for column_name in display_columns]
         # Replace newlines in content preview
         # Adjust content preview to handle newlines and limit length
-        if "content" in column_names:
-            content_index = column_names.index("content")
-            row[content_index] = row[content_index][:40].replace("\n", " ") + ("..." if len(row[content_index]) > 40 else "")
+        if "content" in display_columns:
+            content_index = display_columns.index("content")
+            row[content_index] = row[content_index][:40].replace("\n", " ") + (
+                "..." if len(row[content_index]) > 40 else ""
+            )
         table.add_row(*row)
 
     console.print(table)
+    console.print(f"Total blocks: {len(blocks)}")
+    console.print(f"Column names: {column_names}")

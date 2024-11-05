@@ -151,8 +151,6 @@ class DatabaseManager:
                 # Get all blocks in the current block group
                 result = await session.execute(text(CURRENT_BLOCKS_SQL))
                 blocks = result.fetchall()
-                
                 # Get column names from the result
                 column_names = list(result.keys())
-
                 return blocks, column_names
