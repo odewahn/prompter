@@ -49,7 +49,12 @@ def create_parser():
             ("--tag", {"help": "Tag to use for the group", "required": False}),
             (
                 "--N",
-                {"type": int, "help": "Number of tokens to split", "required": False},
+                {
+                    "type": int,
+                    "help": "Number of tokens to split",
+                    "required": False,
+                    "default": 1000,
+                },
             ),
         ],
     )

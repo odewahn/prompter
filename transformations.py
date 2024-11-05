@@ -32,10 +32,10 @@ def perform(transformation_name, b, **kwargs):
         return transformation_html_heading_split(b, splits=["h1"], **kwargs)
     elif transformation_name == "html-h2-split":
         return transformation_html_heading_split(b, splits=["h1", "h2"], **kwargs)
-    elif transformation_name == "html2md":
-        return transformation_html2md(b, **kwargs)
-    elif transformation_name == "html2txt":
-        return transformation_html2txt(b, **kwargs)
+    elif transformation_name == "html-to-md":
+        return transformation_html_to_md(b, **kwargs)
+    elif transformation_name == "html-to-txt":
+        return transformation_html_to_txt(b, **kwargs)
     elif transformation_name == "new-line-split":
         return transformation_newline_split(b, **kwargs)
     elif transformation_name == "sentence-split":
@@ -91,14 +91,14 @@ def transformation_html_heading_split(b, **kwargs):
     return blocks
 
 
-def transformation_html2md(b, **kwargs):
+def transformation_html_to_md(b, **kwargs):
     out = md(b, heading_style="ATX")
     out = out.replace("xml version='1.0' encoding='utf-8'?", "")
     out = out.replace("\n\n", "\n")
     return out
 
 
-def transformation_html2txt(b, **kwargs):
+def transformation_html_to_txt(b, **kwargs):
     soup = BeautifulSoup(b, "html.parser")
     return soup.prettify()
 

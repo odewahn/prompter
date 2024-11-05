@@ -138,14 +138,32 @@ async def handle_version_command(args, command):
 
 async def handle_transform_command(args, command):
     blocks = await db_manager.get_current_blocks()
-    new_block = None
-    for block in blocks:
-        new_block = block.content
-        for transformation in args.transformation:
-            new_block = apply_transformation(
-                transformation, new_block, **args_to_kwargs(args)
-            )
-        print(json.dumps(new_block, indent=4))
+    # new_block = None
+    # for block in blocks:
+    #    new_block = block.content
+    #    for transformation in args.transformation:
+    #        new_block = apply_transformation(
+    #            transformation, new_block, **args_to_kwargs(args)
+    #        )
+    #    print(json.dumps(new_block, indent=4))
+    # Fetch and print current blocks
+    G = {"tag": args.tag, "command": command}
+    B = []
+    try:
+        for block in blocks:
+            new_block = block.content
+            for transformation in args.transformation:
+                new_block = apply_transformation(
+                    transformation, new_block, **args_to_kwargs(args)
+                )
+            # if new_block is a string, then append it to the list.  If it is a list, then extend the list
+            if isinstance(new_block, str):
+                B.append({"content": new_block, "tag": block.tag})
+            else:
+                B.extend([{"content": b, "tag": block.tag} for b in new_block])
+        await db_manager.add_group_with_blocks(G, B)
+    except Exception as e:
+        print(f"[red]{e}")
 
 
 async def handle_blocks_command(args, command):
