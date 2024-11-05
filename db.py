@@ -11,6 +11,7 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.sql import func
+from sqlalchemy.inspection import inspect
 
 Base = declarative_base()
 
