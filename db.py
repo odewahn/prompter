@@ -153,6 +153,6 @@ class DatabaseManager:
                 blocks = result.fetchall()
                 
                 # Get column names from the result
-                column_names = result.keys()
+                column_names = list(result.keys())
 
                 return blocks, column_names
