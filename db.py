@@ -145,11 +145,14 @@ class DatabaseManager:
 
                 return group.id
 
-    async def get_current_blocks(self):
+    async def get_current_blocks(self, where_clause=None):
         async with self.SessionLocal() as session:
             async with session.begin():
                 # Get all blocks in the current block group
-                result = await session.execute(text(CURRENT_BLOCKS_SQL))
+                query = CURRENT_BLOCKS_SQL
+                if where_clause:
+                    query += f" AND {where_clause}"
+                result = await session.execute(text(query))
                 blocks = result.fetchall()
                 # Get column names from the result
                 column_names = list(result.keys())
