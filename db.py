@@ -16,7 +16,8 @@ Base = declarative_base()
 
 CURRENT_BLOCKS_SQL = """
 select
-   b.*
+    g.tag as group_tag,
+    b.*
  FROM
    groups g
    join blocks b on b.group_id = g.id
