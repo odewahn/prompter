@@ -186,3 +186,9 @@ async def handle_blocks_command(args, command):
         )
 
     console.print(table)
+
+    # Use SQLAlchemy's inspection to get column names
+    from sqlalchemy.inspection import inspect
+    inspector = inspect(Block)
+    column_names = [column.name for column in inspector.columns]
+    console.print(f"Block table columns: {', '.join(column_names)}")
