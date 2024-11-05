@@ -151,9 +151,8 @@ class DatabaseManager:
                 # Get all blocks in the current block group
                 result = await session.execute(text(CURRENT_BLOCKS_SQL))
                 blocks = result.fetchall()
-
-                # Use SQLAlchemy's inspection to get column names
-                inspector = inspect(Block)
-                column_names = [column.name for column in inspector.columns]
+                
+                # Get column names from the result
+                column_names = result.keys()
 
                 return blocks, column_names
