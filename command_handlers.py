@@ -173,7 +173,9 @@ async def handle_blocks_command(args, command):
     blocks = await db_manager.get_current_blocks()
     # Use SQLAlchemy's inspection to get column names
     inspector = inspect(Block)
-    column_names = [column.name for column in inspector.columns]
+    # Specify the columns to display
+    display_columns = ["id", "tag", "content", "token_count"]
+    column_names = [column.name for column in inspector.columns if column.name in display_columns]
 
     table = Table(title="Current Blocks")
 
@@ -185,7 +187,10 @@ async def handle_blocks_command(args, command):
         # Create a row with the block's attributes
         row = [str(getattr(block, column_name)) for column_name in column_names]
         # Replace newlines in content preview
-        row[2] = row[2][:40].replace("\n", " ") + ("..." if len(row[2]) > 40 else "")
+        # Adjust content preview to handle newlines and limit length
+        if "content" in column_names:
+            content_index = column_names.index("content")
+            row[content_index] = row[content_index][:40].replace("\n", " ") + ("..." if len(row[content_index]) > 40 else "")
         table.add_row(*row)
 
     console.print(table)
