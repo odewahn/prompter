@@ -148,5 +148,11 @@ class DatabaseManager:
         async with self.SessionLocal() as session:
             async with session.begin():
                 # Get all blocks in the current block group
-                blocks = await session.execute(text(CURRENT_BLOCKS_SQL))
-                return blocks.fetchall()
+                result = await session.execute(text(CURRENT_BLOCKS_SQL))
+                blocks = result.fetchall()
+
+                # Use SQLAlchemy's inspection to get column names
+                inspector = inspect(Block)
+                column_names = [column.name for column in inspector.columns]
+
+                return blocks, column_names
