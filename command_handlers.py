@@ -19,6 +19,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from transformations import apply_transformation
     import json
     from rich.table import Table
+    from sqlalchemy.inspection import inspect
 
 db_manager = None
 current_db_url = None
@@ -188,7 +189,7 @@ async def handle_blocks_command(args, command):
     console.print(table)
 
     # Use SQLAlchemy's inspection to get column names
-    from sqlalchemy.inspection import inspect
+
     inspector = inspect(Block)
     column_names = [column.name for column in inspector.columns]
     console.print(f"Block table columns: {', '.join(column_names)}")
