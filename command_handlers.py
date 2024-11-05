@@ -6,7 +6,7 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
-    from db import DatabaseManager
+    from db import DatabaseManager, Block
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
