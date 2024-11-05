@@ -181,7 +181,7 @@ async def handle_blocks_command(args, command):
         table.add_row(
             str(block.id),
             block.tag,
-            block.content[:40] + ("..." if len(block.content) > 40 else ""),
+            block.content[:40].replace("\n", " ") + "...",
             str(block.token_count),
         )
 
