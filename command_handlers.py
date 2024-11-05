@@ -171,25 +171,21 @@ async def handle_transform_command(args, command):
 async def handle_blocks_command(args, command):
 
     blocks = await db_manager.get_current_blocks()
-    table = Table(title="Current Blocks")
-
-    table.add_column("ID", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Tag", style="magenta")
-    table.add_column("Content Preview", style="green")
-    table.add_column("Token Count", justify="right", style="yellow")
-
-    for block in blocks:
-        table.add_row(
-            str(block.id),
-            block.tag,
-            block.content[:40].replace("\n", " ") + "...",
-            str(block.token_count),
-        )
-
-    console.print(table)
-
     # Use SQLAlchemy's inspection to get column names
-
     inspector = inspect(Block)
     column_names = [column.name for column in inspector.columns]
-    console.print(f"Block table columns: {', '.join(column_names)}")
+
+    table = Table(title="Current Blocks")
+
+    # Add columns to the table using introspected column names
+    for column_name in column_names:
+        table.add_column(column_name.capitalize(), style="magenta")
+
+    for block in blocks:
+        # Create a row with the block's attributes
+        row = [str(getattr(block, column_name)) for column_name in column_names]
+        # Replace newlines in content preview
+        row[2] = row[2][:40].replace("\n", " ") + ("..." if len(row[2]) > 40 else "")
+        table.add_row(*row)
+
+    console.print(table)
