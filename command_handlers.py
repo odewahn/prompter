@@ -18,6 +18,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from constants import *
     from transformations import apply_transformation
     import json
+    from rich.table import Table
 
 db_manager = None
 current_db_url = None
@@ -167,7 +168,6 @@ async def handle_transform_command(args, command):
 
 
 async def handle_blocks_command(args, command):
-    from rich.table import Table
 
     blocks = await db_manager.get_current_blocks()
     table = Table(title="Current Blocks")
