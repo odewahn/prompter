@@ -167,6 +167,22 @@ async def handle_transform_command(args, command):
 
 
 async def handle_blocks_command(args, command):
+    from rich.table import Table
+
     blocks = await db_manager.get_current_blocks()
+    table = Table(title="Current Blocks")
+
+    table.add_column("ID", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Tag", style="magenta")
+    table.add_column("Content Preview", style="green")
+    table.add_column("Token Count", justify="right", style="yellow")
+
     for block in blocks:
-        print(block.tag, " -> ", block.content[:20])
+        table.add_row(
+            str(block.id),
+            block.tag,
+            block.content[:40] + ("..." if len(block.content) > 40 else ""),
+            str(block.token_count),
+        )
+
+    console.print(table)
