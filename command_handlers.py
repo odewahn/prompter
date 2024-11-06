@@ -205,12 +205,23 @@ async def handle_cd_command(args, command):
 
 async def handle_ls_command(args, command):
     try:
+        import os
+        import pwd
+        import grp
+        import stat
+        from datetime import datetime
+
         entries = os.listdir(".")
         console.print("Files and directories in the current directory:")
         for entry in entries:
-            if os.path.isdir(entry):
-                console.print(f"📁 {entry}")
-            else:
-                console.print(f"📄 {entry}")
+            entry_stat = os.stat(entry)
+            permissions = stat.filemode(entry_stat.st_mode)
+            n_links = entry_stat.st_nlink
+            owner = pwd.getpwuid(entry_stat.st_uid).pw_name
+            group = grp.getgrgid(entry_stat.st_gid).gr_name
+            size = entry_stat.st_size
+            mtime = datetime.fromtimestamp(entry_stat.st_mtime).strftime("%Y-%m-%d %H:%M")
+            entry_type = "📁" if os.path.isdir(entry) else "📄"
+            console.print(f"{permissions} {n_links} {owner} {group} {size} {mtime} {entry_type} {entry}")
     except Exception as e:
         console.log(f"[red]Failed to list directories: {e}[/red]")
