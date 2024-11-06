@@ -140,15 +140,6 @@ async def handle_version_command(args, command):
 
 async def handle_transform_command(args, command):
     blocks = await db_manager.get_current_blocks()
-    # new_block = None
-    # for block in blocks:
-    #    new_block = block.content
-    #    for transformation in args.transformation:
-    #        new_block = apply_transformation(
-    #            transformation, new_block, **args_to_kwargs(args)
-    #        )
-    #    print(json.dumps(new_block, indent=4))
-    # Fetch and print current blocks
     G = {"tag": args.tag, "command": command}
     B = []
     try:
