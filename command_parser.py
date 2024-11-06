@@ -64,7 +64,7 @@ def create_parser():
         "blocks",
         "List all blocks",
         [
-            ("--where", {"help": "Where clause for the blocks", "required": False}),
+            ("--where", {"help": "Where clause for the blocks", "required": False, "type": str}),
         ],
     )
 
