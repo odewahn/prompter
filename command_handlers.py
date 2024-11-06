@@ -213,6 +213,18 @@ async def handle_ls_command(args, command):
 
         entries = os.listdir(".")
         console.print("Files and directories in the current directory:")
+        # Define fixed widths for each column
+        col_widths = {
+            "permissions": 10,
+            "n_links": 3,
+            "owner": 8,
+            "group": 8,
+            "size": 10,
+            "mtime": 16,
+            "entry_type": 2,
+            "entry": 20,
+        }
+
         for entry in entries:
             entry_stat = os.stat(entry)
             permissions = stat.filemode(entry_stat.st_mode)
@@ -222,6 +234,15 @@ async def handle_ls_command(args, command):
             size = entry_stat.st_size
             mtime = datetime.fromtimestamp(entry_stat.st_mtime).strftime("%Y-%m-%d %H:%M")
             entry_type = "📁" if os.path.isdir(entry) else "📄"
-            console.print(f"{permissions} {n_links} {owner} {group} {size} {mtime} {entry_type} {entry}")
+            console.print(
+                f"{permissions:<{col_widths['permissions']}} "
+                f"{n_links:<{col_widths['n_links']}} "
+                f"{owner:<{col_widths['owner']}} "
+                f"{group:<{col_widths['group']}} "
+                f"{size:<{col_widths['size']}} "
+                f"{mtime:<{col_widths['mtime']}} "
+                f"{entry_type:<{col_widths['entry_type']}} "
+                f"{entry:<{col_widths['entry']}}"
+            )
     except Exception as e:
         console.log(f"[red]Failed to list directories: {e}[/red]")
