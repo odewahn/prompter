@@ -38,7 +38,14 @@ class ExitREPLException(Exception):
     pass
 
 
-# ******************************************************************************
+async def handle_cd_command(args, command):
+    path = os.path.expanduser(args.path)
+    try:
+        os.chdir(path)
+        console.log(f"Changed directory to: {os.getcwd()}")
+    except Exception as e:
+        console.log(f"[red]Failed to change directory: {e}[/red]")
+
 # Utility function to convert argparse args to kwargs for transformations
 # ******************************************************************************
 
@@ -51,6 +58,7 @@ async def handle_command(args, command):
         "version": handle_version_command,
         "transform": handle_transform_command,
         "blocks": handle_blocks_command,
+        "cd": handle_cd_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
