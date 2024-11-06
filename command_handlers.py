@@ -170,10 +170,15 @@ async def handle_transform_command(args, command):
 
 async def handle_blocks_command(args, command):
 
-    blocks, column_names = await db_manager.get_current_blocks()
+    print(args)
+    try:
+        blocks, column_names = await db_manager.get_current_blocks(args.where)
+    except Exception as e:
+        print(f"[red]{e}")
+        return
 
     # Specify the columns to display
-    display_columns = ["group_tag", "id", "tag", "content", "token_count"]
+    display_columns = ["group_tag", "block_id", "block_tag", "content", "token_count"]
 
     table = Table(title="Current Blocks")
 

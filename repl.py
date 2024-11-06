@@ -14,6 +14,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from art import text2art
     from constants import *
     import os
+    from shlex import split as shlex_split
 
 
 async def interactive_repl():
@@ -30,7 +31,7 @@ async def interactive_repl():
         try:
             command = await session.prompt_async("prompter> ")
             try:
-                args = parser.parse_args(command.split())
+                args = parser.parse_args(shlex_split(command))
                 await handle_command(args, command)
             except SystemExit:
                 print("Invalid command or arguments.")

@@ -18,14 +18,17 @@ Base = declarative_base()
 CURRENT_BLOCKS_SQL = """
 select
     g.tag as group_tag,
-    b.*
+    b.id as block_id,
+    b.tag as block_tag,
+    b.position,
+    b.created_at,
+    b.content,
+    b.token_count
  FROM
    groups g
    join blocks b on b.group_id = g.id
  WHERE
     g.is_current = 1
-order by
-   b.position
 """
 
 
@@ -152,6 +155,7 @@ class DatabaseManager:
                 query = CURRENT_BLOCKS_SQL
                 if where_clause:
                     query += f" AND {where_clause}"
+                query += " ORDER BY b.position"
                 result = await session.execute(text(query))
                 blocks = result.fetchall()
                 # Get column names from the result

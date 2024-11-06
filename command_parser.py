@@ -13,7 +13,9 @@ def create_parser():
     parser = argparse.ArgumentParser(description="Prompter repl")
 
     parser.add_argument("--tag", help="Tag to use for the group", required=False)
-    # parser.add_argument("--where", help="Where clause for the query", required=False)
+    parser.add_argument(
+        "--where", help="Where clause for the query", required=False, type=str
+    )
 
     subparsers = parser.add_subparsers(dest="command")
 
@@ -64,7 +66,10 @@ def create_parser():
         "blocks",
         "List all blocks",
         [
-            ("--where", {"help": "Where clause for the blocks", "required": False, "type": str}),
+            (
+                "--where",
+                {"help": "Where clause for the blocks", "required": False, "type": str},
+            ),
         ],
     )
 
