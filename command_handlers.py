@@ -46,7 +46,15 @@ async def handle_cd_command(args, command):
     except Exception as e:
         console.log(f"[red]Failed to change directory: {e}[/red]")
 
-# Utility function to convert argparse args to kwargs for transformations
+async def handle_ls_command(args, command):
+    try:
+        directories = [d for d in os.listdir('.') if os.path.isdir(d)]
+        console.print("Directories in the current directory:")
+        for directory in directories:
+            console.print(f"- {directory}")
+    except Exception as e:
+        console.log(f"[red]Failed to list directories: {e}[/red]")
+
 # ******************************************************************************
 
 
@@ -59,6 +67,7 @@ async def handle_command(args, command):
         "transform": handle_transform_command,
         "blocks": handle_blocks_command,
         "cd": handle_cd_command,
+        "ls": handle_ls_command,
     }
     handler = command_handlers.get(args.command)
     if handler:

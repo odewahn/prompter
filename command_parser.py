@@ -81,4 +81,6 @@ def create_parser():
         ],
     )
 
+    add_subparser("ls", "List directories in the current directory", [])
+
     return parser
