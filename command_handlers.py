@@ -208,6 +208,9 @@ async def handle_ls_command(args, command):
         entries = os.listdir(".")
         console.print("Files and directories in the current directory:")
         for entry in entries:
-            console.print(f"- {entry}")
+            if os.path.isdir(entry):
+                console.print(f"📁 {entry}")
+            else:
+                console.print(f"📄 {entry}")
     except Exception as e:
         console.log(f"[red]Failed to list directories: {e}[/red]")
