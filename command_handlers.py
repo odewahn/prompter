@@ -48,10 +48,10 @@ async def handle_cd_command(args, command):
 
 async def handle_ls_command(args, command):
     try:
-        directories = [d for d in os.listdir('.') if os.path.isdir(d)]
-        console.print("Directories in the current directory:")
-        for directory in directories:
-            console.print(f"- {directory}")
+        entries = os.listdir('.')
+        console.print("Files and directories in the current directory:")
+        for entry in entries:
+            console.print(f"- {entry}")
     except Exception as e:
         console.log(f"[red]Failed to list directories: {e}[/red]")
 
