@@ -73,4 +73,12 @@ def create_parser():
         ],
     )
 
+    add_subparser(
+        "cd",
+        "Change the working directory",
+        [
+            ("path", {"type": str, "help": "Path to change to"}),
+        ],
+    )
+
     return parser
