@@ -38,23 +38,6 @@ class ExitREPLException(Exception):
     pass
 
 
-async def handle_cd_command(args, command):
-    path = os.path.expanduser(args.path)
-    try:
-        os.chdir(path)
-        console.log(f"Changed directory to: {os.getcwd()}")
-    except Exception as e:
-        console.log(f"[red]Failed to change directory: {e}[/red]")
-
-async def handle_ls_command(args, command):
-    try:
-        entries = os.listdir('.')
-        console.print("Files and directories in the current directory:")
-        for entry in entries:
-            console.print(f"- {entry}")
-    except Exception as e:
-        console.log(f"[red]Failed to list directories: {e}[/red]")
-
 # ******************************************************************************
 
 
@@ -209,3 +192,22 @@ async def handle_blocks_command(args, command):
     console.print(table)
     console.print(f"Total blocks: {len(blocks)}")
     console.print(f"Column names: {column_names}")
+
+
+async def handle_cd_command(args, command):
+    path = os.path.expanduser(args.path)
+    try:
+        os.chdir(path)
+        console.log(f"Changed directory to: {os.getcwd()}")
+    except Exception as e:
+        console.log(f"[red]Failed to change directory: {e}[/red]")
+
+
+async def handle_ls_command(args, command):
+    try:
+        entries = os.listdir(".")
+        console.print("Files and directories in the current directory:")
+        for entry in entries:
+            console.print(f"- {entry}")
+    except Exception as e:
+        console.log(f"[red]Failed to list directories: {e}[/red]")
