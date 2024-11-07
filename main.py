@@ -21,6 +21,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from command_handlers import init_db_manager as init_repl_db_manager
     import logging
     from constants import DEFAULT_DB_URL
+    import os
 
 
 # Configure logging
@@ -73,4 +74,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    os.chdir("/Users/odewahn/Desktop/cat-essay")
     asyncio.run(main())

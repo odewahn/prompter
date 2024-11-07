@@ -20,10 +20,10 @@ select
     g.tag as group_tag,
     b.id as block_id,
     b.tag as block_tag,
-    b.position,
-    b.created_at,
-    b.content,
-    b.token_count
+    b.position as position,
+    b.created_at as created_at,
+    b.content as content,
+    b.token_count as token_count
  FROM
    groups g
    join blocks b on b.group_id = g.id
@@ -158,6 +158,8 @@ class DatabaseManager:
                 query += " ORDER BY b.position"
                 result = await session.execute(text(query))
                 blocks = result.fetchall()
+
+                dict_blocks = [block._asdict() for block in blocks]
                 # Get column names from the result
                 column_names = list(result.keys())
-                return blocks, column_names
+                return dict_blocks, column_names

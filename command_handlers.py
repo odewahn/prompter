@@ -21,6 +21,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from rich.table import Table
     from sqlalchemy.inspection import inspect
 
+
 db_manager = None
 current_db_url = None
 
@@ -139,54 +140,56 @@ async def handle_version_command(args, command):
 
 
 async def handle_transform_command(args, command):
-    blocks = await db_manager.get_current_blocks()
-    G = {"tag": args.tag, "command": command}
+    try:
+        blocks, column_names = await db_manager.get_current_blocks(None)
+    except Exception as e:
+        print(f"[red]{e}")
+        return
+
+    G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
     B = []
     try:
         for block in blocks:
-            new_block = block.content
+            new_block = block["content"]
             for transformation in args.transformation:
                 new_block = apply_transformation(
                     transformation, new_block, **args_to_kwargs(args)
                 )
             # if new_block is a string, then append it to the list.  If it is a list, then extend the list
             if isinstance(new_block, str):
-                B.append({"content": new_block, "tag": block.tag})
+                B.append({"content": new_block, "tag": block["block_tag"]})
             else:
-                B.extend([{"content": b, "tag": block.tag} for b in new_block])
+                B.extend([{"content": b, "tag": block["block_tag"]} for b in new_block])
         await db_manager.add_group_with_blocks(G, B)
+        console.log(f"New group {G['tag']} created with {len(B)} blocks.")
     except Exception as e:
         print(f"[red]{e}")
 
 
 async def handle_blocks_command(args, command):
+    display_columns = ["group_tag", "block_id", "block_tag", "content", "token_count"]
 
-    print(args)
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
         print(f"[red]{e}")
         return
 
-    # Specify the columns to display
-    display_columns = ["group_tag", "block_id", "block_tag", "content", "token_count"]
-
     table = Table(title="Current Blocks")
 
-    # Add columns to the table using introspected column names
-    for column_name in display_columns:
-        table.add_column(column_name, style="magenta")
+    # Add columns to the table using column names we want to display
+    for c in display_columns:
+        table.add_column(c, style="magenta")
 
+    # Add rows to the table
     for block in blocks:
-        # Create a row with the block's attributes
-        row = [str(getattr(block, column_name)) for column_name in display_columns]
-        # Replace newlines in content preview
-        # Adjust content preview to handle newlines and limit length
-        if "content" in display_columns:
-            content_index = display_columns.index("content")
-            row[content_index] = row[content_index][:40].replace("\n", " ") + (
-                "..." if len(row[content_index]) > 40 else ""
-            )
+        row = []
+        for c in display_columns:
+            if c == "content":
+                row.append(block[c][:40].replace("\n", " ") + "...")  # Truncate content
+            else:
+                row.append(str(block[c]))
+
         table.add_row(*row)
 
     console.print(table)
@@ -232,7 +235,9 @@ async def handle_ls_command(args, command):
             owner = pwd.getpwuid(entry_stat.st_uid).pw_name
             group = grp.getgrgid(entry_stat.st_gid).gr_name
             size = entry_stat.st_size
-            mtime = datetime.fromtimestamp(entry_stat.st_mtime).strftime("%Y-%m-%d %H:%M")
+            mtime = datetime.fromtimestamp(entry_stat.st_mtime).strftime(
+                "%Y-%m-%d %H:%M"
+            )
             entry_type = "📁" if os.path.isdir(entry) else "📄"
             console.print(
                 f"{permissions:<{col_widths['permissions']}} "
