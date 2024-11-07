@@ -10,3 +10,4 @@ ebooklib
 markdownify
 markdown
 bs4
+jinja2

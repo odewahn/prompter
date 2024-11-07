@@ -51,6 +51,10 @@ def create_parser():
             ("transformation", {"nargs": "+", "help": "Transformations to apply"}),
             ("--tag", {"help": "Tag to use for the group", "required": False}),
             (
+                "--where",
+                {"help": "Where clause for the blocks", "required": False, "type": str},
+            ),
+            (
                 "--N",
                 {
                     "type": int,

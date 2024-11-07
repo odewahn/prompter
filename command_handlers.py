@@ -141,7 +141,7 @@ async def handle_version_command(args, command):
 
 async def handle_transform_command(args, command):
     try:
-        blocks, column_names = await db_manager.get_current_blocks(None)
+        blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
         print(f"[red]{e}")
         return
