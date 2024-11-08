@@ -6,20 +6,21 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
-    from db import DatabaseManager, Block
+    from db import DatabaseManager
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
     import warnings
-    import sys
     import glob
     import uuid
     from rich import print
     from constants import *
     from transformations import apply_transformation
-    import json
     from rich.table import Table
-    from sqlalchemy.inspection import inspect
+    import aiohttp
+    from jinja2 import Template
+    from shlex import split as shlex_split
+    from command_parser import create_parser
 
 
 db_manager = None
@@ -52,12 +53,13 @@ async def handle_command(args, command):
         "blocks": handle_blocks_command,
         "cd": handle_cd_command,
         "ls": handle_ls_command,
+        "run": handle_run_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
         await handler(args, command)
     else:
-        print(f"Unknown command: {args.command}")
+        raise Exception(f"Unknown command: {args.command}")
 
 
 # ******************************************************************************
@@ -80,12 +82,36 @@ def generate_random_tag():
     return f"{part_one_mapped_to_letters}-{x[3:]}"
 
 
+async def load_file_or_url(fn):
+    if fn.startswith("http"):
+        # Use aiohttp to download the file
+        async with aiohttp.ClientSession() as session:
+            async with session.get(fn) as response:
+                if response.status == 200:
+                    return await response.text()
+                else:
+                    raise Exception(
+                        f"Failed to download file: {fn} ({response.status})"
+                    )
+    else:
+        try:
+            with open(os.path.expanduser(fn), "r") as f:
+                return f.read()
+        except Exception as e:
+            raise Exception(f"Failed to load file: {fn} because {e}")
+
+
 # ******************************************************************************
 # Functions related to loading files
 # ******************************************************************************
 async def load_files(files, tag, command):
+    if not files:
+        raise Exception("File(s) not found.")
     group_id = await db_manager.add_group(tag, command)
     for file in files:
+        # If the text file does not exist then throw an error
+        if not os.path.exists(file):
+            raise Exception(f"File os.path.exists(file)not found: {file}")
         if file.endswith(".epub"):
             await _load_epub(file, group_id)
         else:
@@ -102,10 +128,43 @@ async def _load_epub(file, group_id):
 
 
 async def _load_text_file(file, group_id):
-    console.log(f"Loading text file: {file}")
+    # Read the content of the file and add it as a block
     with open(file, "r") as f:
         content = f.read()
         await db_manager.add_block(group_id, content, os.path.basename(file))
+
+
+# ******************************************************************************
+# Functions related to running a series of commands from a file
+# ******************************************************************************
+
+
+async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
+    # Load the file
+    try:
+        content = await load_file_or_url(fn)
+    except Exception as e:
+        print(f"[red]{e}")
+        return
+    # Parse the content into instructions
+    print("Raw content:\n", content)
+    #
+    template = Template(content)
+    instructions = template.render(**metadata)
+    # Remove any blank lines from the instructions and return as a list
+    commands = [line for line in instructions.split("\n") if line.strip()]
+    # process each command
+    parser = create_parser()
+    for command in commands:
+        print(command)
+        # Skip comments
+        if command.startswith("#"):
+            continue
+        try:
+            args = parser.parse_args(shlex_split(command))
+            await handle_command(args, command)
+        except SystemExit:
+            raise Exception("Invalid command. Halting execution.")
 
 
 # ******************************************************************************
@@ -126,7 +185,12 @@ async def handle_load_command(args, command):
     for file_pattern in args.files:
         files.extend(glob.glob(file_pattern))
     tag = args.tag or generate_random_tag()
-    await load_files(files, tag, command)
+    try:
+        await load_files(files, tag, command)
+        console.log(f"Loaded {len(files)} files into group {tag}")
+    except Exception as e:
+        print(f"[red]{e}")
+        raise
 
 
 async def handle_exit_command(args, command):
@@ -164,6 +228,7 @@ async def handle_transform_command(args, command):
         console.log(f"New group {G['tag']} created with {len(B)} blocks.")
     except Exception as e:
         print(f"[red]{e}")
+        raise
 
 
 async def handle_blocks_command(args, command):
@@ -173,7 +238,7 @@ async def handle_blocks_command(args, command):
         blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
         print(f"[red]{e}")
-        return
+        raise
 
     table = Table(title="Current Blocks")
 
@@ -204,6 +269,7 @@ async def handle_cd_command(args, command):
         console.log(f"Changed directory to: {os.getcwd()}")
     except Exception as e:
         console.log(f"[red]Failed to change directory: {e}[/red]")
+        raise
 
 
 async def handle_ls_command(args, command):
@@ -251,3 +317,11 @@ async def handle_ls_command(args, command):
             )
     except Exception as e:
         console.log(f"[red]Failed to list directories: {e}[/red]")
+
+
+async def handle_run_command(args, command):
+    console.log(f"Running file: {args.fn}")
+    try:
+        await interpret(args.fn)
+    except Exception as e:
+        console.print(f"[red]{e}[/red]")
