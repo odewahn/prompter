@@ -6,6 +6,7 @@ uvicorn
 fastapi
 sqlalchemy 
 aiosqlite
+aiohttp
 ebooklib
 markdownify
 markdown

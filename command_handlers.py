@@ -106,7 +106,7 @@ async def load_file_or_url(fn):
 # ******************************************************************************
 async def load_files(files, tag, command):
     if not files:
-        raise Exception("File(s) not found.")
+        raise Exception(f"File(s) not found")
     group_id = await db_manager.add_group(tag, command)
     for file in files:
         # If the text file does not exist then throw an error
@@ -161,7 +161,12 @@ async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
         if command.startswith("#"):
             continue
         args = parser.parse_args(shlex_split(command))
-        await handle_command(args, command)
+        try:
+            await handle_command(args, command)
+        except Exception as e:
+            print(f"[red]Command:\n    {command}\nreturned the error \n   {e}[/red]")
+            print(f"[red]Halting execution of {fn}[/red]")
+            break
 
 
 # ******************************************************************************
@@ -221,7 +226,6 @@ async def handle_transform_command(args, command):
         console.log(f"New group {G['tag']} created with {len(B)} blocks.")
     except Exception as e:
         print(f"[red]{e}")
-        raise
 
 
 async def handle_blocks_command(args, command):
@@ -231,7 +235,7 @@ async def handle_blocks_command(args, command):
         blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
         print(f"[red]{e}")
-        raise
+        return
 
     table = Table(title="Current Blocks")
 
@@ -262,7 +266,6 @@ async def handle_cd_command(args, command):
         console.log(f"Changed directory to: {os.getcwd()}")
     except Exception as e:
         console.log(f"[red]Failed to change directory: {e}[/red]")
-        raise
 
 
 async def handle_ls_command(args, command):

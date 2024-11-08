@@ -87,4 +87,12 @@ def create_parser():
 
     add_subparser("ls", "List directories in the current directory", [])
 
+    add_subparser(
+        "run",
+        "Run a file",
+        [
+            ("fn", {"type": str, "help": "File or URL to run"}),
+        ],
+    )
+
     return parser
