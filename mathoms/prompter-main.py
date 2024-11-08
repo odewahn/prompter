@@ -950,6 +950,7 @@ async def process_command():
 
 # accepts a command
 async def run():
+    global args
     commands = load_user_file(args.fn)
     # Load the metadata
     metadata = {}
