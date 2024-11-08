@@ -1011,7 +1011,7 @@ async def main():
                 print("Skipping comment")
                 continue
             if argString == "exit":
-                break
+                raise ExitREPLException()
             try:
                 args = define_arguments(argString)
                 if args.action == "run":
