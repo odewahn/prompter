@@ -160,11 +160,8 @@ async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
         # Skip comments
         if command.startswith("#"):
             continue
-        try:
-            args = parser.parse_args(shlex_split(command))
-            await handle_command(args, command)
-        except SystemExit:
-            raise Exception("Invalid command. Halting execution.")
+        args = parser.parse_args(shlex_split(command))
+        await handle_command(args, command)
 
 
 # ******************************************************************************
@@ -185,12 +182,8 @@ async def handle_load_command(args, command):
     for file_pattern in args.files:
         files.extend(glob.glob(file_pattern))
     tag = args.tag or generate_random_tag()
-    try:
-        await load_files(files, tag, command)
-        console.log(f"Loaded {len(files)} files into group {tag}")
-    except Exception as e:
-        print(f"[red]{e}")
-        raise
+    await load_files(files, tag, command)
+    console.log(f"Loaded {len(files)} files into group {tag}")
 
 
 async def handle_exit_command(args, command):
