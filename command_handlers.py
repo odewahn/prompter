@@ -12,15 +12,15 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import os
     import warnings
     import glob
-    import uuid
     from rich import print
     from constants import *
     from transformations import apply_transformation
     from rich.table import Table
-    import aiohttp
     from jinja2 import Template
     from shlex import split as shlex_split
     from command_parser import create_parser
+    from openai_completer import complete
+    from common import *
 
 
 db_manager = None
@@ -54,51 +54,13 @@ async def handle_command(args, command):
         "cd": handle_cd_command,
         "ls": handle_ls_command,
         "run": handle_run_command,
+        "complete": handle_complete_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
         await handler(args, command)
     else:
         raise Exception(f"Unknown command: {args.command}")
-
-
-# ******************************************************************************
-# Utility functions
-# ******************************************************************************
-def args_to_kwargs(args):
-    kwargs = {}
-    for arg in vars(args):
-        kwargs[arg] = getattr(args, arg)
-    return kwargs
-
-
-def generate_random_tag():
-    # Return a random identifier in the format "ABC-123"
-    # The goal is for the identifier to be easy to remember and type
-    map = "ABCEFGHXYZ"
-    x = str(hash(uuid.uuid1()) % 1000000).zfill(6)
-    # Map the first 3 digits to letters
-    part_one_mapped_to_letters = "".join(map[int(i)] for i in x[:3])
-    return f"{part_one_mapped_to_letters}-{x[3:]}"
-
-
-async def load_file_or_url(fn):
-    if fn.startswith("http"):
-        # Use aiohttp to download the file
-        async with aiohttp.ClientSession() as session:
-            async with session.get(fn) as response:
-                if response.status == 200:
-                    return await response.text()
-                else:
-                    raise Exception(
-                        f"Failed to download file: {fn} ({response.status})"
-                    )
-    else:
-        try:
-            with open(os.path.expanduser(fn), "r") as f:
-                return f.read()
-        except Exception as e:
-            raise Exception(f"Failed to load file: {fn} because {e}")
 
 
 # ******************************************************************************
@@ -321,3 +283,23 @@ async def handle_run_command(args, command):
         await interpret(args.fn)
     except Exception as e:
         console.print(f"[red]{e}[/red]")
+
+
+async def handle_complete_command(args, command):
+    print(args)
+    if not args.task:
+        raise Exception(
+            "You must use --task option to supply the filename or URL of a task to complete"
+        )
+    current_blocks, _ = await db_manager.get_current_blocks(args.where)
+    if not current_blocks:
+        raise Exception("No blocks found to complete")
+    completed_blocks = complete(
+        current_blocks,
+        args.task,
+        args.persona,
+        args.metadata,
+        model=args.model,
+        temperature=args.temperature,
+    )
+    pass

@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 import yaml
 from prompt_toolkit import PromptSession
 import asyncio
-from openai import AsyncOpenAI
+from openai_completer import AsyncOpenAI
 from groq import AsyncGroq
-import openai
+import openai_completer
 from groq import Groq
 from pydub import AudioSegment
 
@@ -139,8 +139,8 @@ def openai_models(args):
     # Load the config file
     config = load_config()
     # Check if the API key is set
-    openai.api_key = config["openai"]
-    models = openai.Model.list()
+    openai_completer.api_key = config["openai"]
+    models = openai_completer.Model.list()
     out = [model.id for model in models.data]
     return sorted(out)
 

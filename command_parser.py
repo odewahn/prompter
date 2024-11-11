@@ -7,10 +7,30 @@ console = Console()
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
     import argparse
+    from constants import *
+
+
+class ArgumentParserError(Exception):
+    pass
+
+
+# This class is used to throw an exception when an error occurs
+# in the argument parser. It is used to prevent the program from
+# exiting when an error occurs in the argument parser.
+class ThrowingArgumentParser(argparse.ArgumentParser):
+
+    def exit(self, status=0, message=None):
+        if message:
+            raise ArgumentParserError(message)
+
+    def error(self, message):
+        raise ArgumentParserError(message)
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description="Prompter repl")
+    # parser = argparse.ArgumentParser(description="Prompter repl", exit_on_error=False)
+
+    parser = ThrowingArgumentParser(exit_on_error=False)
 
     parser.add_argument("--tag", help="Tag to use for the group", required=False)
     parser.add_argument(
@@ -92,6 +112,41 @@ def create_parser():
         "Run a file",
         [
             ("fn", {"type": str, "help": "File or URL to run"}),
+        ],
+    )
+
+    add_subparser(
+        "complete",
+        "Complete a block using openai",
+        [
+            ("--task", {"help": "Filename of the task template"}),
+            ("--tag", {"help": "Tag to use for the group", "required": False}),
+            (
+                "--persona",
+                {"help": "Filename of the persona template", "required": False},
+            ),
+            (
+                "--metadata",
+                {
+                    "help": "Metadata file",
+                    "default": DEFAULT_METADATA_FN,
+                },
+            ),
+            (
+                "--model",
+                {
+                    "help": "Model to use",
+                    "default": OPENAI_DEFAULT_MODEL,
+                },
+            ),
+            (
+                "--temperature",
+                {
+                    "type": float,
+                    "help": "Temperature to use",
+                    "default": OPENAI_DEFAULT_TEMPERATURE,
+                },
+            ),
         ],
     )
 

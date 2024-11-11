@@ -15,6 +15,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from constants import *
     import os
     from shlex import split as shlex_split
+    from argparse import ArgumentError
 
 
 async def interactive_repl():
@@ -25,13 +26,15 @@ async def interactive_repl():
     print(f"Prompter version {VERSION}")
     # is os.environ["OPENAI_API_KEY"] is not set then print a warning
     if "OPENAI_API_KEY" not in os.environ:
-        print(OPENAI_KEY_NOT_SET)
+        print(MESSAGE_OPENAI_KEY_NOT_SET)
 
     while True:
         try:
             command = await session.prompt_async("prompter> ")
             args = parser.parse_args(shlex_split(command))
             await handle_command(args, command)
+        except ArgumentError:
+            print("Invalid command")
         except ExitREPLException:
             raise
         except (EOFError, KeyboardInterrupt):
