@@ -119,7 +119,7 @@ def create_parser():
         "complete",
         "Complete a block using openai",
         [
-            ("--task", {"help": "Filename of the task template"}),
+            ("task", {"help": "Filename of the task template"}),
             ("--tag", {"help": "Tag to use for the group", "required": False}),
             (
                 "--persona",
@@ -146,6 +146,10 @@ def create_parser():
                     "help": "Temperature to use",
                     "default": OPENAI_DEFAULT_TEMPERATURE,
                 },
+            ),
+            (
+                "--where",
+                {"help": "Where clause for the blocks", "required": False, "type": str},
             ),
         ],
     )

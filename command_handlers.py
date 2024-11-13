@@ -288,18 +288,31 @@ async def handle_run_command(args, command):
 async def handle_complete_command(args, command):
     print(args)
     if not args.task:
-        raise Exception(
-            "You must use --task option to supply the filename or URL of a task to complete"
-        )
+        raise Exception("You must supply the filename or URL of a task to complete")
     current_blocks, _ = await db_manager.get_current_blocks(args.where)
     if not current_blocks:
         raise Exception("No blocks found to complete")
-    completed_blocks = complete(
-        current_blocks,
-        args.task,
-        args.persona,
-        args.metadata,
-        model=args.model,
-        temperature=args.temperature,
-    )
-    pass
+
+    try:
+        completed_blocks = await complete(
+            current_blocks,
+            args.task,
+            args.persona,
+            args.metadata,
+            model=args.model,
+            temperature=args.temperature,
+        )
+        # Add the completed blocks to the database
+        G = {
+            "tag": args.tag if args.tag else generate_random_tag(),
+            "command": command,
+            "task_prompt": args.task,
+            "persona_prompt": args.persona,
+        }
+        B = []
+        for block in completed_blocks:
+            B.append({"content": block["completion"], "tag": block["block_tag"]})
+        await db_manager.add_group_with_blocks(G, B)
+        console.log(f"New group {G['tag']} created with {len(B)} blocks.")
+    except Exception as e:
+        raise Exception(f"Error completing blocks: {e}")

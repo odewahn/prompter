@@ -12,20 +12,31 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import asyncio
     from openai import AsyncOpenAI
     import openai
-    from common import load_file_or_url
+    from common import load_file_or_url, load_metadata
+    import jinja2
+    import json
+    from db import DatabaseManager
 
 
-async def openai_completion(client, data, task_text, persona_text, model, temperature):
+async def openai_completion(
+    client, block, task_template, persona_template, metadata, model, temperature
+):
+    block.update(metadata)  # merge the metadata with the block
+    task = task_template.render(**block)
+    messages = [
+        {"role": "user", "content": task},
+    ]
+    if persona_template:
+        persona = persona_template.render(**block)
+        messages.append({"role": "system", "content": persona})
+
     response = await client.chat.completions.create(
         model=model,
-        messages=[
-            {"role": "user", "content": task_text},
-            {"role": "system", "content": persona_text},
-        ],
+        messages=messages,
         temperature=temperature,
     )
     response_txt = str(response.choices[0].message.content)
-    return {**data, "completion": response_txt}
+    return {**block, "completion": response_txt}
 
 
 async def complete(
@@ -40,11 +51,42 @@ async def complete(
     if "OPENAI_API_KEY" not in os.environ:
         raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
 
-    # Now we're ready to go!
-    print("Requesting completions from OpenAI")
-    print("Number of blocks:", len(blocks))
-    print("task_fn:", task_fn)
-    print("persona_fn:", persona_fn)
-    print("metadata_fn:", metadata_fn)
-    print("model:", model)
-    print("Temperature:", temperature)
+    # Load the task and persona text
+    task_text = None
+    persona_text = None
+    metadata = {}
+    try:
+        task_text = await load_file_or_url(task_fn)
+        if persona_fn:
+            persona_text = await load_file_or_url(persona_fn)
+        if metadata_fn:
+            metadata = await load_metadata(metadata_fn)
+    except Exception as e:
+        raise e
+
+    # Set up jinja templates based on the task and persona text
+    task_template = jinja2.Template(task_text)
+    persona_template = None
+    if persona_text:
+        persona_template = jinja2.Template(persona_text)
+
+    client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    # Create a list of requests to send to the OpenAI API
+    requests = [
+        openai_completion(
+            client,
+            block,
+            task_template,
+            persona_template,
+            metadata,
+            model,
+            temperature,
+        )
+        for block in blocks
+    ]
+
+    # Send the requests to the OpenAI API
+    with console.status(f"[bold green]Completing {len(requests)} blocks ...") as status:
+        results = await asyncio.gather(*requests)
+
+    return results
