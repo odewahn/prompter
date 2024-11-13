@@ -31,6 +31,16 @@ select
     g.is_current = 1
 """
 
+GROUPS_SQL = """
+select
+    is_current as is_current,
+    tag as group_tag,
+    command as command,
+    (select count(*) from blocks where group_id = groups.id) as block_count
+from
+    groups
+"""
+
 
 class Group(Base):
     __tablename__ = "groups"
@@ -163,3 +173,31 @@ class DatabaseManager:
                 # Get column names from the result
                 column_names = list(result.keys())
                 return dict_blocks, column_names
+
+    async def get_groups(self):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                result = await session.execute(text(GROUPS_SQL))
+                groups = result.fetchall()
+                dict_groups = [group._asdict() for group in groups]
+                column_names = list(result.keys())
+                return dict_groups, column_names
+
+    async def set_current_group(self, tag):
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                # Test if the specified Group exists
+                group = await session.execute(
+                    text("SELECT tag FROM groups WHERE tag = :tag"), {"tag": tag}
+                )
+                if not group.scalar():
+                    raise Exception(f"Group with tag '{tag}' does not exist")
+                # Set is_current to False for all existing Groups
+                await session.execute(
+                    text("UPDATE groups SET is_current = False WHERE is_current = True")
+                )
+                # Set is_current to True for the specified Group
+                await session.execute(
+                    text("UPDATE groups SET is_current = True WHERE tag = :tag"),
+                    {"tag": tag},
+                )

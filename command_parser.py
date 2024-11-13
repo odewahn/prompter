@@ -98,6 +98,17 @@ def create_parser():
     )
 
     add_subparser(
+        "groups",
+        "List all groups",
+        [
+            (
+                "--where",
+                {"help": "Where clause for the group", "required": False, "type": str},
+            ),
+        ],
+    )
+
+    add_subparser(
         "cd",
         "Change the working directory",
         [
@@ -151,6 +162,14 @@ def create_parser():
                 "--where",
                 {"help": "Where clause for the blocks", "required": False, "type": str},
             ),
+        ],
+    )
+
+    add = add_subparser(
+        "checkout",
+        "Checkout a group",
+        [
+            ("tag", {"help": "Tag to use for the group"}),
         ],
     )
 

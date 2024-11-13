@@ -55,12 +55,14 @@ async def handle_command(args, command):
         "ls": handle_ls_command,
         "run": handle_run_command,
         "complete": handle_complete_command,
+        "groups": handle_groups_command,
+        "checkout": handle_set_group,
     }
     handler = command_handlers.get(args.command)
     if handler:
         await handler(args, command)
     else:
-        raise Exception(f"Unknown command: {args.command}")
+        raise Exception(f"Unknown commandz: {args.command}")
 
 
 # ******************************************************************************
@@ -221,6 +223,31 @@ async def handle_blocks_command(args, command):
     console.print(f"Column names: {column_names}")
 
 
+async def handle_groups_command(args, command):
+
+    try:
+        groups, column_names = await db_manager.get_groups()
+    except Exception as e:
+        print(f"[red]{e}")
+        return
+
+    table = Table(title="Groups")
+
+    # Add columns to the table using column names we want to display
+    for c in column_names:
+        table.add_column(c, style="magenta")
+
+    # Add rows to the table
+    for block in groups:
+        row = []
+        for c in column_names:
+            row.append(str(block[c]))
+        table.add_row(*row)
+
+    console.print(table)
+    console.print(f"Total groups: {len(groups)}")
+
+
 async def handle_cd_command(args, command):
     path = os.path.expanduser(args.path)
     try:
@@ -286,7 +313,6 @@ async def handle_run_command(args, command):
 
 
 async def handle_complete_command(args, command):
-    print(args)
     if not args.task:
         raise Exception("You must supply the filename or URL of a task to complete")
     current_blocks, _ = await db_manager.get_current_blocks(args.where)
@@ -316,3 +342,10 @@ async def handle_complete_command(args, command):
         console.log(f"New group {G['tag']} created with {len(B)} blocks.")
     except Exception as e:
         raise Exception(f"Error completing blocks: {e}")
+
+
+async def handle_set_group(args, command):
+    try:
+        await db_manager.set_current_group(args.tag)
+    except Exception as e:
+        raise Exception(f"Error setting group: {e}")

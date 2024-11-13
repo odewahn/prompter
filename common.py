@@ -27,7 +27,7 @@ def args_to_kwargs(args):
 def generate_random_tag():
     # Return a random identifier in the format "ABC-123"
     # The goal is for the identifier to be easy to remember and type
-    map = "ABCEFGHXYZ"
+    map = "abcdefgxyz"
     x = str(hash(uuid.uuid1()) % 1000000).zfill(6)
     # Map the first 3 digits to letters
     part_one_mapped_to_letters = "".join(map[int(i)] for i in x[:3])
