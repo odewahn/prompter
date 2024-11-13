@@ -31,15 +31,16 @@ async def interactive_repl():
     while True:
         try:
             command = await session.prompt_async("prompter> ")
-            args = parser.parse_args(shlex_split(command))
-            await handle_command(args, command)
-        except ArgumentError:
-            print("Invalid command")
-        except ExitREPLException:
-            raise
-        except (EOFError, KeyboardInterrupt):
-            break  # Exit the loop on Ctrl-C or Ctrl-D
-        except Exception as e:
-            console.log(
-                f"[red]Command:\n    {command}\nreturned the error \n   {e}[/red]"
-            )
+            try:
+                args = parser.parse_args(shlex_split(command))
+                await handle_command(args, command)
+            except ArgumentError:
+                print("Invalid command")
+            except ExitREPLException:
+                raise
+            except (EOFError, KeyboardInterrupt):
+                break  # Exit the loop on Ctrl-C or Ctrl-D
+            except Exception as e:
+                console.log(
+                    f"[red]Command:\n    {command}\nreturned the error \n   {e}[/red]"
+                )
