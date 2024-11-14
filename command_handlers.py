@@ -57,6 +57,7 @@ async def handle_command(args, command):
         "complete": handle_complete_command,
         "groups": handle_groups_command,
         "checkout": handle_set_group,
+        "squash": handle_squash_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -349,3 +350,12 @@ async def handle_set_group(args, command):
         await db_manager.set_current_group(args.tag)
     except Exception as e:
         raise Exception(f"Error setting group: {e}")
+
+
+async def handle_squash_command(args, command):
+    try:
+        blocks, headers = await db_manager.get_squashed_current_blocks(args.delimiter)
+        for b in blocks:
+            print(b["content"])
+    except Exception as e:
+        raise Exception(f"Error squashing blocks: {e}")

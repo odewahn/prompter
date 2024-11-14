@@ -41,6 +41,21 @@ from
     groups
 """
 
+SQUASHED_CURRENT_BLOCKS_SQL = """
+SELECT
+  b.tag as block_tag,
+  group_concat(content, :delimiter) as content
+FROM
+   groups g
+   join blocks b on b.group_id = g.id
+WHERE
+    g.is_current = 1
+group by
+  b.tag
+order by
+  b.position
+"""
+
 
 class Group(Base):
     __tablename__ = "groups"
@@ -48,7 +63,7 @@ class Group(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     is_current = Column(Boolean, default=False)
     command = Column(String)
-    tag = Column(String)
+    tag = Column(String, unique=True)
     task_prompt = Column(String)
     persona_prompt = Column(String)
     created_at = Column(DateTime, server_default=func.now())
@@ -201,3 +216,23 @@ class DatabaseManager:
                     text("UPDATE groups SET is_current = True WHERE tag = :tag"),
                     {"tag": tag},
                 )
+
+    async def get_squashed_current_blocks(self, delimiter):
+        print("delimiter", delimiter)
+        async with self.SessionLocal() as session:
+            async with session.begin():
+                result = await session.execute(
+                    text(SQUASHED_CURRENT_BLOCKS_SQL), {"delimiter": delimiter}
+                )
+                blocks = result.fetchall()
+                dict_blocks = [block._asdict() for block in blocks]
+                # Replace literals like \n and \t with actual newlines and tabs
+                for idx, block in enumerate(dict_blocks):
+                    dict_blocks[idx]["content"] = (
+                        dict_blocks[idx]["content"]
+                        .replace(r"\n", "\n")
+                        .replace(r"\t", "\t")
+                    )
+                column_names = list(result.keys())
+                print("dict_blocks", dict_blocks)
+                return dict_blocks, column_names

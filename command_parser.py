@@ -173,4 +173,10 @@ def create_parser():
         ],
     )
 
+    add = add_subparser(
+        "squash",
+        "Squash the current group into a new group by tag",
+        [("--delimiter", {"help": "Delimiter to use", "default": "\n"})],
+    )
+
     return parser
