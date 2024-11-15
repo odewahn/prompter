@@ -139,14 +139,16 @@ async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
 # ******************************************************************************
 # Implementations of the command handlers
 # ******************************************************************************
-
-
-async def handle_use_command(args, command):
-    new_db_url = f"sqlite+aiosqlite:///{args.db_name}.db"
+async def set_db(db_name):
+    new_db_url = f"sqlite+aiosqlite:///{db_name}"
     new_db_manager = DatabaseManager(new_db_url)
     await new_db_manager.initialize_db()
     init_db_manager(new_db_url)
-    console.log(f"Using database: {args.db_name}.db")
+    console.log(f"Using database: {db_name}")
+
+
+async def handle_use_command(args, command):
+    await set_db(args.db_name)
 
 
 async def handle_load_command(args, command):
@@ -263,6 +265,11 @@ async def handle_cd_command(args, command):
     try:
         os.chdir(path)
         console.log(f"Changed directory to: {os.getcwd()}")
+        db_name = db_manager.current_db_url.split("/")[
+            -1
+        ]  # get the current database name
+        print("Current db:", db_manager.current_db_url)
+        await set_db(db_name)  # use the database in the new directory
     except Exception as e:
         console.log(f"[red]Failed to change directory: {e}[/red]")
 
@@ -378,6 +385,7 @@ async def handle_squash_command(args, command):
         raise Exception(f"Error squashing blocks: {e}")
 
 
+# write --fn="test-{{block_tag.split('.')[0]}}-{{ '%04d' % position}}.txt" --where="block_id = 146"
 async def handle_write_command(args, command):
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
@@ -388,7 +396,9 @@ async def handle_write_command(args, command):
     for block in blocks:
         try:
             fn = Template(args.fn, undefined=StrictUndefined).render(**block)
-            print(fn)
+            with open(fn, "w") as f:
+                print(f"Writing to {fn}")
+                f.write(block["content"])
         except Exception as e:
             print(f"[red]Error: {e}")
             print(f"Valid jinja variables are: {column_names}")

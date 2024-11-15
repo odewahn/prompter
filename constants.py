@@ -1,5 +1,7 @@
 VERSION = "0.6.0"
-DEFAULT_DB_URL = "sqlite+aiosqlite:///mydatabase.db"
+
+DEFAULT_DATABASE_NAME = "mydatabase.db"
+DEFAULT_DB_URL = f"sqlite+aiosqlite:///{DEFAULT_DATABASE_NAME}"
 
 # ******************************************************************************
 # General constants
