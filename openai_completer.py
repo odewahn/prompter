@@ -86,7 +86,9 @@ async def complete(
     ]
 
     # Send the requests to the OpenAI API
-    with console.status(f"[bold green]Completing {len(requests)} blocks ...") as status:
+    with console.status(
+        f"[bold green]Completing {len(requests)} blocks using {model}..."
+    ) as status:
         results = await asyncio.gather(*requests)
 
     return results

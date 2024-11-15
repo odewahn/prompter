@@ -9,6 +9,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from markdownify import markdownify as md
     import markdown
     from bs4 import BeautifulSoup
+    import itertools
 
 
 def apply_transformation(transformation_name, b, **kwargs):

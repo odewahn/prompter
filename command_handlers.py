@@ -16,11 +16,12 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from constants import *
     from transformations import apply_transformation
     from rich.table import Table
-    from jinja2 import Template
+    from jinja2 import Template, StrictUndefined
     from shlex import split as shlex_split
     from command_parser import create_parser
     from openai_completer import complete
     from common import *
+    import itertools
 
 
 db_manager = None
@@ -58,6 +59,7 @@ async def handle_command(args, command):
         "groups": handle_groups_command,
         "checkout": handle_set_group,
         "squash": handle_squash_command,
+        "write": handle_write_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -194,7 +196,14 @@ async def handle_transform_command(args, command):
 
 
 async def handle_blocks_command(args, command):
-    display_columns = ["group_tag", "block_id", "block_tag", "content", "token_count"]
+    display_columns = [
+        "group_tag",
+        "block_id",
+        "block_tag",
+        "content",
+        "position",
+        "token_count",
+    ]
 
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
@@ -355,7 +364,54 @@ async def handle_set_group(args, command):
 async def handle_squash_command(args, command):
     try:
         blocks, headers = await db_manager.get_squashed_current_blocks(args.delimiter)
-        for b in blocks:
-            print(b["content"])
+        # Add the completed blocks to the database
+        G = {
+            "tag": args.tag if args.tag else generate_random_tag(),
+            "command": command,
+        }
+        B = []
+        for block in blocks:
+            B.append({"content": block["content"], "tag": block["block_tag"]})
+        await db_manager.add_group_with_blocks(G, B)
+        console.log(f"New group {G['tag']} created with {len(B)} blocks.")
     except Exception as e:
         raise Exception(f"Error squashing blocks: {e}")
+
+
+async def handle_write_command(args, command):
+    try:
+        blocks, column_names = await db_manager.get_current_blocks(args.where)
+    except Exception as e:
+        print(f"[red]{e}")
+        return
+
+    for block in blocks:
+        try:
+            fn = Template(args.fn, undefined=StrictUndefined).render(**block)
+            print(fn)
+        except Exception as e:
+            print(f"[red]Error: {e}")
+            print(f"Valid jinja variables are: {column_names}")
+            print(f"You entered: {args.fn}")
+            break
+
+
+async def handle_squash_command(args, command):
+    try:
+        blocks, column_names = await db_manager.get_current_blocks(args.where)
+        G = {
+            "tag": args.tag if args.tag else generate_random_tag(),
+            "command": command,
+        }
+        B = []
+        # Use itertools to pull out groups based o the block_tag
+        for tag, group in itertools.groupby(blocks, key=lambda x: x["block_tag"]):
+            # join all the content in the block_group
+            out = args.delimiter.join([block["content"] for block in group])
+            B.append({"content": out, "tag": tag})
+        await db_manager.add_group_with_blocks(G, B)
+        console.log(f"New group {G['tag']} created with {len(B)} blocks.")
+
+    except Exception as e:
+        print(f"[red]{e}")
+        return

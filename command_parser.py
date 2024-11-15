@@ -176,7 +176,29 @@ def create_parser():
     add = add_subparser(
         "squash",
         "Squash the current group into a new group by tag",
-        [("--delimiter", {"help": "Delimiter to use", "default": "\n"})],
+        [
+            ("--delimiter", {"help": "Delimiter to use", "default": "\n"}),
+            ("--tag", {"help": "Tag for the new group", "required": False}),
+        ],
+    )
+
+    add = add_subparser(
+        "write",
+        "Write the current group to a file",
+        [
+            (
+                "--fn",
+                {
+                    "type": str,
+                    "help": "Filename pattern (jinja2) to write to",
+                    "default": "{{block_tag}}",
+                },
+            ),
+            (
+                "--where",
+                {"help": "Where clause for the blocks", "required": False, "type": str},
+            ),
+        ],
     )
 
     return parser
