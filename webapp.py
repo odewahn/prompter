@@ -1,8 +1,17 @@
 # For pyinstaller, we want to show something as quickly as possible
 print("Starting web UI...")
 from rich.console import Console
+import os
 
 console = Console()
+
+script_path = os.path.dirname(
+    os.path.realpath(__file__)
+)  # the dir where binary is running
+
+print("SCRIPT_PATH:", script_path)
+
+print("STATIC PATH:", os.path.join(script_path, "static"))
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
@@ -16,7 +25,11 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=os.path.join(script_path, "static"), html=True),
+    name="static",
+)
 
 
 @app.get("/api/blocks/{group_id}", response_model=dict)

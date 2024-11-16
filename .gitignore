@@ -4,3 +4,5 @@
 *.db
 *.log
 __pycache__
+build
+.DS_Store
