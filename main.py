@@ -69,10 +69,8 @@ async def main():
         tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
         [task.cancel() for task in tasks]
         await asyncio.gather(*tasks, return_exceptions=True)
-        # Stop the event loop
-        asyncio.get_event_loop().stop()
 
 
 if __name__ == "__main__":
-    os.chdir("/Users/odewahn/Desktop/cat-essay")
+    # os.chdir("/Users/odewahn/Desktop/cat-essay")
     asyncio.run(main())
