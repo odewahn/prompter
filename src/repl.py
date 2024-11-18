@@ -6,16 +6,16 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
+    from src.command_parser import create_parser
+    from src.command_handlers import handle_command, ExitREPLException
+    from src.constants import *
     import asyncio
     from rich import print
     from prompt_toolkit import PromptSession
-    from command_parser import create_parser
-    from command_handlers import handle_command, ExitREPLException
-    from art import text2art
-    from constants import *
     import os
     from shlex import split as shlex_split
     from argparse import ArgumentError
+    from art import text2art
 
 
 async def interactive_repl():

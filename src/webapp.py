@@ -5,20 +5,16 @@ import os
 
 console = Console()
 
-script_path = os.path.dirname(
-    os.path.realpath(__file__)
-)  # the dir where binary is running
+# Find the directory where binary is running
+script_path = os.path.dirname(os.path.realpath(__file__))
 
-print("SCRIPT_PATH:", script_path)
-
-print("STATIC PATH:", os.path.join(script_path, "static"))
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
+    from src.db import DatabaseManager, Block
     from fastapi import FastAPI, Request, HTTPException
     from fastapi.responses import HTMLResponse
     from fastapi.staticfiles import StaticFiles
-    from db import DatabaseManager, Block
     from sqlalchemy import text
     from pydantic import BaseModel
 

@@ -1,10 +1,17 @@
 import asyncio
+import jinja2
+
+# Add the ../src directory to the path
+import sys
+import os
+
+sys.path.append(os.path.abspath("../src"))
+
+# Import code from the src directory
 from db import DatabaseManager
 from constants import DEFAULT_DB_URL
 from transformations import apply_transformation
 from db import Group, Block
-import json
-import jinja2
 
 
 fn_pattern = "{{group_tagZ}}-{{block_tag.split('.')[0]}}-{{'%03d' % position}}.md"

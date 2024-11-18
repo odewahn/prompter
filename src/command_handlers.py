@@ -6,21 +6,21 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
-    from db import DatabaseManager
+    from src.db import DatabaseManager
+    from src.constants import *
+    from src.transformations import apply_transformation
+    from src.openai_completer import complete
+    from src.common import *
+    from src.command_parser import create_parser
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
     import warnings
     import glob
     from rich import print
-    from constants import *
-    from transformations import apply_transformation
     from rich.table import Table
     from jinja2 import Template, StrictUndefined
     from shlex import split as shlex_split
-    from command_parser import create_parser
-    from openai_completer import complete
-    from common import *
     import itertools
 
 

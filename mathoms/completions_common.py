@@ -8,7 +8,7 @@ from prompt_toolkit import PromptSession
 import asyncio
 from openai_completer import AsyncOpenAI
 from groq import AsyncGroq
-import openai_completer
+import src.openai_completer as openai_completer
 from groq import Groq
 from pydub import AudioSegment
 

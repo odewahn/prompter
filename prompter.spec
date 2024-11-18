@@ -4,7 +4,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('static','static')],
+    datas=[('src/static','src/static')],
     hiddenimports=['prompt_toolkit', 'aiosqlite'],
     hookspath=[],
     hooksconfig={},

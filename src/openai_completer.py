@@ -6,16 +6,13 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
-    from constants import *
+    from src.constants import *
+    from src.db import DatabaseManager
+    from src.common import load_file_or_url, load_metadata
     import os
-    import yaml
     import asyncio
     from openai import AsyncOpenAI
-    import openai
-    from common import load_file_or_url, load_metadata
     import jinja2
-    import json
-    from db import DatabaseManager
 
 
 async def openai_completion(

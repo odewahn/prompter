@@ -6,10 +6,10 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
+    from src.constants import *
     import os
     import uuid
     from rich import print
-    from constants import *
     import aiohttp
     import yaml
 

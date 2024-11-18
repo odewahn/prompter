@@ -6,22 +6,22 @@ console = Console()
 
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
-    import asyncio
-    import sys
-    from command_handlers import (
+    from src.constants import DEFAULT_DB_URL
+    from src.command_handlers import (
         handle_command,
         init_db_manager as init_repl_db_manager,
         ExitREPLException,
     )
+    from src.webapp import app
+    from src.repl import interactive_repl
+    from src.db import DatabaseManager
+    from src.command_handlers import init_db_manager as init_repl_db_manager
     import uvicorn
-    from webapp import app
-    from repl import interactive_repl
-    from prompt_toolkit.patch_stdout import patch_stdout
-    from db import DatabaseManager
-    from command_handlers import init_db_manager as init_repl_db_manager
+    import asyncio
+    import sys
     import logging
-    from constants import DEFAULT_DB_URL
     import os
+    from prompt_toolkit.patch_stdout import patch_stdout
 
 
 # Configure logging

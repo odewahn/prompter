@@ -1,9 +1,16 @@
 import asyncio
+
+
+# Add the ../src directory to the path
+import sys
+import os
+
+sys.path.append(os.path.abspath("../src"))
+
 from db import DatabaseManager
 from constants import DEFAULT_DB_URL
 from transformations import apply_transformation
 from db import Group, Block
-import json
 
 
 async def main():
@@ -35,5 +42,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    os.chdir("/Users/odewahn/Desktop/cat-essay")
     asyncio.run(main())
