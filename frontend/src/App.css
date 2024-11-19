@@ -7,6 +7,11 @@
   flex-direction: column;
 }
 
+.app-header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -45,8 +50,8 @@
 .app-header {
   background-color: #1e1e1e; /* Dark background */
   color: #ffffff; /* White text color */
-  padding: 20px;
-  text-align: center;
+  padding: 10px 20px;
+  text-align: left;
   border-bottom: 2px solid #333; /* Darker border */
 }
 
