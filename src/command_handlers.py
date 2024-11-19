@@ -22,6 +22,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from jinja2 import Template, StrictUndefined
     from shlex import split as shlex_split
     import itertools
+    import webbrowser
 
 
 db_manager = None
@@ -61,6 +62,7 @@ async def handle_command(args, command):
         "squash": handle_squash_command,
         "write": handle_write_command,
         "speak": handle_speak_command,
+        "web": handle_web_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -448,3 +450,11 @@ async def handle_speak_command(args, command):
             print(f"Valid jinja variables are: {column_names}")
             print(f"You entered: {args.fn}")
             break
+
+
+async def handle_web_command(args, command):
+    try:
+        webbrowser.open(WEB_URL)
+    except Exception as e:
+        print(f"[red]{e}")
+        return

@@ -228,4 +228,6 @@ def create_parser():
         ],
     )
 
+    add = add_subparser("web", "Open a web browser to view data", [])
+
     return parser

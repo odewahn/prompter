@@ -7,6 +7,7 @@ DEFAULT_DB_URL = f"sqlite+aiosqlite:///{DEFAULT_DATABASE_NAME}"
 # General constants
 # ******************************************************************************
 DEFAULT_METADATA_FN = "metadata.yaml"
+WEB_URL = "http://localhost:8000/static/index.html"
 
 # ******************************************************************************
 # Open AI constants
