@@ -38,6 +38,9 @@ function App() {
   };
 
   return (
+    <header className="app-header">
+      <h1>Prompter</h1>
+    </header>
     <div className="app-container">
       <div className="groups-column">
         <h1>Groups</h1>
