@@ -13,6 +13,7 @@ DEFAULT_METADATA_FN = "metadata.yaml"
 # ******************************************************************************
 OPENAI_DEFAULT_MODEL = "gpt-4o-mini"
 OPENAI_DEFAULT_TEMPERATURE = 0.1
+MAX_SPEECH_LENGTH = 2000
 
 # ******************************************************************************
 # Error messages

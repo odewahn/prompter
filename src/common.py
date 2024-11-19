@@ -57,5 +57,7 @@ async def load_metadata(fn):
     try:
         with open(os.path.expanduser(fn), "r") as f:
             return yaml.safe_load(f)
+    except FileNotFoundError:
+        return {}
     except Exception as e:
         raise Exception(f"Failed to load metadata file: {fn} because {e}")

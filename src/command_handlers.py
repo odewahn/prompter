@@ -9,7 +9,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.db import DatabaseManager
     from src.constants import *
     from src.transformations import apply_transformation
-    from src.openai_completer import complete
+    from src.openai_functions import complete, dump_to_audio
     from src.common import *
     from src.command_parser import create_parser
     from ebooklib import epub
@@ -60,6 +60,7 @@ async def handle_command(args, command):
         "checkout": handle_set_group,
         "squash": handle_squash_command,
         "write": handle_write_command,
+        "speak": handle_speak_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -425,3 +426,25 @@ async def handle_squash_command(args, command):
     except Exception as e:
         print(f"[red]{e}")
         return
+
+
+async def handle_speak_command(args, command):
+    try:
+        blocks, column_names = await db_manager.get_current_blocks(args.where)
+    except Exception as e:
+        print(f"[red]{e}")
+        return
+    # Convert the blocks to audio
+    for block in blocks:
+        try:
+            fn = Template(args.fn, undefined=StrictUndefined).render(**block)
+            if not args.preview:
+                with console.status(
+                    f"[bold green]Converting {fn} to audio: {block['content'][:20]}"
+                ) as status:
+                    await dump_to_audio(block["content"], fn, args.voice)
+        except Exception as e:
+            print(f"[red]Error: {e}")
+            print(f"Valid jinja variables are: {column_names}")
+            print(f"You entered: {args.fn}")
+            break

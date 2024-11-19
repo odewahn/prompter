@@ -201,4 +201,31 @@ def create_parser():
         ],
     )
 
+    add = add_subparser(
+        "speak",
+        "Convert the current block to audio files",
+        [
+            (
+                "--fn",
+                {
+                    "type": str,
+                    "help": "Filename pattern (jinja2) to write to",
+                    "default": "{{block_tag.split('.') | first}}-{{ '%04d' % position}}.mp3",
+                },
+            ),
+            (
+                "--where",
+                {"help": "Where clause for the blocks", "required": False, "type": str},
+            ),
+            (
+                "--voice",
+                {"help": "Voice to use", "default": "alloy"},
+            ),
+            (
+                "--preview",
+                {"help": "Preview the filenames", "action": "store_true"},
+            ),
+        ],
+    )
+
     return parser

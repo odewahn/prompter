@@ -8,7 +8,7 @@ from prompt_toolkit import PromptSession
 import asyncio
 from openai_completer import AsyncOpenAI
 from groq import AsyncGroq
-import src.openai_completer as openai_completer
+import src.openai_functions as openai_functions
 from groq import Groq
 from pydub import AudioSegment
 
@@ -139,8 +139,8 @@ def openai_models(args):
     # Load the config file
     config = load_config()
     # Check if the API key is set
-    openai_completer.api_key = config["openai"]
-    models = openai_completer.Model.list()
+    openai_functions.api_key = config["openai"]
+    models = openai_functions.Model.list()
     out = [model.id for model in models.data]
     return sorted(out)
 
