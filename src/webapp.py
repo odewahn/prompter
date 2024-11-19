@@ -16,12 +16,19 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from fastapi.responses import HTMLResponse
     from fastapi.staticfiles import StaticFiles
     from sqlalchemy import text
+    from fastapi.middleware.cors import CORSMiddleware
     from pydantic import BaseModel
 
 
 app = FastAPI()
 
-app.mount(
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
     "/static",
     StaticFiles(directory=os.path.join(script_path, "static"), html=True),
     name="static",
