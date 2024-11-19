@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import './App.css';
 
 function App() {
   const [data, setData] = useState(null);
@@ -37,8 +38,8 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: 1, padding: "10px" }}>
+    <div className="app-container">
+      <div className="groups-column">
         <h1>Groups</h1>
         <ul>
           {groups.map((group) => (
@@ -51,7 +52,7 @@ function App() {
         </ul>
       </div>
 
-      <div style={{ flex: 2, padding: "10px" }}>
+      <div className="blocks-column">
         <h1>Blocks Data</h1>
         {data ? (
           <div>
