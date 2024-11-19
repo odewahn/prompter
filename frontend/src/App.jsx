@@ -11,19 +11,20 @@ function App() {
       .then((data) => {
         setData(data);
         if (data.blocks) {
-          const contents = data.blocks.map(block => block.content);
+          const contents = data.blocks.map((block) => block.content);
           setBlockContents(contents);
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
+
     fetch("http://localhost:8000/api/groups")
       .then((response) => response.json())
       .then((groupsData) => setGroups(groupsData))
       .catch((error) => console.error("Error fetching groups:", error));
   }, []);
 
-  const fetchBlocksForGroup = (blockTag) => {
-    fetch(`http://localhost:8000/api/blocks/${blockTag}`)
+  const fetchBlocksForGroup = (groupTag) => {
+    fetch(`http://localhost:8000/api/blocks/${groupTag}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -41,8 +42,8 @@ function App() {
       <ul>
         {groups.map((group) => (
           <li key={group.id}>
-            <a href="#" onClick={() => fetchBlocksForGroup(group.group_tag)}>
-              {group.group_tag} - {group.command}
+            <a href="#" onClick={() => fetchBlocksForGroup(group.tag)}>
+              {group.tag} - {group.command}
             </a>
           </li>
         ))}
@@ -57,8 +58,6 @@ function App() {
               <li key={index}>{content}</li>
             ))}
           </ul>
-          <h2>Full Data</h2>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
       ) : (
         <p>Loading...</p>
