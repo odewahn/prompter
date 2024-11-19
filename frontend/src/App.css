@@ -46,43 +46,43 @@
 .groups-column {
   flex: 1;
   padding: 10px;
-  background-color: #e0f7fa; /* Light cyan background */
-  border-right: 2px solid #00acc1; /* Cyan border */
+  background-color: #1e1e1e; /* Dark background */
+  border-right: 2px solid #333; /* Darker border */
 }
 
 .groups-column h1 {
-  color: #00796b; /* Teal text color */
+  color: #ffffff; /* White text color */
 }
 
 .groups-column a {
-  color: #004d40; /* Dark teal link color */
+  color: #bbbbbb; /* Light grey link color */
   text-decoration: none;
 }
 
 .groups-column a:hover {
-  color: #00796b; /* Teal link color on hover */
+  color: #ffffff; /* White link color on hover */
 }
 
 .blocks-column {
   flex: 2;
   padding: 10px;
-  background-color: #f3e5f5; /* Light purple background */
+  background-color: #2e2e2e; /* Darker background */
 }
 
 .blocks-column h1 {
-  color: #6a1b9a; /* Purple text color */
+  color: #ffffff; /* White text color */
 }
 
 .block-item {
-  background-color: #d1c4e9; /* Light purple block background */
+  background-color: #3e3e3e; /* Dark block background */
   border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #9575cd; /* Purple border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  border: 1px solid #555; /* Dark border */
 }
 
 .block-item:hover {
-  background-color: #b39ddb; /* Darker purple on hover */
+  background-color: #4e4e4e; /* Slightly lighter on hover */
 }
 
 .blocks-container {
