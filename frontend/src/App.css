@@ -1,7 +1,10 @@
 #root {
   width: 100%;
+  height: 100vh; /* Full viewport height */
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
@@ -41,6 +44,7 @@
 }
 .app-container {
   display: flex;
+  flex: 1; /* Allow the container to grow and fill the available space */
 }
 
 .groups-column {
