@@ -36,9 +36,9 @@ app.mount(
 )
 
 
-@app.get("/api/blocks/{group_id}", response_model=dict)
+@app.get("/api/blocks/{block_tag}", response_model=dict)
 @app.get("/api/blocks", response_model=dict)
-async def get_blocks(group_id: int = None):
+async def get_blocks(block_tag: str = None):
     db_manager = DatabaseManager(DatabaseManager.current_db_url)
     # Determine the block group to fetch
     async with db_manager.SessionLocal() as session:
