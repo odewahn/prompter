@@ -29,6 +29,7 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
+app.mount(
     "/static",
     StaticFiles(directory=os.path.join(script_path, "static"), html=True),
     name="static",
