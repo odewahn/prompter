@@ -38,6 +38,7 @@ function App() {
   };
 
   return (
+    <>
     <header className="app-header">
       <h1>Prompter</h1>
     </header>
@@ -72,6 +73,7 @@ function App() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
