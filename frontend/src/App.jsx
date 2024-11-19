@@ -56,11 +56,13 @@ function App() {
         <h1>Blocks Data</h1>
         {data ? (
           <div>
-            <ul>
+            <div className="blocks-container">
               {blockContents.map((content, index) => (
-                <li key={index}>{content}</li>
+                <div key={index} className="block-item">
+                  {content}
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         ) : (
           <p>Loading...</p>
