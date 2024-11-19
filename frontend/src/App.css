@@ -45,7 +45,7 @@
 
 .groups-column {
   flex: 1;
-  padding: 10px;
+  padding: 20px; /* Increased padding */
   background-color: #1e1e1e; /* Dark background */
   border-right: 2px solid #333; /* Darker border */
 }
@@ -65,7 +65,7 @@
 
 .blocks-column {
   flex: 2;
-  padding: 10px;
+  padding: 20px; /* Increased padding */
   background-color: #2e2e2e; /* Darker background */
 }
 
