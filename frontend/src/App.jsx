@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './App.css';
+import "./App.css";
 
 function App() {
   const [data, setData] = useState(null);
@@ -56,7 +56,6 @@ function App() {
         <h1>Blocks Data</h1>
         {data ? (
           <div>
-            <h2>Block Contents</h2>
             <ul>
               {blockContents.map((content, index) => (
                 <li key={index}>{content}</li>
