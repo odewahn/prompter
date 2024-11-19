@@ -69,3 +69,11 @@ async def get_blocks(group_id: int = None):
             result["blocks"] = [block._asdict() for block in blocks]
 
             return result
+
+@app.get("/api/groups", response_model=list)
+async def get_groups():
+    db_manager = DatabaseManager(DatabaseManager.current_db_url)
+    async with db_manager.SessionLocal() as session:
+        async with session.begin():
+            groups = await session.execute(text("select * from groups"))
+            return [group._asdict() for group in groups]
