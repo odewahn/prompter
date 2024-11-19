@@ -22,8 +22,8 @@ function App() {
       .catch((error) => console.error("Error fetching groups:", error));
   }, []);
 
-  const fetchBlocksForGroup = (groupId) => {
-    fetch(`http://localhost:8000/api/blocks/${groupId}`)
+  const fetchBlocksForGroup = (blockTag) => {
+    fetch(`http://localhost:8000/api/blocks/${blockTag}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -41,7 +41,7 @@ function App() {
       <ul>
         {groups.map((group) => (
           <li key={group.id}>
-            <a href="#" onClick={() => fetchBlocksForGroup(group.id)}>
+            <a href="#" onClick={() => fetchBlocksForGroup(group.group_tag)}>
               {group.group_tag} - {group.command}
             </a>
           </li>

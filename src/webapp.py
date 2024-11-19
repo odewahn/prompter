@@ -43,14 +43,14 @@ async def get_blocks(group_id: int = None):
     # Determine the block group to fetch
     async with db_manager.SessionLocal() as session:
         async with session.begin():
-            if group_id is None:
+            if block_tag is None:
                 current_group = await session.execute(
                     text("select * from groups where is_current = True")
                 )
             else:
                 current_group = await session.execute(
-                    text("select * from groups where id = :group_id"),
-                    {"group_id": group_id},
+                    text("select * from groups where tag = :block_tag"),
+                    {"block_tag": block_tag},
                 )
 
             # If current_group is empty, return 404
