@@ -37,31 +37,35 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Groups</h1>
-      <ul>
-        {groups.map((group) => (
-          <li key={group.id}>
-            <a href="#" onClick={() => fetchBlocksForGroup(group.tag)}>
-              {group.tag} - {group.command}
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div style={{ display: "flex" }}>
+      <div style={{ flex: 1, padding: "10px" }}>
+        <h1>Groups</h1>
+        <ul>
+          {groups.map((group) => (
+            <li key={group.id}>
+              <a href="#" onClick={() => fetchBlocksForGroup(group.tag)}>
+                {group.tag} - {group.command}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <h1>Blocks Data</h1>
-      {data ? (
-        <div>
-          <h2>Block Contents</h2>
-          <ul>
-            {blockContents.map((content, index) => (
-              <li key={index}>{content}</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <div style={{ flex: 2, padding: "10px" }}>
+        <h1>Blocks Data</h1>
+        {data ? (
+          <div>
+            <h2>Block Contents</h2>
+            <ul>
+              {blockContents.map((content, index) => (
+                <li key={index}>{content}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </div>
   );
 }
