@@ -73,7 +73,7 @@ function App() {
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {group.tag} - {group.block_count} blocks
+                  {group.tag}
                 </Typography>
                 <Typography variant="body1">{group.command}</Typography>
               </CardContent>
