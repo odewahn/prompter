@@ -14,9 +14,16 @@
   padding: 20px;
 }
 
-.groups-column, .blocks-column {
+.groups-column {
   flex: 1;
   padding: 20px;
+  max-width: 25%;
+}
+
+.blocks-column {
+  flex: 3;
+  padding: 20px;
+  background-color: #2e2e2e; /* Lighter background color for blocks */
 }
 
 .blocks-container {
