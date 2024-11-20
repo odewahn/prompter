@@ -54,6 +54,11 @@ function App() {
           if (data.blocks) {
             const contents = data.blocks.map((block) => block.content);
             setBlockContents(contents);
+            if (contents.length > 0) {
+              setSelectedBlockContent(contents[0]);
+            } else {
+              setSelectedBlockContent("");
+            }
           }
         })
         .catch((error) => console.error("Error fetching blocks:", error));
