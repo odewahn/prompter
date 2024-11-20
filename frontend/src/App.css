@@ -17,13 +17,14 @@
 .groups-column {
   flex: 1;
   padding: 20px;
-  max-width: 25%;
+  max-width: 33.33%; /* 1/3 of the width */
 }
 
 .blocks-column {
-  flex: 3;
+  flex: 2;
   padding: 20px;
   background-color: #2e2e2e; /* Lighter background color for blocks */
+  max-width: 66.67%; /* 2/3 of the width */
 }
 
 .blocks-container {
