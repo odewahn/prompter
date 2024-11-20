@@ -64,7 +64,7 @@ function App() {
         <Paper className="blocks-column" elevation={3}>
           <Typography variant="h6">Blocks Data</Typography>
           {data ? (
-            {blockContents.map((content, index) => (
+            blockContents.map((content, index) => (
               <Card key={index} variant="outlined" style={{ marginBottom: '10px' }}>
                 <CardContent>
                   <Typography variant="body2" color="textSecondary" component="p">
@@ -72,7 +72,7 @@ function App() {
                   </Typography>
                 </CardContent>
               </Card>
-            ))}
+            ))
           ) : (
             <Typography>Loading...</Typography>
           )}
