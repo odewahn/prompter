@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, Container, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { AppBar, Toolbar, Typography, Container, List, ListItem, ListItemText, Paper, Card, CardContent } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import "./App.css";
@@ -64,13 +64,15 @@ function App() {
         <Paper className="blocks-column" elevation={3}>
           <Typography variant="h6">Blocks Data</Typography>
           {data ? (
-            <List>
-              {blockContents.map((content, index) => (
-                <ListItem key={index}>
-                  <ListItemText primary={content} />
-                </ListItem>
-              ))}
-            </List>
+            {blockContents.map((content, index) => (
+              <Card key={index} variant="outlined" style={{ marginBottom: '10px' }}>
+                <CardContent>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
           ) : (
             <Typography>Loading...</Typography>
           )}
