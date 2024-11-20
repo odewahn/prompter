@@ -23,7 +23,6 @@ function App() {
     fetch("http://localhost:8000/api/blocks")
       .then((response) => response.json())
       .then((data) => {
-        setData(data);
         if (data.blocks) {
           const contents = data.blocks.map((block) => block.content);
           setBlockContents(contents);
