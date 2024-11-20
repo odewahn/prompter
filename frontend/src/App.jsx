@@ -108,8 +108,11 @@ function App() {
               onClick={() => setSelectedBlockContent(content)}
             >
               <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary">
                   {content.slice(0, 40)}...
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  {blockContents[index].tag}
                 </Typography>
               </CardContent>
             </Card>
