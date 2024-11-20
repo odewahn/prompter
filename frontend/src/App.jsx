@@ -119,7 +119,7 @@ function App() {
         <Paper className="blocks-column" elevation={3}>
           <Typography variant="h6">Block Content</Typography>
           {selectedBlockContent ? (
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body2" color="textSecondary" component="pre">
               {selectedBlockContent}
             </Typography>
           ) : (
