@@ -95,7 +95,11 @@ function App() {
             <Card
               key={index}
               variant="outlined"
-              style={{ marginBottom: "10px", cursor: "pointer" }}
+              style={{
+                marginBottom: "10px",
+                cursor: "pointer",
+                backgroundColor: selectedBlockContent === content ? "#f0f0f0" : "inherit",
+              }}
               onClick={() => setSelectedBlockContent(content)}
             >
               <CardContent>
