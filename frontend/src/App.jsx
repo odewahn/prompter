@@ -24,8 +24,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.blocks) {
-          const contents = data.blocks.map((block) => block.content);
-          setBlockContents(contents);
+          setBlockContents(data.blocks);
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
