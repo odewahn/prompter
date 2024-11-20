@@ -15,6 +15,7 @@ import "./App.css";
 
 function App() {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
+  const [groups, setGroups] = useState([]);
   const [blockContents, setBlockContents] = useState([]);
   const [selectedBlockContent, setSelectedBlockContent] = useState("");
 
