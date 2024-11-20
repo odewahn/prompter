@@ -68,6 +68,8 @@ function App() {
               key={group.id}
               variant="outlined"
               style={{ marginBottom: "10px" }}
+              onClick={() => fetchBlocksForGroup(group.tag)}
+              style={{ marginBottom: "10px", cursor: "pointer" }}
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
