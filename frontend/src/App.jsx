@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AppBar, Toolbar, Typography, Container, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import nightModeTheme from "./theme";
 import "./App.css";
 
 function App() {
@@ -39,7 +41,7 @@ function App() {
   };
 
   return (
-    <>
+    <ThemeProvider theme={nightModeTheme}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div">
@@ -74,7 +76,7 @@ function App() {
           )}
         </Paper>
       </Container>
-    </>
+    </ThemeProvider>
   );
 }
 
