@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Container, 
-  Paper, 
-  Card, 
-  CardContent, 
-  Button 
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Paper,
+  Card,
+  CardContent,
+  Button,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
@@ -38,7 +38,9 @@ function App() {
   }, []);
 
   const handleNextGroup = () => {
-    setCurrentGroupIndex((prevIndex) => Math.min(prevIndex + 1, groups.length - 1));
+    setCurrentGroupIndex((prevIndex) =>
+      Math.min(prevIndex + 1, groups.length - 1)
+    );
   };
 
   const handlePreviousGroup = () => {
@@ -89,10 +91,16 @@ function App() {
               </CardContent>
             </Card>
           )}
-          <Button onClick={handlePreviousGroup} disabled={currentGroupIndex === 0}>
+          <Button
+            onClick={handlePreviousGroup}
+            disabled={currentGroupIndex === 0}
+          >
             Previous
           </Button>
-          <Button onClick={handleNextGroup} disabled={currentGroupIndex === groups.length - 1}>
+          <Button
+            onClick={handleNextGroup}
+            disabled={currentGroupIndex === groups.length - 1}
+          >
             Next
           </Button>
           <Typography variant="h6">Blocks</Typography>
@@ -103,16 +111,17 @@ function App() {
               style={{
                 marginBottom: "10px",
                 cursor: "pointer",
-                backgroundColor: selectedBlockContent === content ? "#f0f0f0" : "inherit",
+                backgroundColor:
+                  selectedBlockContent === content ? "#f0f0f0" : "inherit",
               }}
               onClick={() => setSelectedBlockContent(content)}
             >
               <CardContent>
-                <Typography variant="body2" color="textSecondary">
-                  {content.slice(0, 40)}...
-                </Typography>
-                <Typography variant="caption" color="textSecondary">
+                <Typography variant="subtitle2" color="textSecondary">
                   {blockContents[index].tag}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {content.slice(0, 30)}...
                 </Typography>
               </CardContent>
             </Card>
