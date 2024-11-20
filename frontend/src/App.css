@@ -22,6 +22,10 @@
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
+.MuiCardContent-root {
+  white-space: normal; /* Allow text to wrap */
+}
+
 .blocks-column {
   flex: 2;
   padding: 20px;
