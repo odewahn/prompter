@@ -52,13 +52,18 @@ function App() {
       <Container className="app-container">
         <Paper className="groups-column" elevation={3}>
           <Typography variant="h6">Groups</Typography>
-          <List>
-            {groups.map((group) => (
-              <ListItem button key={group.id} onClick={() => fetchBlocksForGroup(group.tag)}>
-                <ListItemText primary={`${group.tag} - ${group.command}`} />
-              </ListItem>
-            ))}
-          </List>
+          {groups.map((group) => (
+            <Card key={group.id} variant="outlined" style={{ marginBottom: '10px' }}>
+              <CardContent>
+                <Typography variant="subtitle2" color="textSecondary">
+                  {group.tag} - {group.blocks.length} blocks
+                </Typography>
+                <Typography variant="body1">
+                  {group.command}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
         </Paper>
 
         <Paper className="blocks-column" elevation={3}>
