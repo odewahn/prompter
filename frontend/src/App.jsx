@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AppBar, Toolbar, Typography, Container, List, ListItem, ListItemText, Paper } from "@mui/material";
 import "./App.css";
 
 function App() {
@@ -39,40 +40,40 @@ function App() {
 
   return (
     <>
-    <header className="app-header">
-      <h1>Prompter</h1>
-    </header>
-    <div className="app-container">
-      <div className="groups-column">
-        <h1>Groups</h1>
-        <ul>
-          {groups.map((group) => (
-            <li key={group.id}>
-              <a href="#" onClick={() => fetchBlocksForGroup(group.tag)}>
-                {group.tag} - {group.command}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div">
+            Prompter
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Container className="app-container">
+        <Paper className="groups-column" elevation={3}>
+          <Typography variant="h6">Groups</Typography>
+          <List>
+            {groups.map((group) => (
+              <ListItem button key={group.id} onClick={() => fetchBlocksForGroup(group.tag)}>
+                <ListItemText primary={`${group.tag} - ${group.command}`} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
 
-      <div className="blocks-column">
-        <h1>Blocks Data</h1>
-        {data ? (
-          <div>
-            <div className="blocks-container">
+        <Paper className="blocks-column" elevation={3}>
+          <Typography variant="h6">Blocks Data</Typography>
+          {data ? (
+            <List>
               {blockContents.map((content, index) => (
-                <div key={index} className="block-item">
-                  {content}
-                </div>
+                <ListItem key={index}>
+                  <ListItemText primary={content} />
+                </ListItem>
               ))}
-            </div>
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
-    </div>
+            </List>
+          ) : (
+            <Typography>Loading...</Typography>
+          )}
+        </Paper>
+      </Container>
     </>
   );
 }
