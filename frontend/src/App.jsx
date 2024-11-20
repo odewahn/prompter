@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, Container, List, ListItem, ListItemText, Paper, Card, CardContent } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Card,
+  CardContent,
+} from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import "./App.css";
@@ -53,14 +64,16 @@ function App() {
         <Paper className="groups-column" elevation={3}>
           <Typography variant="h6">Groups</Typography>
           {groups.map((group) => (
-            <Card key={group.id} variant="outlined" style={{ marginBottom: '10px' }}>
+            <Card
+              key={group.id}
+              variant="outlined"
+              style={{ marginBottom: "10px" }}
+            >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {group.tag} - {group.blocks.length} blocks
+                  {group.tag} - {group.block_count} blocks
                 </Typography>
-                <Typography variant="body1">
-                  {group.command}
-                </Typography>
+                <Typography variant="body1">{group.command}</Typography>
               </CardContent>
             </Card>
           ))}
@@ -70,9 +83,17 @@ function App() {
           <Typography variant="h6">Blocks Data</Typography>
           {data ? (
             blockContents.map((content, index) => (
-              <Card key={index} variant="outlined" style={{ marginBottom: '10px' }}>
+              <Card
+                key={index}
+                variant="outlined"
+                style={{ marginBottom: "10px" }}
+              >
                 <CardContent>
-                  <Typography variant="body2" color="textSecondary" component="p">
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
                     {content}
                   </Typography>
                 </CardContent>
