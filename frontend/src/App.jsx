@@ -38,11 +38,11 @@ function App() {
   }, []);
 
   const handleNextGroup = () => {
-    setCurrentGroupIndex((prevIndex) => (prevIndex + 1) % groups.length);
+    setCurrentGroupIndex((prevIndex) => Math.min(prevIndex + 1, groups.length - 1));
   };
 
   const handlePreviousGroup = () => {
-    setCurrentGroupIndex((prevIndex) => (prevIndex - 1 + groups.length) % groups.length);
+    setCurrentGroupIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
   useEffect(() => {
@@ -84,10 +84,10 @@ function App() {
               </CardContent>
             </Card>
           )}
-          <Button onClick={handlePreviousGroup} disabled={groups.length === 0}>
+          <Button onClick={handlePreviousGroup} disabled={currentGroupIndex === 0}>
             Previous
           </Button>
-          <Button onClick={handleNextGroup} disabled={groups.length === 0}>
+          <Button onClick={handleNextGroup} disabled={currentGroupIndex === groups.length - 1}>
             Next
           </Button>
           <Typography variant="h6">Blocks</Typography>
