@@ -18,6 +18,8 @@
   flex: 1;
   padding: 20px;
   max-width: 33.33%; /* 1/3 of the width */
+  max-height: 400px; /* Set a fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .blocks-column {
