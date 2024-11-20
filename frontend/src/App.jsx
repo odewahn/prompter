@@ -117,7 +117,7 @@ function App() {
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {blockContents[index].tag}
+                  {blocks[index].tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {content.slice(0, 30)}...
