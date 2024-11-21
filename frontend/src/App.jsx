@@ -110,16 +110,16 @@ function App() {
                 marginBottom: "10px",
                 cursor: "pointer",
                 backgroundColor:
-                  selectedBlockContent === block.content ? "#f0f0f0" : "inherit",
+                  selectedBlockContent === block ? "#f0f0f0" : "inherit",
               }}
-              onClick={() => setSelectedBlockContent(block.content)}
+              onClick={() => setSelectedBlockContent(block)}
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
                   {block.tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {block.content ? block.content.slice(0, 30) : ""}...
+                  {block.block ? block.block.slice(0, 30) : ""}...
                 </Typography>
               </CardContent>
             </Card>
@@ -130,7 +130,7 @@ function App() {
           <Typography variant="h6">Block Content</Typography>
           {selectedBlockContent ? (
             <Typography variant="body2" color="textSecondary" component="pre">
-              {selectedBlockContent}
+              {selectedBlockContent.block}
             </Typography>
           ) : (
             <Typography>Select a block to view its content</Typography>
