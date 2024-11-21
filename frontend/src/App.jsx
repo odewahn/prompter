@@ -77,6 +77,21 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Paper className="groups-column" elevation={3}>
+          {groups.length > 0 && (
+            <Card
+              variant="outlined"
+              style={{ marginBottom: "10px", flexGrow: 1 }}
+            >
+              <CardContent>
+                <Typography variant="subtitle2" color="textSecondary">
+                  {groups[currentGroupIndex].tag}
+                </Typography>
+                <Typography variant="body1">
+                  {groups[currentGroupIndex].command}
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
           <div className="group-navigation">
             <IconButton
               onClick={handlePreviousGroup}
@@ -84,21 +99,6 @@ function App() {
             >
               <ArrowBack />
             </IconButton>
-            {groups.length > 0 && (
-              <Card
-                variant="outlined"
-                style={{ marginBottom: "10px", flexGrow: 1 }}
-              >
-                <CardContent>
-                  <Typography variant="subtitle2" color="textSecondary">
-                    {groups[currentGroupIndex].tag}
-                  </Typography>
-                  <Typography variant="body1">
-                    {groups[currentGroupIndex].command}
-                  </Typography>
-                </CardContent>
-              </Card>
-            )}
             <IconButton
               onClick={handleNextGroup}
               disabled={currentGroupIndex === groups.length - 1}
