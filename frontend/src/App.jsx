@@ -81,7 +81,7 @@ function App() {
         <Grid container spacing={3}>
           {groups.length > 0 && (
             <Grid item xs={12}>
-              <Typography variant="subtitle1" color="textSecondary" style={{ marginBottom: "10px" }}>
+              <Typography variant="subtitle1" color="textSecondary" className="current-command" style={{ marginBottom: "10px" }}>
                 Command: {groups[currentGroupIndex].command}
               </Typography>
             </Grid>
