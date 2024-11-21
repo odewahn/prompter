@@ -78,22 +78,22 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Paper className="groups-column" elevation={3}>
-          {groups.length > 0 && (
-            <Card
-              style={{ marginBottom: "10px", flexGrow: 1 }}
-              elevation={0}
-            >
-              <CardContent>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {groups[currentGroupIndex].tag}
-                </Typography>
-                <Typography variant="body1">
-                  {groups[currentGroupIndex].command}
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
           <div className="group-navigation">
+            {groups.length > 0 && (
+              <Card
+                style={{ marginBottom: "10px", flexGrow: 1 }}
+                elevation={0}
+              >
+                <CardContent>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    {groups[currentGroupIndex].tag}
+                  </Typography>
+                  <Typography variant="body1">
+                    {groups[currentGroupIndex].command}
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
             <IconButton
               onClick={handlePreviousGroup}
               disabled={currentGroupIndex === 0}
