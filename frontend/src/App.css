@@ -24,6 +24,10 @@
   margin-bottom: 10px;
 }
 
+.MuiLinearProgress-root {
+  transition: none !important; /* Remove animation */
+}
+
 .group-navigation .MuiCardContent-root {
   white-space: normal; /* Allow text to wrap */
 }
