@@ -184,9 +184,7 @@ function App() {
             <Paper className="blocks-column" elevation={3}>
               <Typography variant="h6">{selectedBlockContent.tag}</Typography>
               <hr />
-              <div
-                style={{ overflowY: "auto", maxHeight: "calc(100vh - 250px)" }}
-              >
+              <div style={{ flex: 1, overflowY: "auto" }}>
                 {selectedBlockContent ? (
                   <Typography
                     variant="body2"
