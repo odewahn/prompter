@@ -46,7 +46,7 @@
   flex: 2;
   padding: 20px;
   background-color: #2e2e2e; /* Lighter background color for blocks */
-  width: 25%; /* Fixed width for the left column */
+  width: 100%; /* Expand to fill the full space allotted */
 }
 
 .blocks-container {
