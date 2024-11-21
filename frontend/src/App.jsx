@@ -116,10 +116,10 @@ function App() {
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {block.tag}
+                  {block.block_tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {block.block ? block.block.slice(0, 30) : ""}...
+                  {block.block_content ? block.block_content.slice(0, 30) : ""}...
                 </Typography>
               </CardContent>
             </Card>
@@ -130,7 +130,7 @@ function App() {
           <Typography variant="h6">Block Content</Typography>
           {selectedBlockContent ? (
             <Typography variant="body2" color="textSecondary" component="pre">
-              {selectedBlockContent.block}
+              {selectedBlockContent.block_content}
             </Typography>
           ) : (
             <Typography>Select a block to view its content</Typography>
