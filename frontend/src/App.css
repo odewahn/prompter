@@ -68,6 +68,7 @@
   overflow-y: auto;
   max-height: calc(100vh - 64px - 64px - 160px); /* Further adjusted to ensure block count is visible */
   padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
+  width: 100%; /* Make cards take full width of the container */
 }
 
 .MuiCardContent-root {
