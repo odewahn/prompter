@@ -79,7 +79,7 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Grid container spacing={3}>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <div className="groups-column">
               <div className="group-navigation">
                 <IconButton
@@ -141,7 +141,7 @@ function App() {
               </div>
             </div>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <Paper className="blocks-column" elevation={3}>
               {selectedBlockContent ? (
                 <div>
