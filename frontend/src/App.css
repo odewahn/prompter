@@ -6,6 +6,14 @@
   display: flex;
   flex-direction: column;
 }
+
+.app-container {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  padding: 20px;
+  padding-bottom: 40px; /* Add padding to the bottom */
+}
 .blocks-column pre {
   white-space: pre-wrap; /* Allow text to wrap */
   word-wrap: break-word; /* Break long words */
