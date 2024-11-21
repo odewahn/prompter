@@ -15,7 +15,7 @@
 
 .block-count {
   position: absolute;
-  bottom: 40px; /* Raise the block count 40px from the bottom */
+  bottom: 20px; /* Raise the block count 40px from the bottom */
   left: 0;
   right: 0;
   background-color: rgba(255, 255, 255, 0.8);
