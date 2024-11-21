@@ -24,7 +24,8 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.blocks) {
-          setBlockContents(data.blocks);
+          const contents = data.blocks.map((block) => block.content);
+          setBlockContents(contents);
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -116,7 +117,7 @@ function App() {
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {blocks[index].tag}
+                  {content.tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {content.slice(0, 30)}...
