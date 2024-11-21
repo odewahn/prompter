@@ -112,6 +112,11 @@ function App() {
                   >
                     <CardContent>
                       <div style={{ display: "flex", alignItems: "center" }}>
+                        <Typography variant="subtitle2" color="textSecondary">
+                          Group {currentGroupIndex + 1} of {groups.length}
+                        </Typography>
+                      </div>
+                      <Typography variant="body1">
                         <IconButton
                           size="small"
                           onClick={handlePopoverOpen}
@@ -119,11 +124,6 @@ function App() {
                         >
                           <Info fontSize="small" />
                         </IconButton>
-                        <Typography variant="subtitle2" color="textSecondary">
-                          Group {currentGroupIndex + 1} of {groups.length}
-                        </Typography>
-                      </div>
-                      <Typography variant="body1">
                         {groups[currentGroupIndex].tag}
                       </Typography>
                     </CardContent>
@@ -178,7 +178,7 @@ function App() {
                   {groups[currentGroupIndex]?.command || "No command available"}
                 </Typography>
               </Popover>
-            </div> 
+            </div>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
