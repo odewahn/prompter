@@ -77,7 +77,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container className="app-container">
-        <Paper className="groups-column" elevation={3}>
+        <div className="groups-column">
           <div className="group-navigation">
             <IconButton
               onClick={handlePreviousGroup}
@@ -136,7 +136,7 @@ function App() {
               </Card>
             ))}
           </div>
-        </Paper>
+        </div>
 
         <Paper className="blocks-column" elevation={3}>
           {selectedBlockContent ? (
