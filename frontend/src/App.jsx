@@ -119,7 +119,7 @@ function App() {
                   {block.tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {block.content.slice(0, 30)}...
+                  {block.content ? block.content.slice(0, 30) : ""}...
                 </Typography>
               </CardContent>
             </Card>
