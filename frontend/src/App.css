@@ -22,7 +22,6 @@
   padding: 5px 10px;
   border: 1px solid #ccc; /* Add a light gray border */
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a more pronounced drop shadow */
   text-align: center; /* Center the text */
 }
 
