@@ -78,12 +78,14 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container className="app-container">
-        {groups.length > 0 && (
-          <Typography variant="subtitle1" color="textSecondary" style={{ marginBottom: "10px" }}>
-            Command: {groups[currentGroupIndex].command}
-          </Typography>
-        )}
         <Grid container spacing={3}>
+          {groups.length > 0 && (
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" color="textSecondary" style={{ marginBottom: "10px" }}>
+                Command: {groups[currentGroupIndex].command}
+              </Typography>
+            </Grid>
+          )}
           <Grid item xs={12} sm={4} md={4} lg={4}>
             <div className="groups-column">
               <div className="group-navigation">
