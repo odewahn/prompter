@@ -27,6 +27,7 @@
 .blocks-list {
   flex: 1;
   overflow-y: auto;
+  max-height: calc(100vh - 200px); /* Adjust based on your layout */
 }
 
 .MuiCardContent-root {
