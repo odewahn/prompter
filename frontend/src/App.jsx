@@ -110,7 +110,7 @@ function App() {
           <LinearProgress
             variant="determinate"
             value={(currentGroupIndex / (groups.length - 1)) * 100}
-            style={{ width: "100%", marginTop: "10px" }}
+            style={{ width: "100%", marginTop: "10px", transition: "none" }}
           />
           <div className="blocks-list">
             {blockContents.map((block, index) => (
