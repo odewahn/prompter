@@ -82,6 +82,7 @@ function App() {
             <Card
               variant="outlined"
               style={{ marginBottom: "10px", flexGrow: 1 }}
+              elevation={0}
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
