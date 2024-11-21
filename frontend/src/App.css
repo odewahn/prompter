@@ -59,7 +59,7 @@
   flex: 2;
   padding: 20px;
   background-color: #2e2e2e; /* Lighter background color for blocks */
-  width: 100%; /* Expand to fill the full space allotted */
+  width: calc(100% - 20px); /* Adjust width to prevent cutting off */
   overflow-y: hidden; /* Prevent overflow from the Paper component */
   height: calc(100vh - 64px - 64px); /* Subtract app bar height */
   display: flex;
