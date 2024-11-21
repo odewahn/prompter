@@ -80,7 +80,6 @@ function App() {
         <Paper className="groups-column" elevation={3}>
           {groups.length > 0 && (
             <Card
-              variant="outlined"
               style={{ marginBottom: "10px", flexGrow: 1 }}
               elevation={0}
             >
