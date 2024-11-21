@@ -182,11 +182,11 @@ function App() {
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
-              {selectedBlockContent ? (
-                <div>
-                  <Typography variant="h6">
-                    {selectedBlockContent.tag}
-                  </Typography>
+              <Typography variant="h6">
+                {selectedBlockContent.tag}
+              </Typography>
+              <div style={{ overflowY: "auto", maxHeight: "calc(100vh - 250px)" }}>
+                {selectedBlockContent ? (
                   <Typography
                     variant="body2"
                     color="textSecondary"
@@ -194,10 +194,10 @@ function App() {
                   >
                     {selectedBlockContent.content}
                   </Typography>
-                </div>
-              ) : (
-                <Typography>Select a block to view its content</Typography>
-              )}
+                ) : (
+                  <Typography>Select a block to view its content</Typography>
+                )}
+              </div>
             </Paper>
           </Grid>
         </Grid>
