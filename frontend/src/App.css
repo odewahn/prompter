@@ -48,7 +48,7 @@
 .blocks-list {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 64px - 64px - 20px); /* Subtract app bar height and padding */
+  height: calc(100vh - 64px - 64px); /* Subtract app bar height */
 }
 
 .MuiCardContent-root {
