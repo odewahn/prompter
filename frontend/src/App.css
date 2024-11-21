@@ -18,14 +18,10 @@
   padding: 20px;
 }
 
-.groups-column {
-  flex: 1;
-  padding: 20px;
-  max-width: 33.33%; /* 1/3 of the width */
-  height: 100vh; /* Take full viewport height */
-  overflow-y: auto; /* Enable vertical scrolling */
+.group-navigation {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .blocks-list {

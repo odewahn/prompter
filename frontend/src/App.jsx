@@ -7,10 +7,11 @@ import {
   Paper,
   Card,
   CardContent,
-  Button,
+  Button, IconButton,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import "./App.css";
 
 function App() {
@@ -76,30 +77,32 @@ function App() {
       <Container className="app-container">
         <Paper className="groups-column" elevation={3}>
           <Typography variant="h6">Groups</Typography>
-          {groups.length > 0 && (
-            <Card variant="outlined" style={{ marginBottom: "10px" }}>
-              <CardContent>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {groups[currentGroupIndex].tag}
-                </Typography>
-                <Typography variant="body1">
-                  {groups[currentGroupIndex].command}
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
-          <Button
-            onClick={handlePreviousGroup}
-            disabled={currentGroupIndex === 0}
-          >
-            Previous
-          </Button>
-          <Button
-            onClick={handleNextGroup}
-            disabled={currentGroupIndex === groups.length - 1}
-          >
-            Next
-          </Button>
+          <div className="group-navigation">
+            <IconButton
+              onClick={handlePreviousGroup}
+              disabled={currentGroupIndex === 0}
+            >
+              <ArrowBack />
+            </IconButton>
+            {groups.length > 0 && (
+              <Card variant="outlined" style={{ marginBottom: "10px", flexGrow: 1 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    {groups[currentGroupIndex].tag}
+                  </Typography>
+                  <Typography variant="body1">
+                    {groups[currentGroupIndex].command}
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
+            <IconButton
+              onClick={handleNextGroup}
+              disabled={currentGroupIndex === groups.length - 1}
+            >
+              <ArrowForward />
+            </IconButton>
+          </div>
           <Typography variant="h6">Blocks</Typography>
           <div className="blocks-list">
             {blockContents.map((block, index) => (
