@@ -24,11 +24,6 @@
   margin-bottom: 10px;
 }
 
-.current-command {
-  border: 1px solid lightgray;
-  padding: 5px;
-  border-radius: 4px;
-}
 
 .MuiLinearProgress-root {
   transition: none !important; /* Remove animation */

@@ -79,18 +79,6 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Grid container spacing={3}>
-          {groups.length > 0 && (
-            <Grid item xs={12}>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                className="current-command"
-                style={{ marginBottom: "10px" }}
-              >
-                {groups[currentGroupIndex].command}
-              </Typography>
-            </Grid>
-          )}
           <Grid item xs={12} sm={4} md={4} lg={4}>
             <div className="groups-column">
               <div className="group-navigation">
