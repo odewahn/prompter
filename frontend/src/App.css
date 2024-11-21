@@ -22,6 +22,9 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  border: 1px solid #ccc; /* Add border around the group navigation */
+  padding: 10px; /* Add some padding inside the border */
+  border-radius: 5px; /* Optional: Add rounded corners */
 }
 
 
