@@ -66,6 +66,8 @@
   flex-direction: column;
   padding-bottom: 20px; /* Add padding to the bottom */
   margin-bottom: 20px; /* Add margin to the bottom */
+  border: 1px solid #ccc; /* Add border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add drop shadow */
 }
 
 .blocks-column > div {
