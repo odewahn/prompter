@@ -99,7 +99,7 @@ function App() {
                   >
                     <CardContent>
                       <Typography variant="subtitle2" color="textSecondary">
-                        Block Tag
+                        Group {currentGroupIndex + 1} of {groups.length}
                       </Typography>
                       <Typography variant="body1">
                         {groups[currentGroupIndex].tag}
@@ -114,11 +114,7 @@ function App() {
                   <ArrowForward />
                 </IconButton>
               </div>
-              <LinearProgress
-                variant="determinate"
-                value={(currentGroupIndex / (groups.length - 1)) * 100}
-                style={{ width: "100%", marginTop: "10px", transition: "none" }}
-              />
+
               <div className="blocks-list">
                 {blockContents.map((block, index) => (
                   <Card
