@@ -11,12 +11,12 @@
 .block-count {
   position: absolute;
   bottom: 10px;
-  left: 20px;
+  left: 0;
+  right: 0;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 5px 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: calc(100% - 40px); /* Ensure it fits within the column */
   text-align: center; /* Center the text */
 }
 
@@ -60,7 +60,7 @@
 .blocks-list {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 64px - 64px - 40px); /* Adjusted padding */
+  max-height: calc(100vh - 64px - 64px - 80px); /* Adjusted to be above block count */
   padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
 }
 
