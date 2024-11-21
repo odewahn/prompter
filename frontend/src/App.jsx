@@ -7,7 +7,8 @@ import {
   Paper,
   Card,
   CardContent,
-  Button, IconButton,
+  Button,
+  IconButton,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
@@ -76,7 +77,6 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Paper className="groups-column" elevation={3}>
-          <Typography variant="h6">Groups</Typography>
           <div className="group-navigation">
             <IconButton
               onClick={handlePreviousGroup}
@@ -85,7 +85,10 @@ function App() {
               <ArrowBack />
             </IconButton>
             {groups.length > 0 && (
-              <Card variant="outlined" style={{ marginBottom: "10px", flexGrow: 1 }}>
+              <Card
+                variant="outlined"
+                style={{ marginBottom: "10px", flexGrow: 1 }}
+              >
                 <CardContent>
                   <Typography variant="subtitle2" color="textSecondary">
                     {groups[currentGroupIndex].tag}
@@ -103,7 +106,7 @@ function App() {
               <ArrowForward />
             </IconButton>
           </div>
-          <Typography variant="h6">Blocks</Typography>
+          <hr />
           <div className="blocks-list">
             {blockContents.map((block, index) => (
               <Card
