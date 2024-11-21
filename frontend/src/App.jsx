@@ -3,8 +3,8 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Container,
-  Paper,
+  Container, 
+  Grid,
   Card,
   CardContent,
   Button,
@@ -77,79 +77,84 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container className="app-container">
-        <div className="groups-column">
-          <div className="group-navigation">
-            <IconButton
-              onClick={handlePreviousGroup}
-              disabled={currentGroupIndex === 0}
-            >
-              <ArrowBack />
-            </IconButton>
-            {groups.length > 0 && (
-              <Card
-                style={{ marginBottom: "10px", flexGrow: 1, minWidth: "20%" }}
-                elevation={0}
-              >
-                <CardContent>
-                  <Typography variant="subtitle2" color="textSecondary">
-                    {groups[currentGroupIndex].tag}
-                  </Typography>
-                  <Typography variant="body1">
-                    {groups[currentGroupIndex].command}
-                  </Typography>
-                </CardContent>
-              </Card>
-            )}
-            <IconButton
-              onClick={handleNextGroup}
-              disabled={currentGroupIndex === groups.length - 1}
-            >
-              <ArrowForward />
-            </IconButton>
-          </div>
-          <LinearProgress
-            variant="determinate"
-            value={(currentGroupIndex / (groups.length - 1)) * 100}
-            style={{ width: "100%", marginTop: "10px", transition: "none" }}
-          />
-          <div className="blocks-list">
-            {blockContents.map((block, index) => (
-              <Card
-                key={index}
-                variant="outlined"
-                style={{
-                  marginBottom: "10px",
-                  cursor: "pointer",
-                  backgroundColor:
-                    selectedBlockContent === block ? "#f0f0f0" : "inherit",
-                }}
-                onClick={() => setSelectedBlockContent(block)}
-              >
-                <CardContent>
-                  <Typography variant="subtitle2" color="textSecondary">
-                    {block.tag}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {block.content ? block.content.slice(0, 30) : ""}...
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        <Paper className="blocks-column" elevation={3}>
-          {selectedBlockContent ? (
-            <div>
-              <Typography variant="h6">{selectedBlockContent.tag}</Typography>
-              <Typography variant="body2" color="textSecondary" component="pre">
-                {selectedBlockContent.content}
-              </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={3}>
+            <div className="groups-column">
+              <div className="group-navigation">
+                <IconButton
+                  onClick={handlePreviousGroup}
+                  disabled={currentGroupIndex === 0}
+                >
+                  <ArrowBack />
+                </IconButton>
+                {groups.length > 0 && (
+                  <Card
+                    style={{ marginBottom: "10px", flexGrow: 1, minWidth: "20%" }}
+                    elevation={0}
+                  >
+                    <CardContent>
+                      <Typography variant="subtitle2" color="textSecondary">
+                        {groups[currentGroupIndex].tag}
+                      </Typography>
+                      <Typography variant="body1">
+                        {groups[currentGroupIndex].command}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                )}
+                <IconButton
+                  onClick={handleNextGroup}
+                  disabled={currentGroupIndex === groups.length - 1}
+                >
+                  <ArrowForward />
+                </IconButton>
+              </div>
+              <LinearProgress
+                variant="determinate"
+                value={(currentGroupIndex / (groups.length - 1)) * 100}
+                style={{ width: "100%", marginTop: "10px", transition: "none" }}
+              />
+              <div className="blocks-list">
+                {blockContents.map((block, index) => (
+                  <Card
+                    key={index}
+                    variant="outlined"
+                    style={{
+                      marginBottom: "10px",
+                      cursor: "pointer",
+                      backgroundColor:
+                        selectedBlockContent === block ? "#f0f0f0" : "inherit",
+                    }}
+                    onClick={() => setSelectedBlockContent(block)}
+                  >
+                    <CardContent>
+                      <Typography variant="subtitle2" color="textSecondary">
+                        {block.tag}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {block.content ? block.content.slice(0, 30) : ""}...
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
-          ) : (
-            <Typography>Select a block to view its content</Typography>
-          )}
-        </Paper>
+          </Grid>
+          <Grid item xs={9}>
+            <Paper className="blocks-column" elevation={3}>
+              {selectedBlockContent ? (
+                <div>
+                  <Typography variant="h6">{selectedBlockContent.tag}</Typography>
+                  <Typography variant="body2" color="textSecondary" component="pre">
+                    {selectedBlockContent.content}
+                  </Typography>
+                </div>
+              ) : (
+                <Typography>Select a block to view its content</Typography>
+              )}
+            </Paper>
+          </Grid>
+        </Grid>
       </Container>
     </ThemeProvider>
   );
