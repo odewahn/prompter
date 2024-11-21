@@ -42,7 +42,7 @@
   flex: 2;
   padding: 20px;
   background-color: #2e2e2e; /* Lighter background color for blocks */
-  max-width: 66.67%; /* 2/3 of the width */
+  width: 25%; /* Fixed width for the left column */
 }
 
 .blocks-container {
