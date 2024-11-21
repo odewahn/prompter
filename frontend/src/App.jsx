@@ -112,7 +112,6 @@ function App() {
             value={(currentGroupIndex / (groups.length - 1)) * 100}
             style={{ width: "100%", marginTop: "10px" }}
           />
-          <hr />
           <div className="blocks-list">
             {blockContents.map((block, index) => (
               <Card
