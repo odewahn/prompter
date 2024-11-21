@@ -52,12 +52,11 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           if (data.blocks) {
-            const contents = data.blocks.map((block) => block.content);
-            setBlockContents(contents);
-            if (contents.length > 0) {
-              setSelectedBlockContent(contents[0]);
+            setBlockContents(data.blocks);
+            if (data.blocks.length > 0) {
+              setSelectedBlockContent(data.blocks[0]);
             } else {
-              setSelectedBlockContent("");
+              setSelectedBlockContent({});
             }
           }
         })
@@ -116,10 +115,10 @@ function App() {
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {block.block_tag}
+                  {block.tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {block.block_content ? block.block_content.slice(0, 30) : ""}...
+                  {block.content ? block.content.slice(0, 30) : ""}...
                 </Typography>
               </CardContent>
             </Card>
@@ -127,11 +126,13 @@ function App() {
         </Paper>
 
         <Paper className="blocks-column" elevation={3}>
-          <Typography variant="h6">Block Content</Typography>
           {selectedBlockContent ? (
-            <Typography variant="body2" color="textSecondary" component="pre">
-              {selectedBlockContent.block_content}
-            </Typography>
+            <div>
+              <Typography variant="h6">{selectedBlockContent.tag}</Typography>
+              <Typography variant="body2" color="textSecondary" component="pre">
+                {selectedBlockContent.content}
+              </Typography>
+            </div>
           ) : (
             <Typography>Select a block to view its content</Typography>
           )}
