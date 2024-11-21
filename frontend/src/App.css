@@ -39,7 +39,7 @@
 .blocks-list {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 200px); /* Adjust based on your layout */
+  max-height: calc(100vh - 64px - 200px); /* Subtract app bar height */
 }
 
 .MuiCardContent-root {
@@ -52,7 +52,7 @@
   background-color: #2e2e2e; /* Lighter background color for blocks */
   width: 100%; /* Expand to fill the full space allotted */
   overflow-y: auto; /* Add vertical scrollbar */
-  height: 100vh; /* Take up 100% of the vertical space */
+  height: calc(100vh - 64px); /* Subtract app bar height */
 }
 
 .blocks-container {
