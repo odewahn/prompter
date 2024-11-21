@@ -81,8 +81,13 @@ function App() {
         <Grid container spacing={3}>
           {groups.length > 0 && (
             <Grid item xs={12}>
-              <Typography variant="subtitle1" color="textSecondary" className="current-command" style={{ marginBottom: "10px" }}>
-                Command: {groups[currentGroupIndex].command}
+              <Typography
+                variant="subtitle1"
+                color="textSecondary"
+                className="current-command"
+                style={{ marginBottom: "10px" }}
+              >
+                {groups[currentGroupIndex].command}
               </Typography>
             </Grid>
           )}
@@ -105,6 +110,9 @@ function App() {
                     elevation={0}
                   >
                     <CardContent>
+                      <Typography variant="subtitle2" color="textSecondary">
+                        Block Tag
+                      </Typography>
                       <Typography variant="body1">
                         {groups[currentGroupIndex].tag}
                       </Typography>
