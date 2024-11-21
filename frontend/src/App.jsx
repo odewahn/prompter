@@ -9,6 +9,7 @@ import {
   CardContent,
   Button,
   IconButton,
+  LinearProgress,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
@@ -106,6 +107,11 @@ function App() {
               <ArrowForward />
             </IconButton>
           </div>
+          <LinearProgress
+            variant="determinate"
+            value={(currentGroupIndex / (groups.length - 1)) * 100}
+            style={{ width: "100%", marginTop: "10px" }}
+          />
           <hr />
           <div className="blocks-list">
             {blockContents.map((block, index) => (
