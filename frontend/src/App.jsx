@@ -161,6 +161,11 @@ function App() {
                   </Card>
                 ))}
               </div>
+              <div className="block-count">
+                <Typography variant="body2" color="textSecondary">
+                  Total Blocks: {blockContents.length}
+                </Typography>
+              </div>
               <Popover
                 open={open}
                 anchorEl={anchorEl}
