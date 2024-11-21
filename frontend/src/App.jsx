@@ -24,8 +24,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.blocks) {
-          const contents = data.blocks.map((block) => block.content);
-          setBlockContents(contents);
+          setBlockContents(data.blocks);
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -103,7 +102,7 @@ function App() {
             Next
           </Button>
           <Typography variant="h6">Blocks</Typography>
-          {blockContents.map((content, index) => (
+          {blockContents.map((block, index) => (
             <Card
               key={index}
               variant="outlined"
@@ -111,16 +110,16 @@ function App() {
                 marginBottom: "10px",
                 cursor: "pointer",
                 backgroundColor:
-                  selectedBlockContent === content ? "#f0f0f0" : "inherit",
+                  selectedBlockContent === block.content ? "#f0f0f0" : "inherit",
               }}
-              onClick={() => setSelectedBlockContent(content)}
+              onClick={() => setSelectedBlockContent(block.content)}
             >
               <CardContent>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {content.tag}
+                  {block.tag}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  {content.slice(0, 30)}...
+                  {block.content.slice(0, 30)}...
                 </Typography>
               </CardContent>
             </Card>
