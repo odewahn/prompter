@@ -79,6 +79,12 @@ function App() {
       <Container className="app-container">
         <Paper className="groups-column" elevation={3}>
           <div className="group-navigation">
+            <IconButton
+              onClick={handlePreviousGroup}
+              disabled={currentGroupIndex === 0}
+            >
+              <ArrowBack />
+            </IconButton>
             {groups.length > 0 && (
               <Card
                 style={{ marginBottom: "10px", flexGrow: 1, minWidth: "20%" }}
@@ -94,12 +100,6 @@ function App() {
                 </CardContent>
               </Card>
             )}
-            <IconButton
-              onClick={handlePreviousGroup}
-              disabled={currentGroupIndex === 0}
-            >
-              <ArrowBack />
-            </IconButton>
             <IconButton
               onClick={handleNextGroup}
               disabled={currentGroupIndex === groups.length - 1}
