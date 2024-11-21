@@ -16,6 +16,8 @@
   padding: 5px 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 40px); /* Ensure it fits within the column */
+  text-align: center; /* Center the text */
 }
 
 .app-container {
