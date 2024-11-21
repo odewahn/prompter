@@ -78,6 +78,11 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container className="app-container">
+        {groups.length > 0 && (
+          <Typography variant="subtitle1" color="textSecondary" style={{ marginBottom: "10px" }}>
+            Command: {groups[currentGroupIndex].command}
+          </Typography>
+        )}
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4} md={4} lg={4}>
             <div className="groups-column">
@@ -98,9 +103,6 @@ function App() {
                     elevation={0}
                   >
                     <CardContent>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        {groups[currentGroupIndex].command.slice(0, 20)}...
-                      </Typography>
                       <Typography variant="body1">
                         {groups[currentGroupIndex].tag}
                       </Typography>
