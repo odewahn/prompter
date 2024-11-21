@@ -8,6 +8,10 @@
   overflow: hidden; /* Prevent page scrolling */
 }
 
+.groups-column {
+  position: relative; /* Ensure the block count is positioned relative to this container */
+}
+
 .block-count {
   position: absolute;
   bottom: 10px;
