@@ -3,7 +3,7 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Container, 
+  Container,
   Grid,
   Card,
   CardContent,
@@ -90,15 +90,19 @@ function App() {
                 </IconButton>
                 {groups.length > 0 && (
                   <Card
-                    style={{ marginBottom: "10px", flexGrow: 1, minWidth: "20%" }}
+                    style={{
+                      marginBottom: "10px",
+                      flexGrow: 1,
+                      minWidth: "20%",
+                    }}
                     elevation={0}
                   >
                     <CardContent>
                       <Typography variant="subtitle2" color="textSecondary">
-                        {groups[currentGroupIndex].tag}
+                        {groups[currentGroupIndex].command.slice(0, 20)}...
                       </Typography>
                       <Typography variant="body1">
-                        {groups[currentGroupIndex].command}
+                        {groups[currentGroupIndex].tag}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -145,8 +149,14 @@ function App() {
             <Paper className="blocks-column" elevation={3}>
               {selectedBlockContent ? (
                 <div>
-                  <Typography variant="h6">{selectedBlockContent.tag}</Typography>
-                  <Typography variant="body2" color="textSecondary" component="pre">
+                  <Typography variant="h6">
+                    {selectedBlockContent.tag}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="pre"
+                  >
                     {selectedBlockContent.content}
                   </Typography>
                 </div>
