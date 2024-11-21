@@ -63,6 +63,7 @@
   height: calc(100vh - 64px - 64px); /* Subtract app bar height */
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px; /* Add padding to the bottom */
 }
 
 .blocks-container {
