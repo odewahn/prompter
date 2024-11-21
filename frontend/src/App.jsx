@@ -10,11 +10,12 @@ import {
   Button,
   IconButton,
   LinearProgress,
+  Popover,
   Paper,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
 
 function App() {
@@ -38,6 +39,18 @@ function App() {
       .then((groupsData) => setGroups(groupsData))
       .catch((error) => console.error("Error fetching groups:", error));
   }, []);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   const handleNextGroup = () => {
     setCurrentGroupIndex((prevIndex) =>
@@ -98,9 +111,18 @@ function App() {
                     elevation={0}
                   >
                     <CardContent>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        Group {currentGroupIndex + 1} of {groups.length}
-                      </Typography>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <IconButton
+                          size="small"
+                          onClick={handlePopoverOpen}
+                          style={{ marginRight: "5px" }}
+                        >
+                          <Info fontSize="small" />
+                        </IconButton>
+                        <Typography variant="subtitle2" color="textSecondary">
+                          Group {currentGroupIndex + 1} of {groups.length}
+                        </Typography>
+                      </div>
                       <Typography variant="body1">
                         {groups[currentGroupIndex].tag}
                       </Typography>
@@ -139,7 +161,24 @@ function App() {
                   </Card>
                 ))}
               </div>
-            </div>
+              <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+              >
+                <Typography sx={{ p: 2 }}>
+                  {groups[currentGroupIndex]?.command || "No command available"}
+                </Typography>
+              </Popover>
+            </div> 
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
