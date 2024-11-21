@@ -10,6 +10,7 @@
 
 .groups-column {
   position: relative; /* Ensure the block count is positioned relative to this container */
+  height: 100%; /* Make sure the column takes full height */
 }
 
 .block-count {
