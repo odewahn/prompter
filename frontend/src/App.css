@@ -65,7 +65,7 @@
 .blocks-list {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 64px - 64px - 120px); /* Adjusted to ensure block count is visible */
+  max-height: calc(100vh - 64px - 64px - 160px); /* Further adjusted to ensure block count is visible */
   padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
 }
 
