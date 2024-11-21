@@ -163,7 +163,7 @@ function App() {
               </div>
               <div className="block-count">
                 <Typography variant="body2" color="textSecondary">
-                  Total Blocks: {blockContents.length}
+                  Block {blockContents.indexOf(selectedBlockContent) + 1} of {blockContents.length}
                 </Typography>
               </div>
               <Popover
