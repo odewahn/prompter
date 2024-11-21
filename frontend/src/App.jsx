@@ -101,28 +101,30 @@ function App() {
             Next
           </Button>
           <Typography variant="h6">Blocks</Typography>
-          {blockContents.map((block, index) => (
-            <Card
-              key={index}
-              variant="outlined"
-              style={{
-                marginBottom: "10px",
-                cursor: "pointer",
-                backgroundColor:
-                  selectedBlockContent === block ? "#f0f0f0" : "inherit",
-              }}
-              onClick={() => setSelectedBlockContent(block)}
-            >
-              <CardContent>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {block.tag}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {block.content ? block.content.slice(0, 30) : ""}...
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
+          <div className="blocks-list">
+            {blockContents.map((block, index) => (
+              <Card
+                key={index}
+                variant="outlined"
+                style={{
+                  marginBottom: "10px",
+                  cursor: "pointer",
+                  backgroundColor:
+                    selectedBlockContent === block ? "#f0f0f0" : "inherit",
+                }}
+                onClick={() => setSelectedBlockContent(block)}
+              >
+                <CardContent>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    {block.tag}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {block.content ? block.content.slice(0, 30) : ""}...
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </Paper>
 
         <Paper className="blocks-column" elevation={3}>
