@@ -24,6 +24,10 @@
   margin-bottom: 10px;
 }
 
+.group-navigation .MuiCardContent-root {
+  white-space: normal; /* Allow text to wrap */
+}
+
 .blocks-list {
   flex: 1;
   overflow-y: auto;

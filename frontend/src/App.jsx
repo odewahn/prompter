@@ -81,7 +81,7 @@ function App() {
           <div className="group-navigation">
             {groups.length > 0 && (
               <Card
-                style={{ marginBottom: "10px", flexGrow: 1 }}
+                style={{ marginBottom: "10px", flexGrow: 1, minWidth: "20%" }}
                 elevation={0}
               >
                 <CardContent>
