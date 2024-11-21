@@ -15,7 +15,7 @@
 
 .block-count {
   position: absolute;
-  bottom: 20px; /* Raise the block count 20px from the bottom */
+  bottom: 40px; /* Raise the block count 40px from the bottom */
   left: 0;
   right: 0;
   background-color: rgba(255, 255, 255, 0.8);
@@ -80,7 +80,7 @@
   background-color: #2e2e2e; /* Lighter background color for blocks */
   width: calc(100% - 20px); /* Adjust width to prevent cutting off */
   overflow-y: hidden; /* Prevent overflow from the Paper component */
-  height: calc(100vh - 64px - 64px); /* Subtract app bar height */
+  height: calc(100vh - 64px - 64px - 20px); /* Subtract app bar height and add margin */
   display: flex;
   flex-direction: column;
   padding-bottom: 20px; /* Add padding to the bottom */
