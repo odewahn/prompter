@@ -230,4 +230,10 @@ def create_parser():
 
     add = add_subparser("web", "Open a web browser to view data", [])
 
+    add = add_subparser(
+        "help",
+        "Get help",
+        [],
+    )
+
     return parser

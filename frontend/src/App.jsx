@@ -25,20 +25,39 @@ function App() {
   const [selectedBlockContent, setSelectedBlockContent] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/blocks")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.blocks) {
-          setBlockContents(data.blocks);
-        }
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-
     fetch("http://localhost:8000/api/groups")
       .then((response) => response.json())
-      .then((groupsData) => setGroups(groupsData))
+      .then((groupsData) => {
+        setGroups(groupsData);
+        // find the index of the group where is_current = 1
+        const currentGroupIndex = groupsData.findIndex(
+          (group) => group.is_current === 1
+        );
+        if (currentGroupIndex !== -1) {
+          setCurrentGroupIndex(currentGroupIndex);
+        }
+      })
       .catch((error) => console.error("Error fetching groups:", error));
   }, []);
+
+  useEffect(() => {
+    if (groups.length > 0) {
+      const currentGroup = groups[currentGroupIndex];
+      fetch(`http://localhost:8000/api/blocks/${currentGroup.tag}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.blocks) {
+            setBlockContents(data.blocks);
+            if (data.blocks.length > 0) {
+              setSelectedBlockContent(data.blocks[0]);
+            } else {
+              setSelectedBlockContent({});
+            }
+          }
+        })
+        .catch((error) => console.error("Error fetching blocks:", error));
+    }
+  }, [currentGroupIndex]);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -62,25 +81,6 @@ function App() {
     setCurrentGroupIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  useEffect(() => {
-    if (groups.length > 0) {
-      const currentGroup = groups[currentGroupIndex];
-      fetch(`http://localhost:8000/api/blocks/${currentGroup.tag}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.blocks) {
-            setBlockContents(data.blocks);
-            if (data.blocks.length > 0) {
-              setSelectedBlockContent(data.blocks[0]);
-            } else {
-              setSelectedBlockContent({});
-            }
-          }
-        })
-        .catch((error) => console.error("Error fetching blocks:", error));
-    }
-  }, [currentGroupIndex, groups]);
-
   return (
     <ThemeProvider theme={nightModeTheme}>
       <AppBar position="static">
@@ -89,6 +89,14 @@ function App() {
             Prompter
           </Typography>
         </Toolbar>
+        <Button
+          color="inherit"
+          onClick={() => {
+            console.log(groups[currentGroupIndex]);
+          }}
+        >
+          Print Group
+        </Button>
       </AppBar>
       <Container className="app-container">
         <Grid container spacing={3}>
@@ -163,7 +171,8 @@ function App() {
               </div>
               <div className="block-count">
                 <Typography variant="body2" color="textSecondary">
-                  Block {blockContents.indexOf(selectedBlockContent) + 1} of {blockContents.length}
+                  Block {blockContents.indexOf(selectedBlockContent) + 1} of{" "}
+                  {blockContents.length}
                 </Typography>
               </div>
               <Popover

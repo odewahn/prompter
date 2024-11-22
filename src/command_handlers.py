@@ -11,7 +11,6 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.transformations import apply_transformation
     from src.openai_functions import complete, dump_to_audio
     from src.common import *
-    from src.command_parser import create_parser
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
@@ -63,6 +62,7 @@ async def handle_command(args, command):
         "write": handle_write_command,
         "speak": handle_speak_command,
         "web": handle_web_command,
+        "help": handle_help_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -458,3 +458,8 @@ async def handle_web_command(args, command):
     except Exception as e:
         print(f"[red]{e}")
         return
+
+
+async def handle_help_command(args, command):
+    parser = create_parser()
+    parser.print_help()
