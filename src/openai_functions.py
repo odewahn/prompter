@@ -39,28 +39,15 @@ async def openai_completion(
 
 async def complete(
     blocks,
-    task_fn,
-    persona_fn=None,
-    metadata_fn=None,
+    task_text=None,
+    persona_text=None,
+    metadata={},
     model=OPENAI_DEFAULT_MODEL,
     temperature=OPENAI_DEFAULT_TEMPERATURE,
 ):
     # is os.environ["OPENAI_API_KEY"] is not set then print a warning
     if "OPENAI_API_KEY" not in os.environ:
         raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
-
-    # Load the task and persona text
-    task_text = None
-    persona_text = None
-    metadata = {}
-    try:
-        task_text = await load_file_or_url(task_fn)
-        if persona_fn:
-            persona_text = await load_file_or_url(persona_fn)
-        if metadata_fn:
-            metadata = await load_metadata(metadata_fn)
-    except Exception as e:
-        raise e
 
     # Set up jinja templates based on the task and persona text
     task_template = jinja2.Template(task_text)

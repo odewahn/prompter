@@ -11,6 +11,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.transformations import apply_transformation
     from src.openai_functions import complete, dump_to_audio
     from src.common import *
+    from src.command_parser import create_parser
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
@@ -22,6 +23,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from shlex import split as shlex_split
     import itertools
     import webbrowser
+    import yaml
+    import traceback
 
 
 db_manager = None
@@ -68,7 +71,7 @@ async def handle_command(args, command):
     if handler:
         await handler(args, command)
     else:
-        raise Exception(f"Unknown commandz: {args.command}")
+        raise Exception(f"Unknown command: {args.command}")
 
 
 # ******************************************************************************
@@ -114,7 +117,8 @@ async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
     try:
         content = await load_file_or_url(fn)
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]The following error occurred: {e}")
+        print(traceback.format_exc())
         return
     # Parse the content into instructions
     print("Raw content:\n", content)
@@ -335,6 +339,22 @@ async def handle_run_command(args, command):
 async def handle_complete_command(args, command):
     if not args.task:
         raise Exception("You must supply the filename or URL of a task to complete")
+    # load the templates
+    task_text = None
+    persona_text = None
+    metadata = {}
+    try:
+        task_text = await load_file_or_url(args.task)
+        if args.persona:
+            persona_text = await load_file_or_url(args.persona)
+        if args.metadata:
+            metadata = await load_metadata(args.metadata)
+    except Exception as e:
+        raise e
+    print(f"Task: {task_text}")
+    print(f"Persona: {persona_text}")
+    print(f"Metadata: {yaml.dump(metadata)}")
+    # Get the current blocks
     current_blocks, _ = await db_manager.get_current_blocks(args.where)
     if not current_blocks:
         raise Exception("No blocks found to complete")
@@ -342,9 +362,9 @@ async def handle_complete_command(args, command):
     try:
         completed_blocks = await complete(
             current_blocks,
-            args.task,
-            args.persona,
-            args.metadata,
+            task_text,
+            persona_text,
+            metadata,
             model=args.model,
             temperature=args.temperature,
         )
@@ -352,8 +372,9 @@ async def handle_complete_command(args, command):
         G = {
             "tag": args.tag if args.tag else generate_random_tag(),
             "command": command,
-            "task_prompt": args.task,
-            "persona_prompt": args.persona,
+            "task_prompt": task_text,
+            "persona_prompt": persona_text,
+            "metadata_yaml": yaml.dump(metadata),
         }
         B = []
         for block in completed_blocks:

@@ -51,6 +51,7 @@ class Group(Base):
     tag = Column(String, unique=True)
     task_prompt = Column(String)
     persona_prompt = Column(String)
+    metadata_yaml = Column(String)
     created_at = Column(DateTime, server_default=func.now())
 
 
@@ -141,6 +142,7 @@ class DatabaseManager:
                     is_current=True,
                     task_prompt=group_data.get("task_prompt", ""),
                     persona_prompt=group_data.get("persona_prompt", ""),
+                    metadata_yaml=group_data.get("metadata_yaml", ""),
                 )
                 session.add(group)
                 await session.flush()  # Ensure the group.id is available
