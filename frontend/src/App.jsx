@@ -164,12 +164,7 @@ function App() {
                   </Card>
                 ))}
               </div>
-              <div className="block-count">
-                <Typography variant="body2" color="textSecondary">
-                  Block {blockContents.indexOf(selectedBlockContent) + 1} of{" "}
-                  {blockContents.length}
-                </Typography>
-              </div>
+
               <Popover
                 open={open}
                 anchorEl={anchorEl}
@@ -192,7 +187,8 @@ function App() {
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
               <FileEditor
-                language="jinja"
+                value={taskPrompt}
+                language="handlebars"
                 onChange={(value) => {
                   setTaskPrompt(value);
                 }}

@@ -1,13 +1,5 @@
 
-.file-editor-container {
-  border: 2px solid #ccc; /* Add a border around the main div */
-  border-radius: 4px; /* Optional: Add rounded corners */
-  padding: 10px; /* Optional: Add some padding inside the border */
-  margin-bottom: 20px; /* Optional: Add some margin below the component */
-  height: 200px; /* Set a fixed height */
-  display: flex;
-  flex-direction: column;
-}
+
 
 .button-group .MuiButton-root + .MuiButton-root {
   margin-left: 10px; /* Ensure there is a 10px margin between buttons */
@@ -16,33 +8,20 @@
 .button-group {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
 .button-group .MuiButton-root {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .button-group .MuiButton-root:last-child {
-  margin-right: 0;
-}
-.file-editor-container {
-  border: 2px solid #ccc; /* Add a border around the main div */
-  border-radius: 4px; /* Optional: Add rounded corners */
-  padding: 10px; /* Optional: Add some padding inside the border */
-  margin-bottom: 20px; /* Optional: Add some margin below the component */
-  background-color: white; /* Ensure the background is white for visibility */
-  width: 100%; /* Ensure it takes full width of its container */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  height: 100%; /* Ensure it takes full height of its container */
-  display: flex;
-  flex-direction: column;
+  margin-right: 4px;
 }
 
-.ace_editor {
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  height: 200px; /* Set the height for the editor */
-  width: 100%; /* Ensure the editor takes full width */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+.editor-container {
+  margin: 20px; /* Optional: Add some margin below the component */
+  border: 1px solid #e0e0e0; /* Optional: Add a border around the component */
 }
+
+

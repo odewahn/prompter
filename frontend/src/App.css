@@ -14,15 +14,12 @@
 }
 
 .block-count {
-  position: absolute;
-  bottom: 20px; /* Raise the block count 40px from the bottom */
-  left: 0;
-  right: 0;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 5px 10px;
   border: 1px solid #ccc; /* Add a light gray border */
   border-radius: 5px;
   text-align: center; /* Center the text */
+  margin-bottom: 10px;
 }
 
 .app-container {
@@ -98,10 +95,4 @@
   flex-direction: column;
   gap: 10px;
 }
-.ace_editor {
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  height: 300px; /* Reduce the height for the editor */
-  width: 100%; /* Ensure the editor takes full width */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
+
