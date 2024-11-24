@@ -16,29 +16,27 @@ import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
-// Code editor imports
-import Editor from "react-simple-code-editor";
-import Prism from "prismjs";
-import "prismjs/components/prism-core";
-import "prismjs/components/prism-django";
-import "prismjs/components/prism-yaml";
-import "prismjs/themes/prism.css"; // Example style, you can use another
-
-const highlightCode = (code, language) => {
-  return Prism.highlight(code, Prism.languages[language], language);
-};
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-django";
+import "ace-builds/src-noconflict/theme-github";
 
 function EditorComponent({ value, language, onChange }) {
-  const handleChange = (newValue) => {
-    onChange(newValue);
-  };
   return (
-    <Editor
+    <AceEditor
+      mode={language}
+      theme="github"
+      name="editor"
       value={value}
-      onValueChange={handleChange}
-      highlight={(code) => highlightCode(code, language)}
-      padding={10}
-      className="code-editor"
+      onChange={onChange}
+      fontSize={14}
+      width="100%"
+      setOptions={{
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true,
+        showLineNumbers: true,
+        tabSize: 2,
+      }}
     />
   );
 }
