@@ -53,9 +53,13 @@ function FileEditor({ value, language, onChange }) {
           Select File
         </Button>
       </label>
-      <button onClick={handleSave} style={{ marginBottom: "10px" }}>
+      <Button
+        variant="contained"
+        onClick={handleSave}
+        style={{ marginBottom: "10px" }}
+      >
         Save
-      </button>
+      </Button>
       <AceEditor
         mode={language} // Use the language prop for mode
         theme="github"
