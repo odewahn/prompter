@@ -16,33 +16,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/ace";
-import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
-import "ace-builds/src-noconflict/theme-github";
-
-function EditorComponent({ value, language, onChange }) {
-  return (
-    <AceEditor
-      mode="markdown" // Use markdown mode for better text handling
-      theme="github"
-      name="editor"
-      value={value}
-      onChange={onChange}
-      fontSize={14}
-      width="100%"
-      setOptions={{
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: true,
-        showLineNumbers: true,
-        tabSize: 2,
-        useWorker: false, // Disable the worker to avoid issues with custom modes
-        wrap: true, // Enable line wrapping
-      }}
-    />
-  );
-}
+import FileEditor from "./FileEditor";
 
 function App() {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
@@ -219,7 +193,7 @@ function App() {
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
-              <EditorComponent
+              <FileEditor
                 value={groups[currentGroupIndex]?.task_prompt || ""}
                 language="jinja"
                 onChange={(value) => {
