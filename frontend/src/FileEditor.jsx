@@ -8,7 +8,12 @@ import "ace-builds/src-noconflict/theme-github";
 import "./FileEditor.css";
 
 export default function FileEditor({ value, language, onChange }) {
+  const [filename, setFilename] = useState("edited-file.txt");
+
   const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFilename(file.name); // Store the filename
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -23,7 +28,7 @@ export default function FileEditor({ value, language, onChange }) {
     const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "edited-file.txt"; // Default filename, can be customized
+    link.download = filename; // Use the stored filename
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
