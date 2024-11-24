@@ -38,6 +38,7 @@ function EditorComponent({ value, language, onChange }) {
       style={{
         fontFamily: '"Fira code", "Fira Mono", monospace',
         fontSize: 12,
+        lineHeight: 1.5, /* Ensure line height matches the font size */
         backgroundColor: "#f5f5f5",
       }}
     />
