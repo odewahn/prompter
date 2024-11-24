@@ -5,6 +5,8 @@ import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
 import "ace-builds/src-noconflict/theme-github";
 
+import "./FileEditor.css";
+
 export default function FileEditor({ value, language, onChange }) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -56,5 +58,6 @@ export default function FileEditor({ value, language, onChange }) {
           wrap: true, // Enable line wrapping
         }}
       />
+    </div>
   );
 }
