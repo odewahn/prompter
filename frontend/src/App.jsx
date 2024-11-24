@@ -16,16 +16,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
-import FileEditor from "./FileEditor.jsx";
+import FileEditor from "./FileEditor";
 
 function App() {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [groups, setGroups] = useState([]);
   const [blockContents, setBlockContents] = useState([]);
   const [selectedBlockContent, setSelectedBlockContent] = useState("");
-  const [taskPrompt, setTaskPrompt] = useState(
-    groups[currentGroupIndex]?.task_prompt || ""
-  );
+  const [taskPrompt, setTaskPrompt] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/api/groups")
@@ -193,16 +191,20 @@ function App() {
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
-              <FileEditor
-                value={groups[currentGroupIndex]?.task_prompt || ""}
-                language="jinja"
-                onChange={(value) => {
-                  setTaskPrompt(value);
-                  const updatedGroups = [...groups];
-                  updatedGroups[currentGroupIndex].task_prompt = value;
-                  setGroups(updatedGroups);
+              <div
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "10px",
                 }}
-              />
+              >
+                <FileEditor
+                  language="jinja"
+                  onChange={(value) => {
+                    setTaskPrompt(value);
+                  }}
+                />
+              </div>
               <Typography variant="h6">{selectedBlockContent.tag}</Typography>
               <hr />
               <div style={{ flex: 1, overflowY: "auto" }}>
