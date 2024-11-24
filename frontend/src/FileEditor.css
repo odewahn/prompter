@@ -42,7 +42,7 @@
 .ace_editor {
   border: 1px solid #ccc;
   margin-bottom: 20px;
-  height: 150px; /* Further reduce the height for the editor */
+  height: 200px; /* Set the height for the editor */
   width: 100%; /* Ensure the editor takes full width */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
