@@ -17,14 +17,11 @@ function FileEditor({ language, onChange }) {
     const file = event.target.files[0];
     if (file) {
       setFilename(file.name); // Store the filename
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          onChange(e.target.result);
-        };
-        reader.readAsText(file);
-      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        onChange(e.target.result);
+      };
+      reader.readAsText(file);
     }
   };
 
