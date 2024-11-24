@@ -10,7 +10,7 @@
 }
 
 .button-group .MuiButton-root + .MuiButton-root {
-  margin-left: 10px;
+  margin-left: 20px; /* Increase the margin to add more space between buttons */
 }
 
 .button-group {
