@@ -10,7 +10,7 @@
 
 .groups-column {
   position: relative; /* Ensure the block count is positioned relative to this container */
-  height: 100%; /* Make sure the column takes full height */
+  height: auto; /* Allow the column to adjust its height based on content */
 }
 
 .block-count {
@@ -65,7 +65,6 @@
 .blocks-list {
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 64px - 64px - 160px); /* Further adjusted to ensure block count is visible */
   padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
   width: 100%; /* Make cards take full width of the container */
 }
