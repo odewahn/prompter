@@ -50,8 +50,8 @@ function FileEditor({ value, language, onChange }) {
         theme="github"
         name="editor"
         value={value}
-        onChange={() => {
-          onChange(value);
+        onChange={(newValue) => {
+          onChange(newValue);
         }}
         fontSize={14}
         width="100%"
