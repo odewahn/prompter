@@ -9,9 +9,13 @@
   flex-direction: column;
 }
 
+.button-group .MuiButton-root + .MuiButton-root {
+  margin-left: 10px;
+}
+
 .button-group {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 10px;
 }
 
