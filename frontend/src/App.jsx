@@ -18,17 +18,22 @@ import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
 // Code editor imports
 import Editor from "react-simple-code-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
+import Prism from "prismjs";
+import "prismjs/components/prism-core";
 import "prismjs/components/prism-django";
 import "prismjs/components/prism-yaml";
-import "prismjs/themes/prism.css"; //Example style, you can use another
+import "prismjs/themes/prism.css"; // Example style, you can use another
+
+const highlightCode = (code, language) => {
+  return Prism.highlight(code, Prism.languages[language], language);
+};
 
 function EditorComponent({ value, language, onChange }) {
   return (
     <Editor
       value={value}
       onValueChange={onChange}
-      highlight={(code) => highlight(code, languages[language])}
+      highlight={(code) => highlightCode(code, language)}
       padding={10}
       style={{
         fontFamily: '"Fira code", "Fira Mono", monospace',
