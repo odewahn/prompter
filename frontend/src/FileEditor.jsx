@@ -17,7 +17,27 @@ export default function FileEditor({ value, language, onChange }) {
     }
   };
 
+  const handleSave = () => {
+    const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "edited-file.txt"; // Default filename, can be customized
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
+    <div>
+      <input
+        type="file"
+        accept=".txt,.md,.yaml,.jinja2,.jinja"
+        onChange={handleFileChange}
+        style={{ marginBottom: "10px" }}
+      />
+      <button onClick={handleSave} style={{ marginBottom: "10px" }}>
+        Save
+      </button>
     <div>
       <input
         type="file"
