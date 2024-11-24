@@ -38,13 +38,6 @@ export default function FileEditor({ value, language, onChange }) {
       <button onClick={handleSave} style={{ marginBottom: "10px" }}>
         Save
       </button>
-    <div>
-      <input
-        type="file"
-        accept=".txt,.md,.yaml,.jinja2,.jinja"
-        onChange={handleFileChange}
-        style={{ marginBottom: "10px" }}
-      />
       <AceEditor
         mode={language} // Use the language prop for mode
         theme="github"
@@ -63,6 +56,5 @@ export default function FileEditor({ value, language, onChange }) {
           wrap: true, // Enable line wrapping
         }}
       />
-    </div>
   );
 }
