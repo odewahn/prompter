@@ -1,7 +1,7 @@
-ace.define("ace/mode/jinja", ["require", "exports", "module", "ace/lib/oop", "ace/mode/html", "ace/mode/text_highlight_rules"], function(require, exports, module) {
+ace.define("ace/mode/jinja", ["require", "exports", "module", "ace/lib/oop", "ace/mode/html", "ace/mode/html_highlight_rules"], function(require, exports, module) {
     var oop = require("ace/lib/oop");
     var HtmlMode = require("ace/mode/html").Mode;
-    var TextHighlightRules = require("ace/mode/text_highlight_rules").TextHighlightRules;
+    var HtmlHighlightRules = require("ace/mode/html_highlight_rules").HtmlHighlightRules;
 
     var JinjaHighlightRules = function() {
         this.$rules = {
@@ -49,7 +49,7 @@ ace.define("ace/mode/jinja", ["require", "exports", "module", "ace/lib/oop", "ac
             ]
         };
     };
-    oop.inherits(JinjaHighlightRules, TextHighlightRules);
+    oop.inherits(JinjaHighlightRules, HtmlHighlightRules);
 
     var Mode = function() {
         HtmlMode.call(this);

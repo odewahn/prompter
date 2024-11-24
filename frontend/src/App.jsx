@@ -18,6 +18,7 @@ import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
 import AceEditor from "react-ace";
 import "./mode-jinja";
+import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/theme-github";
 
 function EditorComponent({ value, language, onChange }) {
