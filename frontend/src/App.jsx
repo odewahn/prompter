@@ -24,7 +24,7 @@ import "ace-builds/src-noconflict/theme-github";
 function EditorComponent({ value, language, onChange }) {
   return (
     <AceEditor
-      mode="markdown" // Ensure this matches the mode defined in mode-jinja.js
+      mode="markdown" // Use markdown mode for better text handling
       theme="github"
       name="editor"
       value={value}
