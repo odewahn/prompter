@@ -1,0 +1,5 @@
+.ace_editor {
+  border: 2px solid #ccc; /* Add a border around the editor */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  padding: 10px; /* Optional: Add some padding inside the border */
+}
