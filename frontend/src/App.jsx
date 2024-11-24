@@ -217,12 +217,12 @@ function App() {
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
               <EditorComponent
-                value={groups[currentGroupIndex]?.metadata_yaml || ""}
-                language="yaml"
+                value={groups[currentGroupIndex]?.task_prompt || ""}
+                language="jinja"
                 onChange={(value) => {
                   setTaskPrompt(value);
                   const updatedGroups = [...groups];
-                  updatedGroups[currentGroupIndex].metadata_yaml = value;
+                  updatedGroups[currentGroupIndex].task_prompt = value;
                   setGroups(updatedGroups);
                 }}
               />
