@@ -4,19 +4,20 @@ import { Button } from "@mui/material";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
-import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/theme-eclipse";
+import "ace-builds/src-noconflict/mode-handlebars";
+import "ace-builds/src-noconflict/mode-python";
 
 import "./FileEditor.css";
 
 function FileEditor({ value, language, onChange }) {
   const [filename, setFilename] = useState("edited-file.txt");
 
-  console.log("GOT HERE");
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setFilename(file.name); // Store the filename
+      console.log(file.name);
       const reader = new FileReader();
       reader.onload = (e) => {
         onChange(e.target.result);
@@ -37,6 +38,30 @@ function FileEditor({ value, language, onChange }) {
 
   return (
     <div className="file-editor-container">
+      <div className="editor-container">
+        <AceEditor
+          mode="handlebars" // Use the language prop for mode
+          height="250px"
+          theme="eclipse"
+          name="editor"
+          value={value}
+          onChange={(newValue) => {
+            onChange(newValue);
+          }}
+          fontSize={16}
+          width="100%"
+          setOptions={{
+            enableSnippets: true,
+            showLineNumbers: true,
+            tabSize: 2,
+            useWorker: false, // Disable the worker to avoid issues with custom modes
+            wrap: true, // Enable line wrapping
+            maxPixelHeight: 400,
+            indentedSoftWrap: false,
+          }}
+        />
+      </div>
+
       <input
         type="file"
         accept=".txt,.md,.yaml,.jinja2,.jinja"
@@ -47,33 +72,13 @@ function FileEditor({ value, language, onChange }) {
       <div className="button-group">
         <label htmlFor="file-input">
           <Button variant="contained" component="span">
-            Select File
+            Load
           </Button>
         </label>
         <Button variant="contained" onClick={handleSave}>
           Save
         </Button>
       </div>
-      <AceEditor
-        mode={language} // Use the language prop for mode
-        theme="github"
-        name="editor"
-        value={value}
-        onChange={(newValue) => {
-          onChange(newValue);
-        }}
-        fontSize={14}
-        width="100%"
-        setOptions={{
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true,
-          enableSnippets: true,
-          showLineNumbers: true,
-          tabSize: 2,
-          useWorker: false, // Disable the worker to avoid issues with custom modes
-          wrap: true, // Enable line wrapping
-        }}
-      />
     </div>
   );
 }
