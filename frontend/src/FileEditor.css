@@ -5,3 +5,12 @@
   padding: 10px; /* Optional: Add some padding inside the border */
   margin-bottom: 20px; /* Optional: Add some margin below the component */
 }
+.file-editor-container {
+  border: 2px solid #ccc; /* Add a border around the main div */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  padding: 10px; /* Optional: Add some padding inside the border */
+  margin-bottom: 20px; /* Optional: Add some margin below the component */
+  background-color: white; /* Ensure the background is white for visibility */
+  width: 100%; /* Ensure it takes full width of its container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}

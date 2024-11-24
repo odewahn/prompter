@@ -191,20 +191,12 @@ function App() {
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
-              <div
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  padding: "10px",
+              <FileEditor
+                language="jinja"
+                onChange={(value) => {
+                  setTaskPrompt(value);
                 }}
-              >
-                <FileEditor
-                  language="jinja"
-                  onChange={(value) => {
-                    setTaskPrompt(value);
-                  }}
-                />
-              </div>
+              />
               <Typography variant="h6">{selectedBlockContent.tag}</Typography>
               <hr />
               <div style={{ flex: 1, overflowY: "auto" }}>
