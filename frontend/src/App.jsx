@@ -29,10 +29,13 @@ const highlightCode = (code, language) => {
 };
 
 function EditorComponent({ value, language, onChange }) {
+  const handleChange = (newValue) => {
+    onChange(newValue);
+  };
   return (
     <Editor
       value={value}
-      onValueChange={onChange}
+      onValueChange={handleChange}
       highlight={(code) => highlightCode(code, language)}
       padding={10}
       className="code-editor"
