@@ -21,28 +21,28 @@ export default function FileEditor({ value, language, onChange }) {
     <div>
       <input
         type="file"
-        accept=".txt,.md,.html,.js,.json,.py,.java,.c,.cpp,.cs,.rb,.go,.rs,.ts,.tsx"
+        accept=".txt,.md,.yaml,.jinja2,.jinja"
         onChange={handleFileChange}
         style={{ marginBottom: "10px" }}
       />
-    <AceEditor
-      mode={language} // Use the language prop for mode
-      theme="github"
-      name="editor"
-      value={value}
-      onChange={onChange}
-      fontSize={14}
-      width="100%"
-      setOptions={{
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: true,
-        showLineNumbers: true,
-        tabSize: 2,
-        useWorker: false, // Disable the worker to avoid issues with custom modes
-        wrap: true, // Enable line wrapping
-      }}
-    />
+      <AceEditor
+        mode={language} // Use the language prop for mode
+        theme="github"
+        name="editor"
+        value={value}
+        onChange={onChange}
+        fontSize={14}
+        width="100%"
+        setOptions={{
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 2,
+          useWorker: false, // Disable the worker to avoid issues with custom modes
+          wrap: true, // Enable line wrapping
+        }}
+      />
     </div>
   );
 }
