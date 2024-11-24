@@ -91,7 +91,7 @@
 
 .blocks-column > div {
   flex: 1;
-  overflow-y: auto; /* Allow scrolling for the content area */
+  overflow-y: visible; /* Allow content to scroll off the page */
 }
 
 .blocks-container {
