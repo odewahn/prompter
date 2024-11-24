@@ -5,7 +5,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Prevent page scrolling */
+  overflow: auto; /* Allow page scrolling */
 }
 
 .groups-column {
@@ -79,8 +79,8 @@
   padding: 20px;
   background-color: #2e2e2e; /* Lighter background color for blocks */
   width: calc(100% - 20px); /* Adjust width to prevent cutting off */
-  overflow-y: hidden; /* Prevent overflow from the Paper component */
-  height: calc(100vh - 64px - 64px - 20px); /* Subtract app bar height and add margin */
+  overflow-y: auto; /* Allow overflow from the Paper component */
+  height: auto; /* Allow height to adjust based on content */
   display: flex;
   flex-direction: column;
   padding-bottom: 20px; /* Add padding to the bottom */
