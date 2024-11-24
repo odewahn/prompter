@@ -48,6 +48,7 @@ function App() {
   const [groups, setGroups] = useState([]);
   const [blockContents, setBlockContents] = useState([]);
   const [selectedBlockContent, setSelectedBlockContent] = useState("");
+  const [taskPrompt, setTaskPrompt] = useState(groups[currentGroupIndex]?.task_prompt || "");
 
   useEffect(() => {
     fetch("http://localhost:8000/api/groups")
@@ -68,6 +69,7 @@ function App() {
 
   useEffect(() => {
     if (groups.length > 0) {
+      setTaskPrompt(groups[currentGroupIndex]?.task_prompt || "");
       const currentGroup = groups[currentGroupIndex];
       fetch(`http://localhost:8000/api/blocks/${currentGroup.tag}`)
         .then((response) => response.json())
@@ -218,7 +220,10 @@ function App() {
                 value={groups[currentGroupIndex]?.task_prompt || ""}
                 language="django"
                 onChange={(value) => {
-                  console.log(value);
+                  setTaskPrompt(value);
+                  const updatedGroups = [...groups];
+                  updatedGroups[currentGroupIndex].task_prompt = value;
+                  setGroups(updatedGroups);
                 }}
               />
               <Typography variant="h6">{selectedBlockContent.tag}</Typography>
