@@ -56,7 +56,7 @@ function FileEditor({ value, language, onChange }) {
       <Button
         variant="contained"
         onClick={handleSave}
-        style={{ marginBottom: "10px", marginRight: "10px" }}
+        style={{ marginBottom: "10px", marginRight: "10px", marginLeft: "10px" }}
       >
         Save
       </Button>
