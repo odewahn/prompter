@@ -17,13 +17,13 @@ import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
 import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-django";
+import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 
 function EditorComponent({ value, language, onChange }) {
   return (
     <AceEditor
-      mode={language}
+      mode="python"
       theme="github"
       name="editor"
       value={value}
