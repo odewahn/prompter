@@ -5,6 +5,23 @@
   padding: 10px; /* Optional: Add some padding inside the border */
   margin-bottom: 20px; /* Optional: Add some margin below the component */
   height: 200px; /* Set a fixed height */
+  display: flex;
+  flex-direction: column;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.button-group .MuiButton-root {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.button-group .MuiButton-root:last-child {
+  margin-right: 0;
 }
 .file-editor-container {
   border: 2px solid #ccc; /* Add a border around the main div */

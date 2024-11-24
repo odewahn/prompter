@@ -44,26 +44,16 @@ function FileEditor({ value, language, onChange }) {
         style={{ display: "none" }}
         id="file-input"
       />
-      <label htmlFor="file-input">
-        <Button
-          variant="contained"
-          component="span"
-          style={{ marginBottom: "10px" }}
-        >
-          Select File
+      <div className="button-group">
+        <label htmlFor="file-input">
+          <Button variant="contained" component="span">
+            Select File
+          </Button>
+        </label>
+        <Button variant="contained" onClick={handleSave}>
+          Save
         </Button>
-      </label>
-      <Button
-        variant="contained"
-        onClick={handleSave}
-        style={{
-          marginBottom: "10px",
-          marginRight: "10px",
-          marginLeft: "10px",
-        }}
-      >
-        Save
-      </Button>
+      </div>
       <AceEditor
         mode={language} // Use the language prop for mode
         theme="github"
