@@ -16,7 +16,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
-import FileEditor from "./FileEditor.js";
+import FileEditor from "./FileEditor";
 
 function App() {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
