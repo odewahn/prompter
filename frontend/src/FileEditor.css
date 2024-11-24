@@ -3,3 +3,9 @@
   border-radius: 4px; /* Optional: Add rounded corners */
   padding: 10px; /* Optional: Add some padding inside the border */
 }
+.file-editor-container {
+  border: 2px solid #ccc; /* Add a border around the main div */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  padding: 10px; /* Optional: Add some padding inside the border */
+  margin-bottom: 20px; /* Optional: Add some margin below the component */
+}

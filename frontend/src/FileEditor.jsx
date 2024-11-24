@@ -35,7 +35,7 @@ export default function FileEditor({ value, language, onChange }) {
     };
 
     return (
-      <div>
+      <div className="file-editor-container">
         <input
           type="file"
           accept=".txt,.md,.yaml,.jinja2,.jinja"
