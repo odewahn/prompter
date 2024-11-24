@@ -17,14 +17,14 @@ import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
 import AceEditor from "react-ace";
-import "./mode-jinja";
 import "ace-builds/src-noconflict/ace";
+import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
 import "ace-builds/src-noconflict/theme-github";
 
 function EditorComponent({ value, language, onChange }) {
   return (
     <AceEditor
-      mode="jinja"
+      mode="jinja" // Ensure this matches the mode defined in mode-jinja.js
       theme="github"
       name="editor"
       value={value}
@@ -37,6 +37,7 @@ function EditorComponent({ value, language, onChange }) {
         enableSnippets: true,
         showLineNumbers: true,
         tabSize: 2,
+        useWorker: false, // Disable the worker to avoid issues with custom modes
       }}
     />
   );
