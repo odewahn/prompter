@@ -197,6 +197,14 @@ function App() {
                   setTaskPrompt(value);
                 }}
               />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => console.log(taskPrompt)}
+                style={{ marginTop: "10px" }}
+              >
+                Print Task Prompt
+              </Button>
               <Typography variant="h6">{selectedBlockContent.tag}</Typography>
               <hr />
               <div style={{ flex: 1, overflowY: "auto" }}>
