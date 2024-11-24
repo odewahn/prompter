@@ -61,6 +61,7 @@ function App() {
         );
         if (currentGroupIndex !== -1) {
           setCurrentGroupIndex(currentGroupIndex);
+          console.log(groupsData[currentGroupIndex]);
         }
       })
       .catch((error) => console.error("Error fetching groups:", error));
