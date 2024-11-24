@@ -13,4 +13,7 @@
   background-color: white; /* Ensure the background is white for visibility */
   width: 100%; /* Ensure it takes full width of its container */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  height: 100%; /* Ensure it takes full height of its container */
+  display: flex;
+  flex-direction: column;
 }
