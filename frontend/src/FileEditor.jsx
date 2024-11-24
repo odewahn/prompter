@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
 import "ace-builds/src-noconflict/theme-github";
 
-//import "./FileEditor.css";
+import "./FileEditor.css";
 
 function FileEditor({ value, language, onChange }) {
   const [filename, setFilename] = useState("edited-file.txt");
@@ -56,7 +56,11 @@ function FileEditor({ value, language, onChange }) {
       <Button
         variant="contained"
         onClick={handleSave}
-        style={{ marginBottom: "10px", marginRight: "10px", marginLeft: "10px" }}
+        style={{
+          marginBottom: "10px",
+          marginRight: "10px",
+          marginLeft: "10px",
+        }}
       >
         Save
       </Button>
