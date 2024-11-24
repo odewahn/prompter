@@ -46,7 +46,9 @@ function App() {
   const [groups, setGroups] = useState([]);
   const [blockContents, setBlockContents] = useState([]);
   const [selectedBlockContent, setSelectedBlockContent] = useState("");
-  const [taskPrompt, setTaskPrompt] = useState(groups[currentGroupIndex]?.task_prompt || "");
+  const [taskPrompt, setTaskPrompt] = useState(
+    groups[currentGroupIndex]?.task_prompt || ""
+  );
 
   useEffect(() => {
     fetch("http://localhost:8000/api/groups")
@@ -215,12 +217,12 @@ function App() {
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <Paper className="blocks-column" elevation={3}>
               <EditorComponent
-                value={groups[currentGroupIndex]?.task_prompt || ""}
-                language="django"
+                value={groups[currentGroupIndex]?.metadata_yaml || ""}
+                language="yaml"
                 onChange={(value) => {
                   setTaskPrompt(value);
                   const updatedGroups = [...groups];
-                  updatedGroups[currentGroupIndex].task_prompt = value;
+                  updatedGroups[currentGroupIndex].metadata_yaml = value;
                   setGroups(updatedGroups);
                 }}
               />
