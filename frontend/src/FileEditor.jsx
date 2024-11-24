@@ -7,8 +7,7 @@ import "ace-builds/src-noconflict/theme-github";
 
 //import "./FileEditor.css";
 
-function FileEditor({ language, onChange }) {
-  const [value, setValue] = useState("shhiiiiiiit");
+function FileEditor({ value, language, onChange }) {
   const [filename, setFilename] = useState("edited-file.txt");
 
   console.log("GOT HERE");
