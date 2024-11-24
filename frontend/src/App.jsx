@@ -38,6 +38,7 @@ function EditorComponent({ value, language, onChange }) {
         showLineNumbers: true,
         tabSize: 2,
         useWorker: false, // Disable the worker to avoid issues with custom modes
+        wrap: true, // Enable line wrapping
       }}
     />
   );
