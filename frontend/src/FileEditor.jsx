@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Button } from "@mui/material";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
@@ -40,8 +41,18 @@ function FileEditor({ value, language, onChange }) {
         type="file"
         accept=".txt,.md,.yaml,.jinja2,.jinja"
         onChange={handleFileChange}
-        style={{ marginBottom: "10px" }}
+        style={{ display: "none" }}
+        id="file-input"
       />
+      <label htmlFor="file-input">
+        <Button
+          variant="contained"
+          component="span"
+          style={{ marginBottom: "10px" }}
+        >
+          Select File
+        </Button>
+      </label>
       <button onClick={handleSave} style={{ marginBottom: "10px" }}>
         Save
       </button>
