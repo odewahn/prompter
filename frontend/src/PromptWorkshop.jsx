@@ -41,7 +41,11 @@ export default function PromptWorkshop({ block }) {
   return (
     <div>
       <div>
-        <IconButton onClick={toggleCollapse} style={{ marginBottom: "10px" }}>
+        <IconButton
+          disableRipple
+          onClick={toggleCollapse}
+          style={{ marginBottom: "10px" }}
+        >
           {isCollapsed ? <ArrowRight /> : <ArrowDropDown />}
           <Typography variant="button" style={{ marginLeft: "5px" }}>
             Prompt Workshop
