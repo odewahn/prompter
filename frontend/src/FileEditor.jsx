@@ -47,24 +47,24 @@ function FileEditor({ value, language, onChange }) {
 
   return (
     <div className="file-editor-container">
-      <div className="editor-wrapper">
-        <div className="button-column">
-          <input
-            type="file"
-            accept=".txt,.md,.yaml,.jinja2,.jinja"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-            id="file-input"
-          />
-          <label htmlFor="file-input">
-            <IconButton component="span">
-              <FolderOpen />
-            </IconButton>
-          </label>
-          <IconButton onClick={handleSave}>
-            <Save />
+      <div className="button-column">
+        <input
+          type="file"
+          accept=".txt,.md,.yaml,.jinja2,.jinja"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+          id="file-input"
+        />
+        <label htmlFor="file-input">
+          <IconButton component="span">
+            <FolderOpen />
           </IconButton>
-        </div>
+        </label>
+        <IconButton onClick={handleSave}>
+          <Save />
+        </IconButton>
+      </div>
+      <div className="editor-wrapper">
         <AceEditor
           mode={mode} // Use the language prop for mode
           height="250px"

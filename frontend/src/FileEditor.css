@@ -44,3 +44,24 @@
   width: 100% !important;
   height: 250px !important;
 }
+.file-editor-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.editor-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ace_editor {
+  width: 100% !important;
+  height: 250px !important;
+}
