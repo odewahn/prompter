@@ -42,6 +42,7 @@ export default function PromptWorkshop({ block }) {
           sx={{
             "& .MuiTabs-indicator": {
               backgroundColor: "blue",
+              transition: "none", // Disable the transition animation
             },
             "& .Mui-selected": {
               outline: "none",
