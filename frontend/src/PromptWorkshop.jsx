@@ -39,7 +39,7 @@ export default function PromptWorkshop({ block }) {
   };
 
   return (
-    <div>
+    <div className="prompt-workshop-container">
       <div>
         <IconButton
           disableRipple
