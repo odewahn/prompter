@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
 import "./PromptWorkshop.css";
 
+import FileEditor from "./FileEditor.jsx";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -46,13 +48,31 @@ export default function PromptWorkshop({ content, metadata }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Task Prompt Content
+        <FileEditor
+          value={taskPrompt}
+          language="jinja"
+          onChange={(value) => {
+            setTaskPrompt(value);
+          }}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Persona Prompt Content
+      <FileEditor
+                value={taskPrompt}
+                language="jinja"
+                onChange={(value) => {
+                  setTaskPrompt(value);
+                }}
+              />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Metadata Content
+      <FileEditor
+                value={taskPrompt}
+                language="jinja"
+                onChange={(value) => {
+                  setTaskPrompt(value);
+                }}
+              />
       </TabPanel>
       <TabPanel value={value} index={3}>
         Model Settings Content
