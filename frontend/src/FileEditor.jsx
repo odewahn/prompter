@@ -47,7 +47,7 @@ function FileEditor({ value, language, onChange }) {
 
   return (
     <div className="file-editor-container">
-      <div className="file-editor-container">
+      <div className="editor-wrapper">
         <div className="button-column">
           <input
             type="file"
