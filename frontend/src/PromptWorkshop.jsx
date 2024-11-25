@@ -6,21 +6,21 @@ import "./PromptWorkshop.css";
 import FileEditor from "./FileEditor.jsx";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, tabIndex, index, ...other } = props;
 
-  const [value, setValue] = useState(0);
+  const [tabIndex, setTabIndex] = useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event, newTabIndex) => {
+    setTabIndex(newTabIndex);
   };
     <div
       role="tabpanel"
-      hidden={value !== index}
+      hidden={tabIndex !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
+      {tabIndex === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
         </Box>
@@ -40,14 +40,14 @@ export default function PromptWorkshop({ content, metadata }) {
   return (
     <div>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={tabIndex} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Task Prompt" {...a11yProps(0)} />
           <Tab label="Persona Prompt" {...a11yProps(1)} />
           <Tab label="Metadata" {...a11yProps(2)} />
           <Tab label="Model Settings" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      <TabPanel tabIndex={tabIndex} index={0}>
         <FileEditor
           value={taskPrompt}
           language="jinja"
@@ -56,7 +56,7 @@ export default function PromptWorkshop({ content, metadata }) {
           }}
         />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel tabIndex={tabIndex} index={1}>
       <FileEditor
                 value={taskPrompt}
                 language="jinja"
@@ -65,7 +65,7 @@ export default function PromptWorkshop({ content, metadata }) {
                 }}
               />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel tabIndex={tabIndex} index={2}>
       <FileEditor
                 value={taskPrompt}
                 language="jinja"
@@ -74,7 +74,7 @@ export default function PromptWorkshop({ content, metadata }) {
                 }}
               />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      <TabPanel tabIndex={tabIndex} index={3}>
         Model Settings Content
       </TabPanel>
     </div>
