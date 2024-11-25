@@ -10,3 +10,7 @@
 .MuiIconButton-root:focus {
   outline: none; /* Remove the focus outline */
 }
+
+.MuiIconButton-root:hover {
+  background-color: transparent; /* Remove the hover background */
+}
