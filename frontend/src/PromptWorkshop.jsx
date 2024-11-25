@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Tabs, Tab, Box, Typography, Button, IconButton } from "@mui/material";
+import { Tabs, Tab, Box, Typography, Button, IconButton, Slider } from "@mui/material";
 import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
 import "./PromptWorkshop.css";
 
@@ -110,14 +110,14 @@ export default function PromptWorkshop({ block }) {
                 </div>
                 <div>
                   <Typography variant="subtitle1">Temperature</Typography>
-                  <input
-                    type="number"
+                  <Slider
                     value={temperature}
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                    style={{ width: "100%", padding: "5px", borderRadius: "4px", border: "1px solid #ccc" }}
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    onChange={(e, newValue) => setTemperature(newValue)}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="temperature-slider"
                   />
                 </div>
               </div>
