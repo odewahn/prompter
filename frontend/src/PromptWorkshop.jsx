@@ -11,6 +11,7 @@ function TabPanel({ children, tabIndex, index, ...other }) {
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
   };
+  return (
     <div
       role="tabpanel"
       hidden={tabIndex !== index}
