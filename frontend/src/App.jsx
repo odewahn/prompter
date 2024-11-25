@@ -16,7 +16,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import { ArrowBack, ArrowForward, Info } from "@mui/icons-material";
 import "./App.css";
-import FileEditor from "./FileEditor.jsx";
+import PromptWorkshop from "./PromptWorkshop";
 
 function App() {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
@@ -36,7 +36,6 @@ function App() {
         );
         if (currentGroupIndex !== -1) {
           setCurrentGroupIndex(currentGroupIndex);
-          console.log(groupsData[currentGroupIndex]);
         }
       })
       .catch((error) => console.error("Error fetching groups:", error));
@@ -185,22 +184,8 @@ function App() {
             </div>
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
+            <PromptWorkshop block={selectedBlockContent} />
             <Paper className="blocks-column" elevation={3}>
-              <FileEditor
-                value={taskPrompt}
-                language="handlebars"
-                onChange={(value) => {
-                  setTaskPrompt(value);
-                }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => console.log(taskPrompt)}
-                style={{ marginTop: "10px" }}
-              >
-                Print Task Prompt
-              </Button>
               <Typography variant="h6">{selectedBlockContent.tag}</Typography>
               <hr />
               <div style={{ flex: 1, overflowY: "auto" }}>

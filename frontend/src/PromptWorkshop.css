@@ -23,5 +23,6 @@
 .prompt-workshop-container {
   border: 1px solid lightgrey;
   border-radius: 8px;
-  padding: 10px;
+  padding: 6px;
+  margin-bottom: 10px;
 }
