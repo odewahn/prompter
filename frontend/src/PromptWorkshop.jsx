@@ -5,28 +5,24 @@ import "./PromptWorkshop.css";
 
 import FileEditor from "./FileEditor.jsx";
 
-function TabPanel(props) {
-
+function TabPanel({ children, tabIndex, index, ...other }) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
   };
-
-  function TabPanel({ children, tabIndex, index, ...other }) {
-    return (
-        <div
-        role="tabpanel"
-        hidden={tabIndex !== index}
-        id={`simple-tabpanel-${index}`}
-        {...other}
-        >
-        {tabIndex === index && (
-            <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-            </Box>
-        )}
-        </div>
+    <div
+      role="tabpanel"
+      hidden={tabIndex !== index}
+      id={`simple-tabpanel-${index}`}
+      {...other}
+    >
+      {tabIndex === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
   );
 }
 
