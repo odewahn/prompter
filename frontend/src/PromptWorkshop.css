@@ -14,3 +14,7 @@
 .MuiIconButton-root:hover {
   background-color: transparent; /* Remove the hover background */
 }
+
+.MuiTypography-root:hover {
+  background-color: transparent; /* Remove the hover background for Typography */
+}
