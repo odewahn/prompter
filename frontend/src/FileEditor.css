@@ -43,6 +43,8 @@
 .ace_editor {
   width: 100% !important;
   height: 250px !important;
+  border: 1px solid lightgrey; /* Add a light border around the editor */
+  border-radius: 4px; /* Optional: Add rounded corners */
 }
 .file-editor-container {
   display: flex;
