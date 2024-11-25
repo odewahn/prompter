@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
 
-import { Tabs, Tab, Box, Typography, Button, IconButton, Slider } from "@mui/material";
+import {
+  Tabs,
+  Tab,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Slider,
+} from "@mui/material";
 import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
 import "./PromptWorkshop.css";
+
+const yaml = require("js-yaml");
 
 import FileEditor from "./FileEditor.jsx";
 
 function TabPanel({ children, tabIndex, index, ...other }) {
   return (
     <div
+      className="tab-container"
       role="tabpanel"
       hidden={tabIndex !== index}
       id={`simple-tabpanel-${index}`}
@@ -38,6 +49,14 @@ export default function PromptWorkshop({ block }) {
 
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
+  };
+
+  const convertYAMLtoJSON = (yaml) => {
+    try {
+      return yaml.load(yaml);
+    } catch (e) {
+      return {};
+    }
   };
 
   return (
@@ -98,14 +117,25 @@ export default function PromptWorkshop({ block }) {
               </TabPanel>
             </div>
             <TabPanel tabIndex={tabIndex} index={3}>
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
                 <div>
                   <Typography variant="subtitle1">Model</Typography>
                   <input
                     type="text"
                     value={model}
                     onChange={(e) => setModel(e.target.value)}
-                    style={{ width: "100%", padding: "5px", borderRadius: "4px", border: "1px solid #ccc" }}
+                    style={{
+                      width: "100%",
+                      padding: "5px",
+                      borderRadius: "4px",
+                      border: "1px solid #ccc",
+                    }}
                   />
                 </div>
                 <div>
@@ -125,7 +155,10 @@ export default function PromptWorkshop({ block }) {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => console.log(block)}
+              onClick={() => {
+                console.log(block);
+                console.log("METADATA", convertYAMLtoJSON(metadata));
+              }}
               style={{ marginTop: "10px" }}
             >
               Print Block
