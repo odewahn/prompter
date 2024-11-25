@@ -9,10 +9,12 @@
 
 .MuiIconButton-root:focus {
   outline: none; /* Remove the focus outline */
+  background-image: none; /* Remove any focus background image */
 }
 
 .MuiIconButton-root:hover {
   background-color: transparent; /* Remove the hover background */
+  background-image: none; /* Remove any hover background image */
 }
 
 .MuiTypography-root:hover {
