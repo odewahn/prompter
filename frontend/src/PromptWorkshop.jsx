@@ -122,6 +122,7 @@ export default function PromptWorkshop({ block }) {
                 </div>
               </div>
             </TabPanel>
+            <Button
               variant="contained"
               color="primary"
               onClick={() => console.log(block)}
@@ -129,9 +130,6 @@ export default function PromptWorkshop({ block }) {
             >
               Print Block
             </Button>
-            <TabPanel tabIndex={tabIndex} index={3}>
-              Model Settings Content
-            </TabPanel>
           </>
         )}
       </div>
