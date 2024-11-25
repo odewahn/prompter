@@ -18,6 +18,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from sqlalchemy import text
     from fastapi.middleware.cors import CORSMiddleware
     from pydantic import BaseModel
+    from src.openai_functions import complete
+    from fastapi import HTTPException
 
 
 app = FastAPI()
@@ -70,7 +72,26 @@ async def get_blocks(block_tag: str = None):
 
             return result
 
-@app.get("/api/groups", response_model=list)
+class CompletionRequest(BaseModel):
+    task: str
+    persona: str
+    model: str
+    temperature: float
+    data: dict
+
+@app.post("/api/complete", response_model=dict)
+async def complete_prompt(request: CompletionRequest):
+    try:
+        results = await complete(
+            blocks=[request.data],
+            task_text=request.task,
+            persona_text=request.persona,
+            model=request.model,
+            temperature=request.temperature
+        )
+        return results[0]  # Assuming complete returns a list of results
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 async def get_groups():
     db_manager = DatabaseManager(DatabaseManager.current_db_url)
     async with db_manager.SessionLocal() as session:
