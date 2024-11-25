@@ -1,0 +1,8 @@
+.custom-tabs .MuiTabs-indicator {
+  background-color: blue;
+  transition: none; /* Disable the transition animation */
+}
+
+.custom-tabs .Mui-selected {
+  outline: none;
+}
