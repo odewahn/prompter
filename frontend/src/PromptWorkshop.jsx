@@ -33,6 +33,8 @@ export default function PromptWorkshop({ block }) {
   const [taskPrompt, setTaskPrompt] = useState("");
   const [personaPrompt, setPersonaPrompt] = useState("");
   const [metadata, setMetadata] = useState("");
+  const [model, setModel] = useState("gpt-4o-mini");
+  const [temperature, setTemperature] = useState(0.1);
 
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
@@ -95,7 +97,31 @@ export default function PromptWorkshop({ block }) {
                 />
               </TabPanel>
             </div>
-            <Button
+            <TabPanel tabIndex={tabIndex} index={3}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div>
+                  <Typography variant="subtitle1">Model</Typography>
+                  <input
+                    type="text"
+                    value={model}
+                    onChange={(e) => setModel(e.target.value)}
+                    style={{ width: "100%", padding: "5px", borderRadius: "4px", border: "1px solid #ccc" }}
+                  />
+                </div>
+                <div>
+                  <Typography variant="subtitle1">Temperature</Typography>
+                  <input
+                    type="number"
+                    value={temperature}
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    onChange={(e) => setTemperature(parseFloat(e.target.value))}
+                    style={{ width: "100%", padding: "5px", borderRadius: "4px", border: "1px solid #ccc" }}
+                  />
+                </div>
+              </div>
+            </TabPanel>
               variant="contained"
               color="primary"
               onClick={() => console.log(block)}
