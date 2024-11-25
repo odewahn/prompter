@@ -41,7 +41,7 @@ export default function PromptWorkshop({ block }) {
           aria-label="basic tabs example"
           sx={{
             "& .MuiTabs-indicator": {
-              backgroundColor: "currentColor",
+              backgroundColor: "blue",
             },
             "& .Mui-selected": {
               outline: "none",
