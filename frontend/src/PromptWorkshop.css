@@ -6,3 +6,7 @@
 .custom-tabs .Mui-selected {
   outline: none;
 }
+
+.MuiIconButton-root:focus {
+  outline: none; /* Remove the focus outline */
+}
