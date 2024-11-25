@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { Tabs, Tab, Box, Typography } from "@mui/material";
+import { Tabs, Tab, Box, Typography, Button } from "@mui/material";
 import "./PromptWorkshop.css";
 
 import FileEditor from "./FileEditor.jsx";
 
 function TabPanel({ children, tabIndex, index, ...other }) {
-  const [tabIndex, setTabIndex] = useState(0);
-
-  const handleChange = (event, newTabIndex) => {
-    setTabIndex(newTabIndex);
-  };
   return (
     <div
       role="tabpanel"
@@ -27,45 +22,67 @@ function TabPanel({ children, tabIndex, index, ...other }) {
   );
 }
 
+export default function PromptWorkshop({ block }) {
+  const [tabIndex, setTabIndex] = useState(0);
+  const [taskPrompt, setTaskPrompt] = useState("");
+  const [personaPrompt, setPersonaPrompt] = useState("");
+  const [metadata, setMetadata] = useState("");
 
-export default function PromptWorkshop({ content, metadata }) {
+  const handleChange = (event, newTabIndex) => {
+    setTabIndex(newTabIndex);
+  };
+
   return (
     <div>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabIndex} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Task Prompt" {...a11yProps(0)} />
-          <Tab label="Persona Prompt" {...a11yProps(1)} />
-          <Tab label="Metadata" {...a11yProps(2)} />
-          <Tab label="Model Settings" {...a11yProps(3)} />
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={tabIndex}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Task" />
+          <Tab label="Persona" />
+          <Tab label="Metadata" />
+          <Tab label="Model" />
         </Tabs>
       </Box>
-      <TabPanel tabIndex={tabIndex} index={0}>
-        <FileEditor
-          value={taskPrompt}
-          language="jinja"
-          onChange={(value) => {
-            setTaskPrompt(value);
-          }}
-        />
-      </TabPanel>
-      <TabPanel tabIndex={tabIndex} index={1}>
-      <FileEditor
-                value={taskPrompt}
-                language="jinja"
-                onChange={(value) => {
-                  setTaskPrompt(value);
-                }}
-              />
-      </TabPanel>
-      <TabPanel tabIndex={tabIndex} index={2}>
-      <FileEditor
-                value={taskPrompt}
-                language="jinja"
-                onChange={(value) => {
-                  setTaskPrompt(value);
-                }}
-              />
-      </TabPanel>
+      <div>
+        <TabPanel tabIndex={tabIndex} index={0}>
+          <FileEditor
+            value={taskPrompt}
+            language="jinja"
+            onChange={(value) => {
+              setTaskPrompt(value);
+            }}
+          />
+        </TabPanel>
+        <TabPanel tabIndex={tabIndex} index={1}>
+          <FileEditor
+            value={personaPrompt}
+            language="jinja"
+            onChange={(value) => {
+              setPersonaPrompt(value);
+            }}
+          />
+        </TabPanel>
+        <TabPanel tabIndex={tabIndex} index={2}>
+          <FileEditor
+            value={metadata}
+            language="yaml"
+            onChange={(value) => {
+              setMetadata(value);
+            }}
+          />
+        </TabPanel>
+      </div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => console.log(block)}
+        style={{ marginTop: "10px" }}
+      >
+        Print Block
+      </Button>
       <TabPanel tabIndex={tabIndex} index={3}>
         Model Settings Content
       </TabPanel>
