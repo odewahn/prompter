@@ -46,17 +46,28 @@ export default function PromptWorkshop({ block }) {
   const [metadata, setMetadata] = useState("");
   const [model, setModel] = useState("gpt-4o-mini");
   const [temperature, setTemperature] = useState(0.1);
+  const [completion, setCompletion] = useState("");
 
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
   };
 
-  const convertYAMLtoJSON = (yaml) => {
+  const convertYAMLtoJSON = (data) => {
     try {
-      return yaml.load(yaml);
+      if (!data) {
+        return {};
+      }
+      return yaml.load(data);
     } catch (e) {
       return {};
     }
+  };
+
+  const mergeMetadataWithBlock = (block, metadata) => {
+    return {
+      ...metadata,
+      ...block,
+    };
   };
 
   return (
@@ -157,7 +168,11 @@ export default function PromptWorkshop({ block }) {
               color="primary"
               onClick={() => {
                 console.log(block);
-                console.log("METADATA", convertYAMLtoJSON(metadata));
+                var merged = mergeMetadataWithBlock(
+                  block,
+                  convertYAMLtoJSON(metadata)
+                );
+                console.log("Merged", merged);
               }}
               style={{ marginTop: "10px" }}
             >
