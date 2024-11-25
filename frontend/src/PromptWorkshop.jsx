@@ -39,6 +39,14 @@ export default function PromptWorkshop({ block }) {
           value={tabIndex}
           onChange={handleChange}
           aria-label="basic tabs example"
+          sx={{
+            "& .MuiTabs-indicator": {
+              backgroundColor: "currentColor",
+            },
+            "& .Mui-selected": {
+              outline: "none",
+            },
+          }}
         >
           <Tab label="Task" />
           <Tab label="Persona" />
