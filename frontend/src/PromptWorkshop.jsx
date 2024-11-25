@@ -12,7 +12,7 @@ import {
 import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
 import "./PromptWorkshop.css";
 
-const yaml = require("js-yaml");
+import yaml from "js-yaml";
 
 import FileEditor from "./FileEditor.jsx";
 
