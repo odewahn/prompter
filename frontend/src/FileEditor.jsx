@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { Save, FolderOpen } from "@mui/icons-material";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/theme-eclipse";
@@ -46,7 +47,24 @@ function FileEditor({ value, language, onChange }) {
 
   return (
     <div className="file-editor-container">
-      <div className="editor-container">
+      <div className="file-editor-container">
+        <div className="button-column">
+          <input
+            type="file"
+            accept=".txt,.md,.yaml,.jinja2,.jinja"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+            id="file-input"
+          />
+          <label htmlFor="file-input">
+            <IconButton component="span">
+              <FolderOpen />
+            </IconButton>
+          </label>
+          <IconButton onClick={handleSave}>
+            <Save />
+          </IconButton>
+        </div>
         <AceEditor
           mode={mode} // Use the language prop for mode
           height="250px"
@@ -69,23 +87,6 @@ function FileEditor({ value, language, onChange }) {
         />
       </div>
 
-      <input
-        type="file"
-        accept=".txt,.md,.yaml,.jinja2,.jinja"
-        onChange={handleFileChange}
-        style={{ display: "none" }}
-        id="file-input"
-      />
-      <div className="button-group">
-        <label htmlFor="file-input">
-          <Button variant="contained" component="span">
-            Load
-          </Button>
-        </label>
-        <Button variant="contained" onClick={handleSave}>
-          Save
-        </Button>
-      </div>
     </div>
   );
 }
