@@ -15,6 +15,7 @@ import "./PromptWorkshop.css";
 import yaml from "js-yaml";
 
 import FileEditor from "./FileEditor.jsx";
+import { set } from "ace-builds/src-noconflict/ace.js";
 
 function TabPanel({ children, tabIndex, index, ...other }) {
   return (
@@ -47,6 +48,7 @@ export default function PromptWorkshop({ block }) {
   const [model, setModel] = useState("gpt-4o-mini");
   const [temperature, setTemperature] = useState(0.1);
   const [completion, setCompletion] = useState("");
+  const [waiting, setWaiting] = useState(false);
 
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
@@ -68,6 +70,36 @@ export default function PromptWorkshop({ block }) {
       ...metadata,
       ...block,
     };
+  };
+
+  const sendCompletionRequest = async (
+    task,
+    persona,
+    model,
+    temperature,
+    data
+  ) => {
+    try {
+      setWaiting(true);
+      const response = await fetch("/api/complete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ task, persona, model, temperature, data }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      setCompletion(result);
+      setWaiting(false);
+    } catch (error) {
+      console.error("Failed to complete request:", error);
+      setWaiting(false);
+    }
   };
 
   return (
@@ -158,7 +190,6 @@ export default function PromptWorkshop({ block }) {
                     step={0.01}
                     onChange={(e, newValue) => setTemperature(newValue)}
                     valueLabelDisplay="auto"
-                    aria-labelledby="temperature-slider"
                   />
                 </div>
               </div>
@@ -167,17 +198,23 @@ export default function PromptWorkshop({ block }) {
               variant="contained"
               color="primary"
               onClick={() => {
-                console.log(block);
-                var merged = mergeMetadataWithBlock(
+                var data = mergeMetadataWithBlock(
                   block,
                   convertYAMLtoJSON(metadata)
                 );
-                console.log("Merged", merged);
+                sendCompletionRequest(
+                  taskPrompt,
+                  personaPrompt,
+                  model,
+                  temperature,
+                  data
+                );
               }}
               style={{ marginTop: "10px" }}
             >
               Print Block
             </Button>
+            <div>{waiting ? <p>Waiting...</p> : <p>{completion}</p>}</div>
           </>
         )}
       </div>
