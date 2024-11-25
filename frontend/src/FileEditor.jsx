@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Button } from "@mui/material";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/ace";
-import "ace-builds/src-noconflict/ext-language_tools"; // Import language tools for autocompletion
 import "ace-builds/src-noconflict/theme-eclipse";
 import "ace-builds/src-noconflict/mode-handlebars";
-import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-yaml";
 
 import "./FileEditor.css";
 
 function FileEditor({ value, language, onChange }) {
   const [filename, setFilename] = useState("edited-file.txt");
+  const [mode, setMode] = useState("jinja2");
+
+  useEffect(() => {
+    if (language === "yaml") {
+      setMode("yaml");
+    } else {
+      setMode("handlebars");
+    }
+  }, [language]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -40,7 +48,7 @@ function FileEditor({ value, language, onChange }) {
     <div className="file-editor-container">
       <div className="editor-container">
         <AceEditor
-          mode="handlebars" // Use the language prop for mode
+          mode={mode} // Use the language prop for mode
           height="250px"
           theme="eclipse"
           name="editor"
@@ -51,7 +59,6 @@ function FileEditor({ value, language, onChange }) {
           fontSize={16}
           width="100%"
           setOptions={{
-            enableSnippets: true,
             showLineNumbers: true,
             tabSize: 2,
             useWorker: false, // Disable the worker to avoid issues with custom modes
