@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Tabs, Tab, Box, Typography, Button, IconButton } from "@mui/material";
-import { Settings } from "@mui/icons-material";
+import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
 import "./PromptWorkshop.css";
 
 import FileEditor from "./FileEditor.jsx";
@@ -42,7 +42,7 @@ export default function PromptWorkshop({ block }) {
     <div>
       <div>
         <IconButton onClick={toggleCollapse} style={{ marginBottom: "10px" }}>
-          <Settings />
+          {isCollapsed ? <ArrowRight /> : <ArrowDropDown />}
           <Typography variant="button" style={{ marginLeft: "5px" }}>
             Prompt Workshop
           </Typography>
