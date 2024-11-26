@@ -233,6 +233,7 @@ export default function PromptWorkshop({ block }) {
                   tabSize: 2,
                 }}
               />
+            </div>
           </>
         )}
       </div>
