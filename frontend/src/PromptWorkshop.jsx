@@ -65,28 +65,29 @@ export default function PromptWorkshop({ block }) {
     }
   };
 
-  const mergeMetadataWithBlock = (block, metadata) => {
-    return {
-      ...metadata,
-      ...block,
-    };
-  };
-
   const sendCompletionRequest = async (
+    block,
     task,
     persona,
+    metadata,
     model,
-    temperature,
-    data
+    temperature
   ) => {
     try {
       setWaiting(true);
-      const response = await fetch("/api/complete", {
+      const response = await fetch("http://localhost:8000/api/complete", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ task, persona, model, temperature, data }),
+        body: JSON.stringify({
+          block,
+          task,
+          persona,
+          metadata,
+          model,
+          temperature,
+        }),
       });
 
       if (!response.ok) {
@@ -198,23 +199,22 @@ export default function PromptWorkshop({ block }) {
               variant="contained"
               color="primary"
               onClick={() => {
-                var data = mergeMetadataWithBlock(
-                  block,
-                  convertYAMLtoJSON(metadata)
-                );
                 sendCompletionRequest(
+                  block,
                   taskPrompt,
                   personaPrompt,
+                  convertYAMLtoJSON(metadata),
                   model,
-                  temperature,
-                  data
+                  temperature
                 );
               }}
               style={{ marginTop: "10px" }}
             >
-              Print Block
+              Complete
             </Button>
-            <div>{waiting ? <p>Waiting...</p> : <p>{completion}</p>}</div>
+            <div>
+              {waiting ? <p>Waiting...</p> : <p>{completion.completion}</p>}
+            </div>
           </>
         )}
       </div>
