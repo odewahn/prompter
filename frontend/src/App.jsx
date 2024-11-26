@@ -26,19 +26,26 @@ function App() {
   const [taskPrompt, setTaskPrompt] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/groups")
-      .then((response) => response.json())
-      .then((groupsData) => {
-        setGroups(groupsData);
-        // find the index of the group where is_current = 1
-        const currentGroupIndex = groupsData.findIndex(
-          (group) => group.is_current === 1
-        );
-        if (currentGroupIndex !== -1) {
-          setCurrentGroupIndex(currentGroupIndex);
-        }
-      })
-      .catch((error) => console.error("Error fetching groups:", error));
+    const fetchGroups = () => {
+      fetch("http://localhost:8000/api/groups")
+        .then((response) => response.json())
+        .then((groupsData) => {
+          setGroups(groupsData);
+          // find the index of the group where is_current = 1
+          const currentGroupIndex = groupsData.findIndex(
+            (group) => group.is_current === 1
+          );
+          if (currentGroupIndex !== -1) {
+            setCurrentGroupIndex(currentGroupIndex);
+          }
+        })
+        .catch((error) => console.error("Error fetching groups:", error));
+    };
+
+    fetchGroups();
+    const intervalId = setInterval(fetchGroups, 500);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
