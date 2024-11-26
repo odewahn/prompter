@@ -14,18 +14,19 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from openai import AsyncOpenAI
     import jinja2
     from pydub import AudioSegment
+    import json
 
 
 async def openai_completion(
     client, block, task_template, persona_template, metadata, model, temperature
 ):
-    block.update(metadata)  # merge the metadata with the block
-    task = task_template.render(**block)
+    task = task_template.render({**metadata, **block})
+
     messages = [
         {"role": "user", "content": task},
     ]
     if persona_template:
-        persona = persona_template.render(**block)
+        persona = persona_template.render({**metadata, **block})
         messages.append({"role": "system", "content": persona})
 
     response = await client.chat.completions.create(
@@ -45,6 +46,7 @@ async def complete(
     model=OPENAI_DEFAULT_MODEL,
     temperature=OPENAI_DEFAULT_TEMPERATURE,
 ):
+
     # is os.environ["OPENAI_API_KEY"] is not set then print a warning
     if "OPENAI_API_KEY" not in os.environ:
         raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
