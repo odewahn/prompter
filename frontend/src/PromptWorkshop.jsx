@@ -208,7 +208,7 @@ export default function PromptWorkshop({ block }) {
                   temperature
                 );
               }}
-              style={{ marginTop: "10px" }}
+              style={{ marginTop: "10px", marginBottom: "20px" }}
             >
               Complete
             </Button>
