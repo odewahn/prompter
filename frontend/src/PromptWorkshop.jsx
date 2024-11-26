@@ -213,29 +213,26 @@ export default function PromptWorkshop({ block }) {
                 );
               }}
               style={{ marginTop: "10px", marginBottom: "20px" }}
+              disabled={waiting}
+              startIcon={waiting ? <CircularProgress size={20} /> : null}
             >
-              Complete
+              {waiting ? "Completing..." : "Complete"}
             </Button>
             <div>
-              {waiting ? (
-                <CircularProgress />
-              ) : (
-                <AceEditor
-                  mode="text"
-                  theme="github"
-                  name="completionEditor"
-                  value={completion.completion}
-                  readOnly={true}
-                  width="100%"
-                  height="200px"
-                  setOptions={{
-                    useWorker: false,
-                    showLineNumbers: true,
-                    tabSize: 2,
-                  }}
-                />
-              )}
-            </div>
+              <AceEditor
+                mode="text"
+                theme="github"
+                name="completionEditor"
+                value={completion.completion}
+                readOnly={true}
+                width="100%"
+                height="200px"
+                setOptions={{
+                  useWorker: false,
+                  showLineNumbers: true,
+                  tabSize: 2,
+                }}
+              />
           </>
         )}
       </div>
