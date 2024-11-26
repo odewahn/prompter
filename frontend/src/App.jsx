@@ -80,14 +80,38 @@ function App() {
 
   const open = Boolean(anchorEl);
 
+  const setCurrentGroup = async (tag) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/set-current-group", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tag }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Failed to set current group:", error);
+    }
+  };
+
   const handleNextGroup = () => {
-    setCurrentGroupIndex((prevIndex) =>
-      Math.min(prevIndex + 1, groups.length - 1)
-    );
+    setCurrentGroupIndex((prevIndex) => {
+      const newIndex = Math.min(prevIndex + 1, groups.length - 1);
+      setCurrentGroup(groups[newIndex].tag);
+      return newIndex;
+    });
   };
 
   const handlePreviousGroup = () => {
-    setCurrentGroupIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setCurrentGroupIndex((prevIndex) => {
+      const newIndex = Math.max(prevIndex - 1, 0);
+      setCurrentGroup(groups[newIndex].tag);
+      return newIndex;
+    });
   };
 
   return (
