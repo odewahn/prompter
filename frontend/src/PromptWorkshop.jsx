@@ -13,6 +13,9 @@ import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
 import "./PromptWorkshop.css";
 
 import yaml from "js-yaml";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-text";
+import "ace-builds/src-noconflict/theme-github";
 
 import FileEditor from "./FileEditor.jsx";
 import { set } from "ace-builds/src-noconflict/ace.js";
@@ -216,10 +219,19 @@ export default function PromptWorkshop({ block }) {
               {waiting ? (
                 <p>Waiting...</p>
               ) : (
-                <textarea
-                  readOnly
+                <AceEditor
+                  mode="text"
+                  theme="github"
+                  name="completionEditor"
                   value={completion.completion}
-                  style={{ width: "100%", height: "200px" }}
+                  readOnly={true}
+                  width="100%"
+                  height="200px"
+                  setOptions={{
+                    useWorker: false,
+                    showLineNumbers: true,
+                    tabSize: 2,
+                  }}
                 />
               )}
             </div>
