@@ -100,6 +100,23 @@ async def complete_prompt(request: CompletionRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/api/set-current-group", response_model=dict)
+async def set_current_group(request: Request):
+    data = await request.json()
+    tag = data.get("tag")
+    if not tag:
+        raise HTTPException(status_code=400, detail="Tag is required")
+
+    db_manager = DatabaseManager(DatabaseManager.current_db_url)
+    async with db_manager.SessionLocal() as session:
+        async with session.begin():
+            try:
+                await db_manager.set_current_group(tag)
+                return {"message": f"Current group set to '{tag}'"}
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/api/groups", response_model=list)
 async def get_groups():
     db_manager = DatabaseManager(DatabaseManager.current_db_url)
