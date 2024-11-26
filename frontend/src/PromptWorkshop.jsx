@@ -213,7 +213,15 @@ export default function PromptWorkshop({ block }) {
               Complete
             </Button>
             <div>
-              {waiting ? <p>Waiting...</p> : <p>{completion.completion}</p>}
+              {waiting ? (
+                <p>Waiting...</p>
+              ) : (
+                <textarea
+                  readOnly
+                  value={completion.completion}
+                  style={{ width: "100%", height: "200px" }}
+                />
+              )}
             </div>
           </>
         )}
