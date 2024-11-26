@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   Button,
+  CircularProgress,
   IconButton,
   Slider,
 } from "@mui/material";
@@ -217,7 +218,7 @@ export default function PromptWorkshop({ block }) {
             </Button>
             <div>
               {waiting ? (
-                <p>Waiting...</p>
+                <CircularProgress />
               ) : (
                 <AceEditor
                   mode="text"
