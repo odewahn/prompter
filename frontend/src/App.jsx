@@ -133,7 +133,7 @@ function App() {
               <div className="group-navigation">
                 <IconButton
                   onClick={handlePreviousGroup}
-                  disabled={currentGroupIndex === 0}
+                  disabled={currentGroupIndex <= 0}
                 >
                   <ArrowBack />
                 </IconButton>
@@ -167,7 +167,7 @@ function App() {
                 )}
                 <IconButton
                   onClick={handleNextGroup}
-                  disabled={currentGroupIndex === groups.length - 1}
+                  disabled={currentGroupIndex === -1 || currentGroupIndex === groups.length - 1}
                 >
                   <ArrowForward />
                 </IconButton>
