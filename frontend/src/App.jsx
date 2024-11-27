@@ -19,7 +19,7 @@ import "./App.css";
 import PromptWorkshop from "./PromptWorkshop";
 
 function App() {
-  const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
+  const [currentGroupIndex, setCurrentGroupIndex] = useState(-1);
   const [groups, setGroups] = useState([]);
   const [blockContents, setBlockContents] = useState([]);
   const [selectedBlockContent, setSelectedBlockContent] = useState("");
@@ -82,13 +82,16 @@ function App() {
 
   const setCurrentGroup = async (tag) => {
     try {
-      const response = await fetch("http://localhost:8000/api/set-current-group", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tag }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/set-current-group",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ tag }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
