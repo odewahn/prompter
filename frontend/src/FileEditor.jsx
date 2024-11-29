@@ -86,7 +86,6 @@ function FileEditor({ value, language, onChange }) {
           }}
         />
       </div>
-
     </div>
   );
 }

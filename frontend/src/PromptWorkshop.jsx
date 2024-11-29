@@ -226,11 +226,15 @@ export default function PromptWorkshop({ block }) {
                 value={completion.completion}
                 readOnly={true}
                 width="100%"
-                height="200px"
+                height="300px"
+                fontSize={16}
                 setOptions={{
                   useWorker: false,
-                  showLineNumbers: true,
+                  showLineNumbers: false,
+                  showGutter: false,
                   tabSize: 2,
+                  wrap: true, // Enable line wrapping
+                  indentedSoftWrap: false,
                 }}
               />
             </div>
