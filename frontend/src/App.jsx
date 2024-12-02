@@ -45,7 +45,8 @@ function App() {
   const CommandInput = () => {
     const [command, setCommand] = useState("");
 
-    const handleCommandSubmit = async () => {
+    const handleCommandSubmit = async (e) => {
+        if (e.key !== 'Enter') return;
       try {
         const response = await fetch("http://localhost:8000/api/command", {
           method: "POST",
@@ -61,6 +62,7 @@ function App() {
 
         const result = await response.json();
         console.log("Command result:", result);
+        setCommand(""); // Clear the command input after submission
       } catch (error) {
         console.error("Failed to execute command:", error);
       }
@@ -74,15 +76,8 @@ function App() {
           fullWidth
           value={command}
           onChange={(e) => setCommand(e.target.value)}
+          onKeyDown={handleCommandSubmit}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleCommandSubmit}
-          style={{ marginTop: "10px" }}
-        >
-          Execute Command
-        </Button>
       </div>
     );
   };
