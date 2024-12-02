@@ -29,6 +29,12 @@
   padding: 20px;
   overflow: auto; /* Allow page scrolling */
   flex-wrap: nowrap; /* Prevent wrapping to ensure two columns */
+  justify-content: space-between; /* Ensure space between columns */
+}
+
+.groups-column, .blocks-column {
+  flex: 1; /* Ensure both columns take equal space */
+  min-width: 300px; /* Set a minimum width for each column */
 }
 .blocks-column pre {
   white-space: pre-wrap; /* Allow text to wrap */
