@@ -26,19 +26,17 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 # Configure logging
 logging.basicConfig(
-    filename="log_app.log",
-    level=logging.INFO,
+    level=logging.CRITICAL,  # Set root logger to CRITICAL to suppress most logs
     format="%(asctime)s - %(levelname)s - [%(name)s] - %(message)s",
 )
 
-# Configure SQLAlchemy logging
-sqlalchemy_logger = logging.getLogger("sqlalchemy.engine")
-sqlalchemy_logger.setLevel(logging.ERROR)
-sqlalchemy_handler = logging.FileHandler("log_sqlalchemy.log")
-sqlalchemy_handler.setFormatter(
-    logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-)
-sqlalchemy_logger.addHandler(sqlalchemy_handler)
+# Suppress SQLAlchemy logging
+sqlalchemy_logger = logging.getLogger("sqlalchemy")
+sqlalchemy_logger.setLevel(logging.CRITICAL)
+
+# Suppress Uvicorn logging
+uvicorn_logger = logging.getLogger("uvicorn")
+uvicorn_logger.setLevel(logging.CRITICAL)
 
 
 async def initialize_database(db_url):
