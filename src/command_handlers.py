@@ -83,6 +83,7 @@ async def load_files(files, tag, command):
     group_id = await db_manager.add_group(tag, command)
     for file in files:
         # If the text file does not exist then throw an error
+        file = os.path.expanduser(file)  # Expand ~ to the user's home directory
         if not os.path.exists(file):
             raise Exception(f"File os.path.exists(file)not found: {file}")
         if file.endswith(".epub"):
