@@ -117,16 +117,9 @@ function GroupSelector({ onGroupSelect, onBlockSelect }) {
           <ArrowBack />
         </IconButton>
         {groups.length > 0 && (
-          <Card
-            style={{
-              marginBottom: "10px",
-              flexGrow: 1,
-              minWidth: "20%",
-            }}
-            elevation={0}
-          >
+          <Card className="group-card" elevation={0}>
             <CardContent>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div className="group-card-header">
                 <Typography variant="subtitle2" color="textSecondary">
                   Group {currentGroupIndex + 1} of {groups.length}
                 </Typography>
@@ -135,7 +128,7 @@ function GroupSelector({ onGroupSelect, onBlockSelect }) {
                 <IconButton
                   size="small"
                   onClick={handlePopoverOpen}
-                  style={{ marginRight: "5px" }}
+                  className="info-button"
                 >
                   <Info fontSize="small" />
                 </IconButton>

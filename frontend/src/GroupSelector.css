@@ -18,3 +18,17 @@
   padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
   width: 100%; /* Make cards take full width of the container */
 }
+.group-card {
+  margin-bottom: 10px;
+  flex-grow: 1;
+  min-width: 20%;
+}
+
+.group-card-header {
+  display: flex;
+  align-items: center;
+}
+
+.info-button {
+  margin-right: 5px;
+}
