@@ -24,6 +24,22 @@ function App() {
     setSelectedBlockContent(block);
   };
 
+  const BlocksColumn = ({ block }) => (
+    <Paper className="blocks-column" elevation={3}>
+      <Typography variant="h6">{block.tag}</Typography>
+      <hr />
+      <div style={{ flex: 1, overflowY: "auto" }}>
+        {block ? (
+          <Typography variant="body2" color="textSecondary" component="pre">
+            {block.content}
+          </Typography>
+        ) : (
+          <Typography>Select a block to view its content</Typography>
+        )}
+      </div>
+    </Paper>
+  );
+
   return (
     <ThemeProvider theme={nightModeTheme}>
       <AppBar position="static">
@@ -43,23 +59,7 @@ function App() {
           </Grid>
           <Grid item container xs={12} sm={8} md={8} lg={8} direction="column">
             <PromptWorkshop block={selectedBlockContent} />
-            <Paper className="blocks-column" elevation={3}>
-              <Typography variant="h6">{selectedBlockContent.tag}</Typography>
-              <hr />
-              <div style={{ flex: 1, overflowY: "auto" }}>
-                {selectedBlockContent ? (
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="pre"
-                  >
-                    {selectedBlockContent.content}
-                  </Typography>
-                ) : (
-                  <Typography>Select a block to view its content</Typography>
-                )}
-              </div>
-            </Paper>
+            <BlocksColumn block={selectedBlockContent} />
           </Grid>
         </Grid>
       </Container>
