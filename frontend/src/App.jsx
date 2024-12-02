@@ -35,10 +35,12 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Grid container spacing={3}>
-          <GroupSelector
-            onGroupSelect={handleGroupSelect}
-            onBlockSelect={handleBlockSelect}
-          />
+          <Grid item xs={12} sm={4} md={4} lg={4}>
+            <GroupSelector
+              onGroupSelect={handleGroupSelect}
+              onBlockSelect={handleBlockSelect}
+            />
+          </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <PromptWorkshop block={selectedBlockContent} />
             <Paper className="blocks-column" elevation={3}>
