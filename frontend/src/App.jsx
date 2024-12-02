@@ -64,6 +64,8 @@ function App() {
       console.error("Failed to execute command:", error);
     }
   };
+
+  return (
     <ThemeProvider theme={nightModeTheme}>
       <AppBar position="static">
         <Toolbar>
