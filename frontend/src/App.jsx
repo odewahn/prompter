@@ -4,7 +4,7 @@ import {
   Toolbar,
   Typography,
   Container,
-  Grid2 as Grid,
+  Grid,
   Paper,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
@@ -24,7 +24,7 @@ function App() {
     setSelectedBlockContent(block);
   };
 
-  const BlocksColumn = ({ block }) => (
+  const SelectedBlock = ({ block }) => (
     <Paper className="blocks-column" elevation={3}>
       <Typography variant="h6">{block.tag}</Typography>
       <hr />
@@ -59,7 +59,7 @@ function App() {
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
             <PromptWorkshop block={selectedBlockContent} />
-            <BlocksColumn block={selectedBlockContent} />
+            <SelectedBlock block={selectedBlockContent} />
           </Grid>
         </Grid>
       </Container>
