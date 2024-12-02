@@ -54,7 +54,15 @@ exit
 **Description:** Transform a block using specified transformations.
 
 **Arguments:**
-- `transformation` (required): Transformations to apply.
+- `transformation` (required): Transformations to apply. Available transformations are:
+  - `token-split`: Breaks text into chunks of 1000 tokens (default, can be changed with `--N`).
+  - `clean-epub`: Simplifies the HTML of an EPUB.
+  - `html-h1-split`: Breaks HTML into blocks based on H1 tags.
+  - `html-h2-split`: Breaks HTML into blocks based on H1 and H2 tags.
+  - `html-to-md`: Converts HTML to Markdown.
+  - `html-to-txt`: Converts HTML to plain text.
+  - `new-line-split`: Splits text into blocks based on new lines.
+  - `sentence-split`: Splits text into blocks based on sentences.
 - `--tag` (optional): Tag to use for the group.
 - `--where` (optional): Where clause for the blocks.
 - `--N` (optional): Number of tokens to split (default: 1000).
