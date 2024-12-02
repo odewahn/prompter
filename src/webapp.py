@@ -12,7 +12,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 # Set up a loading message as the libraries are loaded
 with console.status(f"[bold green]Loading required libraries...") as status:
     from src.db import DatabaseManager, Block
-    from fastapi import FastAPI, Request, HTTPException
+    from fastapi import FastAPI, Request, HTTPException, BackgroundTasks
     from fastapi.responses import HTMLResponse
     from fastapi.staticfiles import StaticFiles
     from sqlalchemy import text
@@ -21,6 +21,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.openai_functions import complete
     from fastapi import HTTPException
     import json
+    from src.command_handlers import handle_command
+    from src.command_parser import create_parser
 
 
 app = FastAPI()
@@ -117,7 +119,21 @@ async def set_current_group(request: Request):
                 raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/groups", response_model=list)
+@app.post("/api/command", response_model=dict)
+async def execute_command(request: Request, background_tasks: BackgroundTasks):
+    data = await request.json()
+    command = data.get("command")
+    if not command:
+        raise HTTPException(status_code=400, detail="Command is required")
+
+    parser = create_parser()
+    try:
+        args = parser.parse_args(command.split())
+        background_tasks.add_task(handle_command, args, command)
+        return {"message": "Command is being processed"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 async def get_groups():
     db_manager = DatabaseManager(DatabaseManager.current_db_url)
     async with db_manager.SessionLocal() as session:
