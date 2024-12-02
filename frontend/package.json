@@ -19,7 +19,8 @@
     "@mui/icons-material": "^6.1.8",
     "react-ace": "^10.1.0",
     "ace-builds": "^1.4.14",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
