@@ -1,0 +1,20 @@
+.groups-column {
+  position: relative; /* Ensure the block count is positioned relative to this container */
+  height: auto; /* Allow the column to adjust its height based on content */
+}
+
+.group-navigation {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc; /* Add border around the group navigation */
+  padding: 10px; /* Add some padding inside the border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+}
+
+.blocks-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
+  width: 100%; /* Make cards take full width of the container */
+}
