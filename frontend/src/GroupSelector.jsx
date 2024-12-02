@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./GroupSelector.css";
 import {
-  Grid2 as Grid,
   Card,
   CardContent,
   IconButton,
@@ -109,100 +108,98 @@ function GroupSelector({ onGroupSelect, onBlockSelect }) {
   };
 
   return (
-    <Grid item xs={12} sm={4} md={4} lg={4}>
-      <div className="groups-column">
-        <div className="group-navigation">
-          <IconButton
-            onClick={handlePreviousGroup}
-            disabled={currentGroupIndex <= 0}
-          >
-            <ArrowBack />
-          </IconButton>
-          {groups.length > 0 && (
-            <Card
-              style={{
-                marginBottom: "10px",
-                flexGrow: 1,
-                minWidth: "20%",
-              }}
-              elevation={0}
-            >
-              <CardContent>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <Typography variant="subtitle2" color="textSecondary">
-                    Group {currentGroupIndex + 1} of {groups.length}
-                  </Typography>
-                </div>
-                <Typography variant="body1">
-                  <IconButton
-                    size="small"
-                    onClick={handlePopoverOpen}
-                    style={{ marginRight: "5px" }}
-                  >
-                    <Info fontSize="small" />
-                  </IconButton>
-                  {groups[currentGroupIndex].tag}
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
-          <IconButton
-            onClick={handleNextGroup}
-            disabled={
-              currentGroupIndex === -1 || currentGroupIndex === groups.length - 1
-            }
-          >
-            <ArrowForward />
-          </IconButton>
-        </div>
-
-        <div className="blocks-list">
-          {blockContents.map((block, index) => (
-            <Card
-              key={index}
-              variant="outlined"
-              style={{
-                marginBottom: "10px",
-                cursor: "pointer",
-                backgroundColor:
-                  selectedBlockContent === block ? "#f0f0f0" : "inherit",
-              }}
-              onClick={() => {
-                setSelectedBlockContent(block);
-                onBlockSelect(block);
-              }}
-            >
-              <CardContent>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {block.tag}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {block.content ? block.content.slice(0, 30) : ""}...
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <Popover
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handlePopoverClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
+    <div className="groups-column">
+      <div className="group-navigation">
+        <IconButton
+          onClick={handlePreviousGroup}
+          disabled={currentGroupIndex <= 0}
         >
-          <Typography sx={{ p: 2 }}>
-            {groups[currentGroupIndex]?.command || "No command available"}
-          </Typography>
-        </Popover>
+          <ArrowBack />
+        </IconButton>
+        {groups.length > 0 && (
+          <Card
+            style={{
+              marginBottom: "10px",
+              flexGrow: 1,
+              minWidth: "20%",
+            }}
+            elevation={0}
+          >
+            <CardContent>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="subtitle2" color="textSecondary">
+                  Group {currentGroupIndex + 1} of {groups.length}
+                </Typography>
+              </div>
+              <Typography variant="body1">
+                <IconButton
+                  size="small"
+                  onClick={handlePopoverOpen}
+                  style={{ marginRight: "5px" }}
+                >
+                  <Info fontSize="small" />
+                </IconButton>
+                {groups[currentGroupIndex].tag}
+              </Typography>
+            </CardContent>
+          </Card>
+        )}
+        <IconButton
+          onClick={handleNextGroup}
+          disabled={
+            currentGroupIndex === -1 || currentGroupIndex === groups.length - 1
+          }
+        >
+          <ArrowForward />
+        </IconButton>
       </div>
-    </Grid>
+
+      <div className="blocks-list">
+        {blockContents.map((block, index) => (
+          <Card
+            key={index}
+            variant="outlined"
+            style={{
+              marginBottom: "10px",
+              cursor: "pointer",
+              backgroundColor:
+                selectedBlockContent === block ? "#f0f0f0" : "inherit",
+            }}
+            onClick={() => {
+              setSelectedBlockContent(block);
+              onBlockSelect(block);
+            }}
+          >
+            <CardContent>
+              <Typography variant="subtitle2" color="textSecondary">
+                {block.tag}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {block.content ? block.content.slice(0, 30) : ""}...
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handlePopoverClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+      >
+        <Typography sx={{ p: 2 }}>
+          {groups[currentGroupIndex]?.command || "No command available"}
+        </Typography>
+      </Popover>
+    </div>
   );
 }
 
