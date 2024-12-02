@@ -6,7 +6,6 @@ import {
   Container,
   Grid,
   Paper,
-  Typography,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
