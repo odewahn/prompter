@@ -97,6 +97,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container className="app-container">
+        <CommandInput />
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4} md={4} lg={4}>
             <GroupSelector
@@ -109,7 +110,7 @@ function App() {
             <SelectedBlock block={selectedBlockContent} />
           </Grid>
         </Grid>
-        <CommandInput />
+        </Grid>
       </Container>
     </ThemeProvider>
   );
