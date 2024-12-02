@@ -174,15 +174,27 @@ squash --delimiter="\n\n" --tag=squashed_group
 
 ### write
 
-**Description:** Write the current group to a file.
+**Description:** Write the current group to a file. You can use a Jinja template as the filename and use the information in the blocks to customize the filename more.
 
 **Arguments:**
-- `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag}}").
+- `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag}}"). You can use block attributes like `block_tag`, `position`, or any other metadata available in the block to customize the filename.
 - `--where` (optional): Where clause for the blocks.
 
-**Example:**
+**Examples:**
+
+Write each block to a file named after its tag:
 ```
 write --fn="output/{{block_tag}}.txt"
+```
+
+Include the block's position in the filename:
+```
+write --fn="output/{{block_tag}}-{{position}}.txt"
+```
+
+Use a custom prefix and include the creation date:
+```
+write --fn="output/custom-prefix-{{created_at.strftime('%Y%m%d')}}-{{block_tag}}.txt"
 ```
 
 ### speak
