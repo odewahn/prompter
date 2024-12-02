@@ -36,6 +36,12 @@
   flex: 1; /* Ensure both columns take equal space */
   min-width: 300px; /* Set a minimum width for each column */
 }
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column; /* Stack columns vertically on small screens */
+  }
+}
 .blocks-column pre {
   white-space: pre-wrap; /* Allow text to wrap */
   word-wrap: break-word; /* Break long words */
