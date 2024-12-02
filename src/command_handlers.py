@@ -161,7 +161,7 @@ async def handle_use_command(args, command):
 
 async def handle_load_command(args, command):
     files = []
-    for file_pattern in args.files:
+    for file_pattern in [os.path.expanduser(f) for f in args.files]:
         files.extend(glob.glob(file_pattern))
     tag = args.tag or generate_random_tag()
     await load_files(files, tag, command)
