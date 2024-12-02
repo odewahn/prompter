@@ -42,27 +42,49 @@ function App() {
     </Paper>
   );
 
-  const [command, setCommand] = useState("");
+  const CommandInput = () => {
+    const [command, setCommand] = useState("");
 
-  const handleCommandSubmit = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/api/command", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ command }),
-      });
+    const handleCommandSubmit = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/command", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ command }),
+        });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        console.log("Command result:", result);
+      } catch (error) {
+        console.error("Failed to execute command:", error);
       }
+    };
 
-      const result = await response.json();
-      console.log("Command result:", result);
-    } catch (error) {
-      console.error("Failed to execute command:", error);
-    }
+    return (
+      <div style={{ marginTop: "20px" }}>
+        <TextField
+          label="Enter Command"
+          variant="outlined"
+          fullWidth
+          value={command}
+          onChange={(e) => setCommand(e.target.value)}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCommandSubmit}
+          style={{ marginTop: "10px" }}
+        >
+          Execute Command
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -87,23 +109,7 @@ function App() {
             <SelectedBlock block={selectedBlockContent} />
           </Grid>
         </Grid>
-        <div style={{ marginTop: "20px" }}>
-          <TextField
-            label="Enter Command"
-            variant="outlined"
-            fullWidth
-            value={command}
-            onChange={(e) => setCommand(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCommandSubmit}
-            style={{ marginTop: "10px" }}
-          >
-            Execute Command
-          </Button>
-        </div>
+        <CommandInput />
       </Container>
     </ThemeProvider>
   );
