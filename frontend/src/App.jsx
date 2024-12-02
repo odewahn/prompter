@@ -35,7 +35,7 @@ function App() {
       </AppBar>
       <Container className="app-container">
         <Grid container spacing={3}>
-          <Grid item container xs={12} sm={4} md={4} lg={4}>
+          <Grid item container xs={12} sm={4} md={4} lg={4} direction="column">
             <GroupSelector
               onGroupSelect={handleGroupSelect}
               onBlockSelect={handleBlockSelect}
