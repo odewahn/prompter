@@ -1,6 +1,24 @@
-# Command Parser Documentation
+# Prompter Documentation
 
 This document provides an overview of the command-line interface (CLI) for the prompter application. The CLI allows users to interact with the application through various commands and options.
+
+## Overview
+
+Prompter is a utility designed to manage and process large amounts of text using a Language Learning Model (LLM). It facilitates the transformation of text into smaller, manageable blocks that can be fed into an LLM using a Jinja template. This template includes the text of your prompt and variables passed in from the block, allowing for dynamic and context-aware prompting.
+
+Prompter can be used in two main modes:
+- **Interactive Mode**: Run `prompter` with no arguments to enter a REPL (Read-Eval-Print Loop) where you can enter commands interactively.
+- **Script Mode**: Automate the process of generating prompts and responses by running a script with a series of commands.
+
+## Interactive Mode
+
+In interactive mode, you can explore and experiment with different transformations and prompts. This mode is ideal for exploratory work, allowing you to test various configurations and see immediate results.
+
+## Script Mode
+
+Script mode is useful for automating repetitive tasks. You can create a script that includes a series of commands to process text, apply transformations, and generate prompts. This mode is ideal for scaling up your operations once you've determined the best approach in interactive mode.
+
+## Commands
 
 ## Commands
 
