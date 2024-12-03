@@ -24,6 +24,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.command_handlers import handle_command
     from src.command_parser import create_parser
     from shlex import split as shlex_split
+    import urllib.parse
 
 
 app = FastAPI()
@@ -124,15 +125,15 @@ async def set_current_group(request: Request):
 async def execute_command(request: Request, background_tasks: BackgroundTasks):
     data = await request.json()
     command = data.get("command")
-    print("COMMAND IS:", command)
+    decoded_command = urllib.parse.unquote(command)
+    print("Executing command from web frontend:", decoded_command)
+
     if not command:
         raise HTTPException(status_code=400, detail="Command is required")
 
     parser = create_parser()
     try:
-        import urllib.parse
-        decoded_command = urllib.parse.unquote(command)
-        args = parser.parse_args(decoded_command.shlex_split())
+        args = parser.parse_args(shlex_split(decoded_command))
         background_tasks.add_task(handle_command, args, command)
         return {"message": "Command is being processed"}
     except Exception as e:
