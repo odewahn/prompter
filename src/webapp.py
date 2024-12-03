@@ -130,7 +130,9 @@ async def execute_command(request: Request, background_tasks: BackgroundTasks):
 
     parser = create_parser()
     try:
-        args = parser.parse_args(command.shlex_split())
+        import urllib.parse
+        decoded_command = urllib.parse.unquote(command)
+        args = parser.parse_args(decoded_command.shlex_split())
         background_tasks.add_task(handle_command, args, command)
         return {"message": "Command is being processed"}
     except Exception as e:
