@@ -23,6 +23,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import json
     from src.command_handlers import handle_command
     from src.command_parser import create_parser
+    from shlex import split as shlex_split
 
 
 app = FastAPI()
@@ -123,17 +124,20 @@ async def set_current_group(request: Request):
 async def execute_command(request: Request, background_tasks: BackgroundTasks):
     data = await request.json()
     command = data.get("command")
+    print("COMMAND IS:", command)
     if not command:
         raise HTTPException(status_code=400, detail="Command is required")
 
     parser = create_parser()
     try:
-        args = parser.parse_args(command.split())
+        args = parser.parse_args(command.shlex_split())
         background_tasks.add_task(handle_command, args, command)
         return {"message": "Command is being processed"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@app.get("/api/groups", response_model=list)
 async def get_groups():
     db_manager = DatabaseManager(DatabaseManager.current_db_url)
     async with db_manager.SessionLocal() as session:
