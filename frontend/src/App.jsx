@@ -53,7 +53,7 @@ function App() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ command }),
+          body: JSON.stringify({ command: encodeURIComponent(command) }),
         });
 
         if (!response.ok) {

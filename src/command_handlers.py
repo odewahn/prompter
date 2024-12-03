@@ -130,6 +130,7 @@ async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
     commands = [line for line in instructions.split("\n") if line.strip()]
     # process each command
     parser = create_parser()
+    command = urllib.parse.unquote(command)  # Decode the command
     for command in commands:
         print(command)
         # Skip comments
