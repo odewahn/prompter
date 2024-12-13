@@ -1,25 +1,21 @@
-# Prompter Documentation
+# Prompter
 
-This document provides an overview of the command-line interface (CLI) for the prompter application. The CLI allows users to interact with the application through various commands and options.
+Prompter is a utility designed to make it easy to create scripts and managing templated prompts with OpenAI. It let's you:
 
-## Overview
+- Load files (currently, text file or EPUB) into a SQLite database
+- Transform the files into blocks of content
+  - Tokenize the content
+  - Clean up EPUB files
+  - Split the content based on HTML tags
+  - Convert HTML to Markdown or plain text
+  - Split the content based on new lines or sentences
+- Apply those blocks of content to a template and complete with an LLM
+- Write the completed blocks to a file
+- Convert the blocks to audio files
+- View the blocks in a web browser
+- Create scripts to automate the process so that you can easily apply the same transformations and completions to different source files
 
-Prompter is a utility designed to manage and process large amounts of text using a Language Learning Model (LLM). It facilitates the transformation of text into smaller, manageable blocks that can be fed into an LLM using a Jinja template. This template includes the text of your prompt and variables passed in from the block, allowing for dynamic and context-aware prompting.
-
-Prompter can be used in two main modes:
-
-- **Interactive Mode**: Run `prompter` with no arguments to enter a REPL (Read-Eval-Print Loop) where you can enter commands interactively.
-- **Script Mode**: Automate the process of generating prompts and responses by running a script with a series of commands.
-
-## Interactive Mode
-
-In interactive mode, you can explore and experiment with different transformations and prompts. This mode is ideal for exploratory work, allowing you to test various configurations and see immediate results.
-
-## Script Mode
-
-Script mode is useful for automating repetitive tasks. You can create a script that includes a series of commands to process text, apply transformations, and generate prompts. This mode is ideal for scaling up your operations once you've determined the best approach in interactive mode.
-
-## Commands
+## Usage
 
 The following commands are available:
 
@@ -52,26 +48,6 @@ use my_database
 load file1.txt file2.txt --tag=my_group
 ```
 
-### version
-
-**Description:** Print the version of the application.
-
-**Example:**
-
-```
-version
-```
-
-### exit
-
-**Description:** Exit the REPL (Read-Eval-Print Loop).
-
-**Example:**
-
-```
-exit
-```
-
 ### transform
 
 **Description:** Transform a block using specified transformations.
@@ -97,72 +73,6 @@ exit
 transform clean-epub --tag=cleaned --where="block_tag like 'ch%'"
 ```
 
-### blocks
-
-**Description:** List all blocks.
-
-**Arguments:**
-
-- `--where` (optional): Where clause for the blocks.
-
-**Example:**
-
-```
-blocks --where="block_tag like 'ch%'"
-```
-
-### groups
-
-**Description:** List all groups.
-
-**Arguments:**
-
-- `--where` (optional): Where clause for the group.
-
-**Example:**
-
-```
-groups --where="group_tag like 'my_group%'"
-```
-
-### cd
-
-**Description:** Change the working directory.
-
-**Arguments:**
-
-- `path` (required): Path to change to.
-
-**Example:**
-
-```
-cd /path/to/directory
-```
-
-### ls
-
-**Description:** List directories in the current directory.
-
-**Example:**
-
-```
-ls
-```
-
-### run
-
-**Description:** Run a file.
-
-**Arguments:**
-
-- `fn` (required): File or URL to run.
-
-**Example:**
-
-```
-run script.prompter
-```
-
 ### complete
 
 **Description:** Complete a block using OpenAI.
@@ -183,6 +93,20 @@ run script.prompter
 complete my_task.jinja --tag=my_group --model=gpt-3.5-turbo
 ```
 
+### groups
+
+**Description:** List all groups.
+
+**Arguments:**
+
+- `--where` (optional): Where clause for the group.
+
+**Example:**
+
+```
+groups --where="group_tag like 'my_group%'"
+```
+
 ### checkout
 
 **Description:** Checkout a group.
@@ -195,6 +119,20 @@ complete my_task.jinja --tag=my_group --model=gpt-3.5-turbo
 
 ```
 checkout my_group
+```
+
+### blocks
+
+**Description:** List all blocks.
+
+**Arguments:**
+
+- `--where` (optional): Where clause for the blocks.
+
+**Example:**
+
+```
+blocks --where="block_tag like 'ch%'"
 ```
 
 ### squash
@@ -258,6 +196,20 @@ write --fn="output/custom-prefix-{{created_at.strftime('%Y%m%d')}}-{{block_tag}}
 speak --fn="audio/{{block_tag}}.mp3" --voice=alloy
 ```
 
+### run
+
+**Description:** Run a file.
+
+**Arguments:**
+
+- `fn` (required): File or URL to run.
+
+**Example:**
+
+```
+run script.prompter
+```
+
 ### web
 
 **Description:** Open a web browser to view data.
@@ -268,6 +220,30 @@ speak --fn="audio/{{block_tag}}.mp3" --voice=alloy
 web
 ```
 
+### cd
+
+**Description:** Change the working directory.
+
+**Arguments:**
+
+- `path` (required): Path to change to.
+
+**Example:**
+
+```
+cd /path/to/directory
+```
+
+### ls
+
+**Description:** List directories in the current directory.
+
+**Example:**
+
+```
+ls
+```
+
 ### help
 
 **Description:** Get help.
@@ -276,4 +252,24 @@ web
 
 ```
 help
+```
+
+### version
+
+**Description:** Print the version of the application.
+
+**Example:**
+
+```
+version
+```
+
+### exit
+
+**Description:** Exit the REPL (Read-Eval-Print Loop).
+
+**Example:**
+
+```
+exit
 ```

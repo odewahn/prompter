@@ -75,12 +75,21 @@ def create_parser():
                 {"help": "Where clause for the blocks", "required": False, "type": str},
             ),
             (
-                "--N",
+                "--n",
                 {
                     "type": int,
                     "help": "Number of tokens to split",
                     "required": False,
                     "default": 1000,
+                },
+            ),
+            (
+                "--overlap",
+                {
+                    "type": float,
+                    "help": "Percentage of overlap",
+                    "required": False,
+                    "default": 0.20,
                 },
             ),
         ],
