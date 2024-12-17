@@ -55,7 +55,7 @@ load file1.txt file2.txt --tag=my_group
 **Arguments:**
 
 - `transformation` (required): Transformations to apply. Available transformations are:
-  - `token-split`: Breaks text into chunks of 1000 tokens (default, can be changed with `--N`).
+  - `token-split`: Breaks text into overlapping chunks of 1000 tokens overlapping by 10%(default, can be changed with `--n` and `--overlap`, where `overlap` is a integer percentage).
   - `clean-epub`: Simplifies the HTML of an EPUB.
   - `html-h1-split`: Breaks HTML into blocks based on H1 tags.
   - `html-h2-split`: Breaks HTML into blocks based on H1 and H2 tags.

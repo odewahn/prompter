@@ -86,10 +86,10 @@ def create_parser():
             (
                 "--overlap",
                 {
-                    "type": float,
-                    "help": "Percentage of overlap",
+                    "type": int,
+                    "help": "Percentage of overlap for the window",
                     "required": False,
-                    "default": 0.20,
+                    "default": 10,
                 },
             ),
         ],

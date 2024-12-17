@@ -26,8 +26,6 @@ def apply_transformation(transformation_name, b, **kwargs):
 def perform(transformation_name, b, **kwargs):
     if transformation_name == "token-split":
         return transformation_token_split(b, **kwargs)
-    if transformation_name == "window-split":
-        return transformation_window_split(b, **kwargs)
     elif transformation_name == "clean-epub":
         return transformation_clean_epub(b, **kwargs)
     elif transformation_name == "html-h1-split":
@@ -48,17 +46,8 @@ def perform(transformation_name, b, **kwargs):
 
 def transformation_token_split(b, **kwargs):
     N = kwargs.get("n", 1000)
-    res = []
-    tokens = b.split()
-    for i in range(0, len(tokens), N):
-        res.append(" ".join(tokens[i : i + N]))
-    return res
-
-
-def transformation_window_split(b, **kwargs):
-    N = kwargs.get("n", 1000)
-    OVERLAP = kwargs.get("overlap", 0.1)
-    STEP = int(N * (1 - OVERLAP))
+    OVERLAP = kwargs.get("overlap", 10)
+    STEP = int(N * (1 - OVERLAP / 100))
     res = []
     tokens = b.split()
     for i in range(0, len(tokens), STEP):
