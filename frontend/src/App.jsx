@@ -32,9 +32,23 @@ function App() {
       <hr />
       <div style={{ flex: 1, overflowY: "auto" }}>
         {block ? (
-          <Typography variant="body2" color="textSecondary" component="pre">
-            {block.content}
-          </Typography>
+          <AceEditor
+            mode="text"
+            theme="github"
+            name="blockContentEditor"
+            value={block.content}
+            readOnly={true}
+            width="100%"
+            height="300px"
+            fontSize={16}
+            setOptions={{
+              useWorker: false,
+              showLineNumbers: true,
+              showGutter: true,
+              tabSize: 2,
+              wrap: true,
+            }}
+          />
         ) : (
           <Typography>Select a block to view its content</Typography>
         )}
