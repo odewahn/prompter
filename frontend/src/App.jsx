@@ -28,7 +28,7 @@ function App() {
   };
 
   const SelectedBlock = ({ block }) => (
-    <div style={{ flex: 1, overflowY: "auto" }}>
+    <div className="block-content">
       {block ? (
         <AceEditor
           mode="text"
@@ -36,9 +36,6 @@ function App() {
           name="blockContentEditor"
           value={block.content}
           readOnly={true}
-          width="95%"
-          height="500px"
-          style={{ height: "500px" }}
           fontSize={16}
           setOptions={{
             useWorker: false,
@@ -46,6 +43,7 @@ function App() {
             showGutter: true,
             tabSize: 2,
             wrap: true,
+            showPrintMargin: false,
           }}
         />
       ) : (
@@ -115,8 +113,8 @@ function App() {
             />
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
-            <SelectedBlock block={selectedBlockContent} />
             <PromptWorkshop block={selectedBlockContent} />
+            <SelectedBlock block={selectedBlockContent} />
           </Grid>
         </Grid>
       </Container>
