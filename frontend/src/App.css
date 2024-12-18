@@ -26,10 +26,10 @@
   display: flex;
   flex: 1;
   gap: 20px;
-  padding: 20px;
   overflow: auto; /* Allow page scrolling */
   flex-wrap: nowrap; /* Prevent wrapping to ensure two columns */
   justify-content: space-between; /* Ensure space between columns */
+  width: 100%;
 }
 
 .groups-column, .blocks-column {
@@ -101,11 +101,8 @@
   gap: 10px;
 }
 
-.command-input-div {
-  border: 1px solid #ccc; /* Add border */
-  border-radius: 5px; /* Add border radius */
-  background-color: red;
-  padding: 10px; /* Add padding */
-  margin-bottom: 10px; /* Ensure consistent margin below */
+.block-content {
+  padding: 0px;
+  height: 100vh
 }
 
