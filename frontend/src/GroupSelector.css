@@ -17,6 +17,7 @@
   overflow-y: auto;
   padding-right: 10px; /* Add padding to ensure scrollbar doesn't overlap content */
   width: 100%; /* Make cards take full width of the container */
+  max-height: 400px; /* Set a maximum height to enable scrolling */
 }
 .group-card {
   margin-bottom: 10px;
