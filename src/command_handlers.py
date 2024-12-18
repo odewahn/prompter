@@ -78,18 +78,23 @@ async def handle_command(args, command):
 # Functions related to loading files
 # ******************************************************************************
 async def load_files(files, tag, command):
+    print(f"Loading files: {files}")
     if not files:
         raise Exception(f"File(s) not found")
     group_id = await db_manager.add_group(tag, command)
     for file in files:
-        # If the text file does not exist then throw an error
-        file = os.path.expanduser(file)  # Expand ~ to the user's home directory
-        if not os.path.exists(file):
-            raise Exception(f"File os.path.exists(file)not found: {file}")
-        if file.endswith(".epub"):
-            await _load_epub(file, group_id)
+        # Determine if the file is a URL or a local file
+        if file.startswith("http"):
+            await _load_url(file, group_id)
         else:
-            await _load_text_file(file, group_id)
+            # If the text file does not exist then throw an error
+            file = os.path.expanduser(file)  # Expand ~ to the user's home directory
+            if not os.path.exists(file):
+                raise Exception(f"File os.path.exists(file)not found: {file}")
+            if file.endswith(".epub"):
+                await _load_epub(file, group_id)
+            else:
+                await _load_text_file(file, group_id)
 
 
 async def _load_epub(file, group_id):
@@ -106,6 +111,12 @@ async def _load_text_file(file, group_id):
     with open(file, "r") as f:
         content = f.read()
         await db_manager.add_block(group_id, content, os.path.basename(file))
+
+
+async def _load_url(url, group_id):
+    # Read the content of the file and add it as a block
+    content = await load_file_or_url(url)
+    await db_manager.add_block(group_id, content, url)
 
 
 # ******************************************************************************
@@ -162,8 +173,13 @@ async def handle_use_command(args, command):
 
 async def handle_load_command(args, command):
     files = []
+    # Add local files to the list
     for file_pattern in [os.path.expanduser(f) for f in args.files]:
         files.extend(glob.glob(file_pattern))
+    # Add URLs to the list
+    for file in args.files:
+        if file.startswith("http"):
+            files.append(file)
     tag = args.tag or generate_random_tag()
     await load_files(files, tag, command)
     console.log(f"Loaded {len(files)} files into group {tag}")
