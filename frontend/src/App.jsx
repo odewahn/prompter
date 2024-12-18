@@ -81,7 +81,7 @@ function App() {
     };
 
     return (
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "10px" }}>
         <TextField
           label="Enter Command"
           variant="outlined"
