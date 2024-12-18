@@ -1,6 +1,6 @@
 .groups-column {
   position: relative; /* Ensure the block count is positioned relative to this container */
-  height: auto; /* Allow the column to adjust its height based on content */
+  height: 100vh; /* Allow the column to adjust its height based on content */
 }
 
 .group-navigation {
