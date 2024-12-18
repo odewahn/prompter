@@ -115,8 +115,8 @@ function App() {
             />
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
-            <PromptWorkshop block={selectedBlockContent} />
             <SelectedBlock block={selectedBlockContent} />
+            <PromptWorkshop block={selectedBlockContent} />
           </Grid>
         </Grid>
       </Container>
