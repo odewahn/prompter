@@ -38,6 +38,7 @@ function App() {
           readOnly={true}
           width="95%"
           height="500px"
+          style={{ height: "500px" }}
           fontSize={16}
           setOptions={{
             useWorker: false,
