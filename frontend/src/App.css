@@ -101,3 +101,10 @@
   gap: 10px;
 }
 
+.command-input-div {
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Add border radius */
+  background-color: red;
+  padding: 10px; /* Add padding */
+}
+
