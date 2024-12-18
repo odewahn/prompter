@@ -38,6 +38,7 @@ function App() {
           readOnly={true}
           fontSize={16}
           style={{ height: "1000px" }}
+          minLines={50}
           setOptions={{
             useWorker: false,
             showLineNumbers: true,
