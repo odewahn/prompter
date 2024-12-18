@@ -92,6 +92,7 @@
 .blocks-column > div {
   flex: 1;
   overflow-y: visible; /* Allow content to scroll off the page */
+  padding-left: 10px; /* Add padding to the left to prevent cutting off */
 }
 
 .blocks-container {
