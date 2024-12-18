@@ -28,40 +28,36 @@ function App() {
   };
 
   const SelectedBlock = ({ block }) => (
-    <Paper className="blocks-column" elevation={3}>
-      <Typography variant="h6">{block.tag}</Typography>
-      <hr />
-      <div style={{ flex: 1, overflowY: "auto" }}>
-        {block ? (
-          <AceEditor
-            mode="text"
-            theme="github"
-            name="blockContentEditor"
-            value={block.content}
-            readOnly={true}
-            width="100%"
-            height="300px"
-            fontSize={16}
-            setOptions={{
-              useWorker: false,
-              showLineNumbers: true,
-              showGutter: true,
-              tabSize: 2,
-              wrap: true,
-            }}
-          />
-        ) : (
-          <Typography>Select a block to view its content</Typography>
-        )}
-      </div>
-    </Paper>
+    <div style={{ flex: 1, overflowY: "auto" }}>
+      {block ? (
+        <AceEditor
+          mode="text"
+          theme="github"
+          name="blockContentEditor"
+          value={block.content}
+          readOnly={true}
+          width="95%"
+          height="500px"
+          fontSize={16}
+          setOptions={{
+            useWorker: false,
+            showLineNumbers: true,
+            showGutter: true,
+            tabSize: 2,
+            wrap: true,
+          }}
+        />
+      ) : (
+        <Typography>Select a block to view its content</Typography>
+      )}
+    </div>
   );
 
   const CommandInput = () => {
     const [command, setCommand] = useState("");
 
     const handleCommandSubmit = async (e) => {
-        if (e.key !== 'Enter') return;
+      if (e.key !== "Enter") return;
       try {
         const response = await fetch("http://localhost:8000/api/command", {
           method: "POST",
