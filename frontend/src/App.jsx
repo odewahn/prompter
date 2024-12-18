@@ -37,7 +37,7 @@ function App() {
           value={block.content}
           readOnly={true}
           fontSize={16}
-          height="500px"
+          height="1000px"
           setOptions={{
             useWorker: false,
             showLineNumbers: true,
