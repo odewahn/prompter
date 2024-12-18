@@ -106,5 +106,6 @@
   border-radius: 5px; /* Add border radius */
   background-color: red;
   padding: 10px; /* Add padding */
+  margin-bottom: 10px; /* Ensure consistent margin below */
 }
 
