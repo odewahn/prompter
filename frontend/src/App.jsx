@@ -37,8 +37,7 @@ function App() {
           value={block.content}
           readOnly={true}
           fontSize={16}
-          style={{ height: "1000px" }}
-          minLines={50}
+          height="500px"
           setOptions={{
             useWorker: false,
             showLineNumbers: true,

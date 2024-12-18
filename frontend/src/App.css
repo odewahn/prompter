@@ -103,6 +103,6 @@
 
 .block-content {
   padding: 0px;
-  height: 100vh
+  height: 1000px !important; /* Set height to 100% of the viewport height */
 }
 

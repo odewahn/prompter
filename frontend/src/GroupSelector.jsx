@@ -165,7 +165,7 @@ function GroupSelector({ onGroupSelect, onBlockSelect }) {
           >
             <CardContent>
               <Typography variant="subtitle2" color="textSecondary">
-                {block.tag}
+                {block.tag} | {block.token_count} tokens
               </Typography>
               <Typography variant="body2" color="textSecondary">
                 {block.content ? block.content.slice(0, 30) : ""}...
