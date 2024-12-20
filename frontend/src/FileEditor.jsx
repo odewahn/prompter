@@ -35,26 +35,37 @@ function FileEditor({ filename, value, language, onChange, onFilenameChange }) {
   };
 
   const handleSave = () => {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.nwsaveas = filename; // Suggest the current filename
-    fileInput.style.display = "none";
-    fileInput.onchange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        onFilenameChange(file.name);
-        const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = file.name;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    };
-    document.body.appendChild(fileInput);
-    fileInput.click();
-    document.body.removeChild(fileInput);
+    if (window.showSaveFilePicker) {
+      const options = {
+        suggestedName: filename,
+        types: [
+          {
+            description: "Text Files",
+            accept: { "text/plain": [".txt", ".md", ".yaml", ".jinja2", ".jinja"] },
+          },
+        ],
+      };
+
+      window.showSaveFilePicker(options).then((fileHandle) => {
+        fileHandle.createWritable().then((writable) => {
+          writable.write(value).then(() => {
+            writable.close();
+            onFilenameChange(fileHandle.name);
+          });
+        });
+      }).catch((error) => {
+        console.error("Save operation failed:", error);
+      });
+    } else {
+      // Fallback for browsers that do not support showSaveFilePicker
+      const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
