@@ -14,17 +14,24 @@ function History() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/groups")
-      .then((response) => response.json())
-      .then((groupsData) => {
-        const commands = groupsData
-          .map((group) => decodeURIComponent(group.command))
-          .join("\n");
-        setCommandHistory(commands);
-      })
-      .catch((error) =>
-        console.error("Error fetching command history:", error)
-      );
+    const fetchCommandHistory = () => {
+      fetch("http://localhost:8000/api/groups")
+        .then((response) => response.json())
+        .then((groupsData) => {
+          const commands = groupsData
+            .map((group) => decodeURIComponent(group.command))
+            .join("\n");
+          setCommandHistory(commands);
+        })
+        .catch((error) =>
+          console.error("Error fetching command history:", error)
+        );
+    };
+
+    fetchCommandHistory();
+    const intervalId = setInterval(fetchCommandHistory, 500);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
