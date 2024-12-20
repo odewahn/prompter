@@ -25,7 +25,6 @@ function FileEditor({ filename, value, language, onChange, onFilenameChange }) {
     const file = event.target.files[0];
     if (file) {
       onFilenameChange(file.name);
-      console.log(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         onChange(e.target.result);
@@ -41,21 +40,26 @@ function FileEditor({ filename, value, language, onChange, onFilenameChange }) {
         types: [
           {
             description: "Text Files",
-            accept: { "text/plain": [".txt", ".md", ".yaml", ".jinja2", ".jinja"] },
+            accept: {
+              "text/plain": [".txt", ".md", ".yaml", ".jinja2", ".jinja"],
+            },
           },
         ],
       };
 
-      window.showSaveFilePicker(options).then((fileHandle) => {
-        fileHandle.createWritable().then((writable) => {
-          writable.write(value).then(() => {
-            writable.close();
-            onFilenameChange(fileHandle.name);
+      window
+        .showSaveFilePicker(options)
+        .then((fileHandle) => {
+          fileHandle.createWritable().then((writable) => {
+            writable.write(value).then(() => {
+              writable.close();
+              onFilenameChange(fileHandle.name);
+            });
           });
+        })
+        .catch((error) => {
+          console.error("Save operation failed:", error);
         });
-      }).catch((error) => {
-        console.error("Save operation failed:", error);
-      });
     } else {
       // Fallback for browsers that do not support showSaveFilePicker
       const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
