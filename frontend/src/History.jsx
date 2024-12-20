@@ -17,7 +17,9 @@ function History() {
     fetch("http://localhost:8000/api/groups")
       .then((response) => response.json())
       .then((groupsData) => {
-        const commands = groupsData.map((group) => group.command).join("\n");
+        const commands = groupsData
+          .map((group) => decodeURIComponent(group.command))
+          .join("\n");
         setCommandHistory(commands);
       })
       .catch((error) => console.error("Error fetching command history:", error));
