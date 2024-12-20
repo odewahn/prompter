@@ -10,7 +10,7 @@ import {
   IconButton,
   Slider,
 } from "@mui/material";
-import { ArrowDropDown, ArrowRight } from "@mui/icons-material";
+import { ArrowDropDown, ArrowRight, NoEncryption } from "@mui/icons-material";
 import "./PromptWorkshop.css";
 
 import yaml from "js-yaml";
@@ -43,6 +43,10 @@ export default function PromptWorkshop({ block }) {
   const [tabIndex, setTabIndex] = useState(0);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
+  const [taskFN, setTaskFN] = useState("");
+  const [personaFN, setPersonaFN] = useState("");
+  const [metadataFN, setMetadataFN] = useState("");
+
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -53,6 +57,7 @@ export default function PromptWorkshop({ block }) {
   const [temperature, setTemperature] = useState(0.1);
   const [completion, setCompletion] = useState("");
   const [waiting, setWaiting] = useState(false);
+  const [command, setCommand] = useState("");
 
   const handleChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
@@ -107,6 +112,32 @@ export default function PromptWorkshop({ block }) {
     }
   };
 
+  useEffect(() => {
+    // You must have a taskFN in order to have a valid command
+    if (!taskFN) {
+      setCommand("");
+      return;
+    }
+    var cmd = "complete " + taskFN;
+    // Add personaFN to the command if it exists
+    if (personaFN) {
+      cmd += " --persona=" + personaFN;
+    }
+    // Add metadataFN to the command if it exists
+    if (metadataFN) {
+      cmd += " --metadata=" + metadataFN;
+    }
+    // Add model to the command if it exists
+    if (model) {
+      cmd += " --model=" + model;
+    }
+    // Add temperature to the command if it exists
+    if (temperature) {
+      cmd += " --temperature=" + temperature;
+    }
+    setCommand(cmd);
+  }, [taskFN, personaFN, metadataFN, model, temperature]);
+
   return (
     <div className="prompt-workshop-container">
       <div>
@@ -139,27 +170,39 @@ export default function PromptWorkshop({ block }) {
               <TabPanel tabIndex={tabIndex} index={0}>
                 <FileEditor
                   value={taskPrompt}
+                  filename={taskFN}
                   language="jinja"
                   onChange={(value) => {
                     setTaskPrompt(value);
+                  }}
+                  onFilenameChange={(filename) => {
+                    setTaskFN(filename);
                   }}
                 />
               </TabPanel>
               <TabPanel tabIndex={tabIndex} index={1}>
                 <FileEditor
                   value={personaPrompt}
+                  filename={personaFN}
                   language="jinja"
                   onChange={(value) => {
                     setPersonaPrompt(value);
+                  }}
+                  onFilenameChange={(filename) => {
+                    setPersonaFN(filename);
                   }}
                 />
               </TabPanel>
               <TabPanel tabIndex={tabIndex} index={2}>
                 <FileEditor
                   value={metadata}
+                  filename={metadataFN}
                   language="yaml"
                   onChange={(value) => {
                     setMetadata(value);
+                  }}
+                  onFilenameChange={(filename) => {
+                    setMetadataFN(filename);
                   }}
                 />
               </TabPanel>
@@ -199,6 +242,12 @@ export default function PromptWorkshop({ block }) {
                 </div>
               </div>
             </TabPanel>
+            {command.length > 0 ? (
+              <i>{command}</i>
+            ) : (
+              <i>You must specify a task to get a command</i>
+            )}
+            <br />
             <Button
               variant="contained"
               color="primary"
