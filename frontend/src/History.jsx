@@ -22,7 +22,9 @@ function History() {
           .join("\n");
         setCommandHistory(commands);
       })
-      .catch((error) => console.error("Error fetching command history:", error));
+      .catch((error) =>
+        console.error("Error fetching command history:", error)
+      );
   }, []);
 
   return (
@@ -50,10 +52,11 @@ function History() {
             fontSize={16}
             setOptions={{
               useWorker: false,
-              showLineNumbers: false,
-              showGutter: false,
+              showLineNumbers: true,
+              showGutter: true,
               tabSize: 2,
               wrap: true,
+              showPrintMargin: false,
             }}
           />
         </Box>
