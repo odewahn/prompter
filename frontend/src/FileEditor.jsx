@@ -10,9 +10,8 @@ import "ace-builds/src-noconflict/mode-yaml";
 
 import "./FileEditor.css";
 
-function FileEditor({ value, language, onChange }) {
-  const [filename, setFilename] = useState("edited-file.txt");
-  const [mode, setMode] = useState("jinja2");
+function FileEditor({ filename, value, language, onChange, onFilenameChange }) {
+  const [mode, setMode] = useState("handlebars");
 
   useEffect(() => {
     if (language === "yaml") {
@@ -25,8 +24,8 @@ function FileEditor({ value, language, onChange }) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFilename(file.name); // Store the filename
-      console.log(file.name);
+      onFilenameChange(file.name);
+      console.log(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         onChange(e.target.result);
@@ -64,7 +63,9 @@ function FileEditor({ value, language, onChange }) {
           <Save />
         </IconButton>
       </div>
+
       <div className="editor-wrapper">
+        {filename}
         <AceEditor
           mode={mode} // Use the language prop for mode
           height="250px"
