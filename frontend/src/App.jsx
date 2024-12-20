@@ -13,6 +13,7 @@ import AceEditor from "react-ace";
 import { ThemeProvider } from "@mui/material/styles";
 import nightModeTheme from "./theme";
 import "./App.css";
+import History from "./History";
 import PromptWorkshop from "./PromptWorkshop";
 import GroupSelector from "./GroupSelector";
 
@@ -114,6 +115,7 @@ function App() {
             />
           </Grid>
           <Grid item xs={12} sm={8} md={8} lg={8}>
+            <History />
             <PromptWorkshop block={selectedBlockContent} />
             <SelectedBlock block={selectedBlockContent} />
           </Grid>
