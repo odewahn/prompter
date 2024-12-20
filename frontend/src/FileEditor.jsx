@@ -35,13 +35,26 @@ function FileEditor({ filename, value, language, onChange, onFilenameChange }) {
   };
 
   const handleSave = () => {
-    const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename; // Use the stored filename
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.nwsaveas = filename; // Suggest the current filename
+    fileInput.style.display = "none";
+    fileInput.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        onFilenameChange(file.name);
+        const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    };
+    document.body.appendChild(fileInput);
+    fileInput.click();
+    document.body.removeChild(fileInput);
   };
 
   return (
