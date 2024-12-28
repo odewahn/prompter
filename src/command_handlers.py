@@ -509,6 +509,6 @@ async def handle_history_command(args, command):
     try:
         groups, _ = await db_manager.get_groups()
         for group in groups:
-            print(group["command"])
+            print(urllib.parse.unquote(group["command"]))
     except Exception as e:
         print(f"[red]Error fetching command history: {e}[/red]")
