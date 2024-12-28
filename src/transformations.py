@@ -49,7 +49,7 @@ def transformation_token_split(b, **kwargs):
     OVERLAP = kwargs.get("overlap", 10)
     STEP = int(N * (1 - OVERLAP / 100))
     res = []
-    tokens = b.split()
+    tokens = b.split(" ")
     for i in range(0, len(tokens), STEP):
         res.append(" ".join(tokens[i : i + N]))
     return res

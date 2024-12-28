@@ -128,11 +128,11 @@ export default function PromptWorkshop({ block }) {
       cmd += " --metadata=" + metadataFN;
     }
     // Add model to the command if it exists
-    if (model) {
+    if (model !== "gpt-4o-mini") {
       cmd += " --model=" + model;
     }
     // Add temperature to the command if it exists
-    if (temperature) {
+    if (temperature !== 0.1) {
       cmd += " --temperature=" + temperature;
     }
     setCommand(cmd);
