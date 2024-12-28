@@ -25,6 +25,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import webbrowser
     import yaml
     import traceback
+    import urllib.parse
 
 
 db_manager = None
@@ -64,7 +65,7 @@ async def handle_command(args, command):
         "squash": handle_squash_command,
         "write": handle_write_command,
         "speak": handle_speak_command,
-        "web": handle_web_command,
+        "browse": handle_browse_command,
         "help": handle_help_command,
         "history": handle_history_command,
     }
@@ -492,7 +493,7 @@ async def handle_speak_command(args, command):
             break
 
 
-async def handle_web_command(args, command):
+async def handle_browse_command(args, command):
     try:
         webbrowser.open(WEB_URL)
     except Exception as e:

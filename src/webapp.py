@@ -134,7 +134,7 @@ async def execute_command(request: Request, background_tasks: BackgroundTasks):
     parser = create_parser()
     try:
         args = parser.parse_args(shlex_split(decoded_command))
-        background_tasks.add_task(handle_command, args, command)
+        background_tasks.add_task(handle_command, args, decoded_command)
         return {"message": "Command is being processed"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

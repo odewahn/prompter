@@ -12,6 +12,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.sql import func
 from sqlalchemy.inspection import inspect
+import urllib.parse
 
 Base = declarative_base()
 
@@ -96,7 +97,7 @@ class DatabaseManager:
                 # Create a new Groups with is_current set to True
                 group = Group(
                     tag=tag,
-                    command=command,
+                    command=urllib.parse.unquote(command),
                     is_current=True,
                     task_prompt=task_prompt,
                     persona_prompt=persona_prompt,

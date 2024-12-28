@@ -33,8 +33,8 @@ async def interactive_repl():
             command = await session.prompt_async("prompter> ")
             args = parser.parse_args(shlex_split(command))
             await handle_command(args, command)
-        except ArgumentError:
-            print("Invalid command")
+        except ArgumentError as e:
+            print("Invalid command", e)
         except ExitREPLException:
             raise
         except (EOFError, KeyboardInterrupt):

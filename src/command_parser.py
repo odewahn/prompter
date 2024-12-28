@@ -28,8 +28,6 @@ class ThrowingArgumentParser(argparse.ArgumentParser):
 
 
 def create_parser():
-    # parser = argparse.ArgumentParser(description="Prompter repl", exit_on_error=False)
-
     parser = ThrowingArgumentParser(exit_on_error=False)
 
     parser.add_argument("--tag", help="Tag to use for the group", required=False)
@@ -63,6 +61,12 @@ def create_parser():
     add_subparser("version", "Print the version", [])
 
     add_subparser("exit", "Exit the repl", [])
+
+    add_subparser("history", "Print the command history", [])
+
+    add_subparser("help", "Print help text", [])
+
+    add_subparser("browse", "Open the data browser", [])
 
     add_subparser(
         "transform",
@@ -235,15 +239,6 @@ def create_parser():
                 {"help": "Preview the filenames", "action": "store_true"},
             ),
         ],
-    )
-
-    add = add_subparser("history", "Print the command field from the groups table", [])
-
-    add = add_subparser(
-        "history",
-        "help",
-        "Get help",
-        [],
     )
 
     return parser
