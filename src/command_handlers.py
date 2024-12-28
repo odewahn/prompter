@@ -500,12 +500,15 @@ async def handle_web_command(args, command):
         return
 
 
+async def handle_help_command(args, command):
+    parser = create_parser()
+    parser.print_help()
+
+
 async def handle_history_command(args, command):
     try:
         groups, _ = await db_manager.get_groups()
         for group in groups:
-            print(group['command'])
+            print(group["command"])
     except Exception as e:
         print(f"[red]Error fetching command history: {e}[/red]")
-    parser = create_parser()
-    parser.print_help()
