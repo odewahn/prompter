@@ -39,7 +39,7 @@ def create_parser():
 
     subparsers = parser.add_subparsers(dest="command")
 
-    def add_subparser(name, help_text, arguments):
+    def add_subparser(name, help_text, arguments, subparsers=subparsers):
         subparser = subparsers.add_parser(name, help=help_text)
         for arg, kwargs in arguments:
             subparser.add_argument(arg, **kwargs)
