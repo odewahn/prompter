@@ -237,9 +237,10 @@ def create_parser():
         ],
     )
 
-    add = add_subparser("web", "Open a web browser to view data", [])
+    add = add_subparser("history", "Print the command field from the groups table", [])
 
     add = add_subparser(
+        "history",
         "help",
         "Get help",
         [],

@@ -66,6 +66,7 @@ async def handle_command(args, command):
         "speak": handle_speak_command,
         "web": handle_web_command,
         "help": handle_help_command,
+        "history": handle_history_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -499,6 +500,12 @@ async def handle_web_command(args, command):
         return
 
 
-async def handle_help_command(args, command):
+async def handle_history_command(args, command):
+    try:
+        groups, _ = await db_manager.get_groups()
+        for group in groups:
+            print(group['command'])
+    except Exception as e:
+        print(f"[red]Error fetching command history: {e}[/red]")
     parser = create_parser()
     parser.print_help()
