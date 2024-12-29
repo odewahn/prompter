@@ -175,6 +175,14 @@ def create_parser():
                 "--where",
                 {"help": "Where clause for the blocks", "required": False, "type": str},
             ),
+            (
+                "--source",
+                {
+                    "help": "URL or local path for the task or scenario (does not apply to metadata)",
+                    "required": False,
+                    "type": str,
+                },
+            ),
         ],
     )
 

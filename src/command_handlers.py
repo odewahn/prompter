@@ -371,9 +371,6 @@ async def handle_complete_command(args, command):
             metadata = await load_metadata(args.metadata)
     except Exception as e:
         raise e
-    print(f"Task: {task_text}")
-    print(f"Persona: {persona_text}")
-    print(f"Metadata: {yaml.dump(metadata)}")
     # Get the current blocks
     current_blocks, _ = await db_manager.get_current_blocks(args.where)
     if not current_blocks:
