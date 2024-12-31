@@ -125,11 +125,12 @@ async def set_current_group(request: Request):
 async def execute_command(request: Request, background_tasks: BackgroundTasks):
     data = await request.json()
     command = data.get("command")
-    decoded_command = urllib.parse.unquote(command)
-    print("Executing command from web frontend:", decoded_command)
 
     if not command:
         raise HTTPException(status_code=400, detail="Command is required")
+
+    decoded_command = urllib.parse.unquote(command)
+    print("Executing command from web frontend:", decoded_command)
 
     parser = create_parser()
     try:
