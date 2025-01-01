@@ -24,7 +24,8 @@ class Environment:
     def __contains__(self, key):
         return key in self.env
 
-    def __repr__(self):
+    def get_all(self):
+        return self.env
         return repr(self.env)
 
     def __str__(self):
