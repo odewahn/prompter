@@ -12,6 +12,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.openai_functions import complete, dump_to_audio
     from src.common import *
     from src.command_parser import create_parser
+    from src.environment import Environment
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
@@ -30,6 +31,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 db_manager = None
 current_db_url = None
+env = Environment()
 
 # ignore future warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -68,6 +70,7 @@ async def handle_command(args, command):
         "browse": handle_browse_command,
         "help": handle_help_command,
         "history": handle_history_command,
+        "env": handle_env_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -510,3 +513,7 @@ async def handle_history_command(args, command):
             print(urllib.parse.unquote(group["command"]))
     except Exception as e:
         print(f"[red]Error fetching command history: {e}[/red]")
+
+
+async def handle_env_command(args, command):
+    print(env)

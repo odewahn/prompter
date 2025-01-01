@@ -9,6 +9,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.command_parser import create_parser
     from src.command_handlers import handle_command, ExitREPLException
     from src.constants import *
+    from src.environment import Environment
     import asyncio
     from rich import print
     from prompt_toolkit import PromptSession
@@ -27,6 +28,11 @@ async def interactive_repl():
     # is os.environ["OPENAI_API_KEY"] is not set then print a warning
     if "OPENAI_API_KEY" not in os.environ:
         print(MESSAGE_OPENAI_KEY_NOT_SET)
+
+    # Print the environment variables
+    env = Environment()
+    env.set("prompter_version_from_reply", VERSION)
+    print(f"Environment: {env}")
 
     while True:
         try:
