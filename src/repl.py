@@ -9,7 +9,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.command_parser import create_parser
     from src.command_handlers import handle_command, ExitREPLException
     from src.constants import *
-    from src.environment import Environment
+    from src.shared_environment import shared_environment as env
     import asyncio
     from rich import print
     from prompt_toolkit import PromptSession

@@ -12,7 +12,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.openai_functions import complete, dump_to_audio
     from src.common import *
     from src.command_parser import create_parser
-    from src.environment import Environment
+    from src.shared_environment import shared_environment as env
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
