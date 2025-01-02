@@ -17,6 +17,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from shlex import split as shlex_split
     from argparse import ArgumentError
     from art import text2art
+    from jinja2 import Environment, BaseLoader, DebugUndefined
 
 
 async def interactive_repl():
@@ -29,16 +30,18 @@ async def interactive_repl():
     if "OPENAI_API_KEY" not in os.environ:
         print(MESSAGE_OPENAI_KEY_NOT_SET)
 
-    # Print the environment variables
-    env = Environment()
-    env.set("prompter_version_from_reply", VERSION)
-    print(f"Environment: {env}")
-
     while True:
         try:
             command = await session.prompt_async("prompter> ")
-            args = parser.parse_args(shlex_split(command))
-            await handle_command(args, command)
+            print(command)
+            # Run the command through the jinja template engine
+            rtemplate = Environment(
+                loader=BaseLoader, undefined=DebugUndefined
+            ).from_string(command)
+            interpreted_command = rtemplate.render(env.get_all())
+            print(f"Interpreted command: {interpreted_command}")
+            args = parser.parse_args(shlex_split(interpreted_command))
+            await handle_command(args, interpreted_command)
         except ArgumentError as e:
             print("Invalid command", e)
         except ExitREPLException:

@@ -68,6 +68,8 @@ def create_parser():
 
     add_subparser("browse", "Open the data browser", [])
 
+    add_subparser("env", "Print environment variables", [])
+
     add_subparser(
         "transform",
         "Transform a block",
@@ -246,6 +248,15 @@ def create_parser():
                 "--preview",
                 {"help": "Preview the filenames", "action": "store_true"},
             ),
+        ],
+    )
+
+    add = add_subparser(
+        "set",
+        "Set an environment variable",
+        [
+            ("key", {"type": str, "help": "Key to set"}),
+            ("value", {"type": str, "help": "Value to set"}),
         ],
     )
 

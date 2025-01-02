@@ -31,7 +31,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 db_manager = None
 current_db_url = None
-env = Environment()
+
 
 # ignore future warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -71,6 +71,7 @@ async def handle_command(args, command):
         "help": handle_help_command,
         "history": handle_history_command,
         "env": handle_env_command,
+        "set": handle_set_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -517,3 +518,8 @@ async def handle_history_command(args, command):
 
 async def handle_env_command(args, command):
     print(env)
+
+
+async def handle_set_command(args, command):
+    env[args.key] = args.value
+    print(f"Set {args.key} to {args.value}")

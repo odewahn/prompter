@@ -130,13 +130,13 @@ async def execute_command(request: Request, background_tasks: BackgroundTasks):
         raise HTTPException(status_code=400, detail="Command is required")
 
     decoded_command = urllib.parse.unquote(command)
-    print("Executing command from web frontend:", decoded_command)
 
     parser = create_parser()
     try:
         args = parser.parse_args(shlex_split(decoded_command))
         background_tasks.add_task(handle_command, args, decoded_command)
         return {"message": "Command is being processed"}
+        print("Executing command from web frontend:", decoded_command)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
