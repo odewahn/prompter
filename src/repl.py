@@ -33,13 +33,13 @@ async def interactive_repl():
     while True:
         try:
             command = await session.prompt_async("prompter> ")
-            print(command)
             # Run the command through the jinja template engine
             rtemplate = Environment(
                 loader=BaseLoader, undefined=DebugUndefined
             ).from_string(command)
             interpreted_command = rtemplate.render(env.get_all())
-            print(f"Interpreted command: {interpreted_command}")
+            if env.get("DEBUG") == "true":
+                print(f"[green]Interpreted command: {interpreted_command}")
             args = parser.parse_args(shlex_split(interpreted_command))
             await handle_command(args, interpreted_command)
         except ArgumentError as e:

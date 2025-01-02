@@ -72,6 +72,7 @@ async def handle_command(args, command):
         "history": handle_history_command,
         "env": handle_env_command,
         "set": handle_set_command,
+        "unset": handle_unset_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -130,7 +131,7 @@ async def _load_url(url, group_id):
 # ******************************************************************************
 
 
-async def interpret(fn, metadata={"block": "THIS IS THE BLOCK"}):
+async def interpret(fn, metadata=env.get_all()):
     # Load the file
     try:
         content = await load_file_or_url(fn)
@@ -495,8 +496,9 @@ async def handle_speak_command(args, command):
 
 
 async def handle_browse_command(args, command):
+    url = PROD_WEB_URL if env.get("env") == "prod" else DEV_WEB_URL
     try:
-        webbrowser.open(WEB_URL)
+        webbrowser.open(url)
     except Exception as e:
         print(f"[red]{e}")
         return
@@ -517,9 +519,13 @@ async def handle_history_command(args, command):
 
 
 async def handle_env_command(args, command):
-    print(env)
+    for key, value in env.get_all().items():
+        print(f"[green]{key}[/green] = [cyan]{value}[/cyan]")
 
 
 async def handle_set_command(args, command):
     env[args.key] = args.value
-    print(f"Set {args.key} to {args.value}")
+
+
+async def handle_unset_command(args, command):
+    env.unset(args.key)

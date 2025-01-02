@@ -15,8 +15,11 @@
 
 ## Environment management
 
+Environments set in the bash environment that start with "PROMPTER\_" will be available in the prompter environment. (Note that the "PROMPTER\_" prefix will be stripped off.) For example, an environment variable created with `export PROMPTER_ENV=dev` automantically becomes available in the prompter environment as `ENV=dev`. You can use this freature to pass environment variables into prompter when it starts.
+
 "env": handle_env_command,
 "set": handle_set_command,
+"unset": handle_unset_command,
 
 ## Scripting
 

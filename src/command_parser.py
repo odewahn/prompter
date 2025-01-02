@@ -260,4 +260,12 @@ def create_parser():
         ],
     )
 
+    add = add_subparser(
+        "unset",
+        "Remove an environment variable",
+        [
+            ("key", {"type": str, "help": "Key to set"}),
+        ],
+    )
+
     return parser
