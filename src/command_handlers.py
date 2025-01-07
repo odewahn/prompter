@@ -131,7 +131,7 @@ async def _load_url(url, group_id):
 # ******************************************************************************
 
 
-async def interpret(fn, metadata=env.get_all()):
+async def interpret(fn, preview=False):
     # Load the file
     try:
         content = await load_file_or_url(fn)
@@ -139,21 +139,26 @@ async def interpret(fn, metadata=env.get_all()):
         print(f"[red]The following error occurred: {e}")
         print(traceback.format_exc())
         return
-    # Parse the content into instructions
-    print("Raw content:\n", content)
-    #
-    template = Template(content)
-    instructions = template.render(**metadata)
+
+    template = Template(content, undefined=StrictUndefined)
+    instructions = template.render(env.get_all())
+
     # Remove any blank lines from the instructions and return as a list
     commands = [line for line in instructions.split("\n") if line.strip()]
+    # Test if we're just previewing.  If so, then print the commands and return
+    if preview:
+        print("Commands to be run:")
+        for command in commands:
+            print(command)
+        return
     # process each command
     parser = create_parser()
-    command = urllib.parse.unquote(command)  # Decode the command
     for command in commands:
         print(command)
         # Skip comments
         if command.startswith("#"):
             continue
+        command = urllib.parse.unquote(command)  # Decode the command
         args = parser.parse_args(shlex_split(command))
         try:
             await handle_command(args, command)
@@ -356,7 +361,7 @@ async def handle_ls_command(args, command):
 async def handle_run_command(args, command):
     console.log(f"Running file: {args.fn}")
     try:
-        await interpret(args.fn)
+        await interpret(args.fn, args.preview)
     except Exception as e:
         console.print(f"[red]{e}[/red]")
 
@@ -441,7 +446,9 @@ async def handle_write_command(args, command):
 
     for block in blocks:
         try:
-            fn = Template(args.fn, undefined=StrictUndefined).render(**block)
+            fn = Template(args.fn, undefined=StrictUndefined).render(
+                {**block, **env.get_all()}
+            )
             with open(fn, "w") as f:
                 print(f"Writing to {fn}")
                 f.write(block["content"])
@@ -482,7 +489,9 @@ async def handle_speak_command(args, command):
     # Convert the blocks to audio
     for block in blocks:
         try:
-            fn = Template(args.fn, undefined=StrictUndefined).render(**block)
+            fn = Template(args.fn, undefined=StrictUndefined).render(
+                {**block, **env.get_all()}
+            )
             if not args.preview:
                 with console.status(
                     f"[bold green]Converting {fn} to audio: {block['content'][:20]}"

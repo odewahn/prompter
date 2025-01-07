@@ -138,6 +138,14 @@ def create_parser():
         "Run a file",
         [
             ("fn", {"type": str, "help": "File or URL to run"}),
+            (
+                "--preview",
+                {
+                    "help": "Preview the output",
+                    "action": "store_true",
+                    "default": False,
+                },
+            ),
         ],
     )
 

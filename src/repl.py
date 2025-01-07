@@ -17,7 +17,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from shlex import split as shlex_split
     from argparse import ArgumentError
     from art import text2art
-    from jinja2 import Environment, BaseLoader, DebugUndefined
+    from jinja2 import Template, StrictUndefined
 
 
 async def interactive_repl():
@@ -34,10 +34,8 @@ async def interactive_repl():
         try:
             command = await session.prompt_async("prompter> ")
             # Run the command through the jinja template engine
-            rtemplate = Environment(
-                loader=BaseLoader, undefined=DebugUndefined
-            ).from_string(command)
-            interpreted_command = rtemplate.render(env.get_all())
+            template = Template(command, undefined=StrictUndefined)
+            interpreted_command = template.render(env.get_all())
             if env.get("DEBUG") == "true":
                 print(f"[green]Interpreted command: {interpreted_command}")
             args = parser.parse_args(shlex_split(interpreted_command))
