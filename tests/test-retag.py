@@ -22,7 +22,8 @@ while True:
         # Use shlex to split the command into a list of arguments
         # This is necessary because the argparse parser expects
         # a list of arguments, not a string
-        args = parser.parse_args(shlex_split(command))
+        # Split the command while preserving quotes
+        args = parser.parse_args([command])
         print(" ".join(args.block_tag))
     except argparse.ArgumentError as e:
         print("Invalid command", e)
