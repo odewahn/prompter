@@ -12,6 +12,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from rich import print
     import aiohttp
     import yaml
+    import shlex
 
 
 # ******************************************************************************
@@ -61,3 +62,9 @@ async def load_metadata(fn):
         return {}
     except Exception as e:
         raise Exception(f"Failed to load metadata file: {fn} because {e}")
+
+
+# Centralizing this here for now, but I might want to revisit this later using a better lexing process
+# https://stackoverflow.com/questions/6868382/python-shlex-split-ignore-single-quotes
+def command_split(value):
+    return shlex.split(value)

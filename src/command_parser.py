@@ -58,6 +58,46 @@ def create_parser():
         ],
     )
 
+    add_subparser(
+        "select",
+        "Select a block by supplying a where clause and an argument",
+        [
+            (
+                "where_clause",
+                {
+                    "type": str,
+                    "nargs": "+",
+                    "help": "Where clause for the query",
+                },
+            ),
+            ("--tag", {"help": "Tag to use for the group", "required": False}),
+            ("--confirm", {"help": "Confirm the selection", "action": "store_true"}),
+        ],
+    )
+
+    # "blocks-{%raw%}{{position}}{%endraw%}.txt"
+    add_subparser(
+        "retag",
+        "Retag current blocks by supplying a jinja template (remember to use <%raw%>)",
+        [
+            (
+                "block_tag",
+                {
+                    "nargs": "+",
+                    "help": "Jinja template to rewrite block tag (use <%raw%>)",
+                },
+            ),
+            ("--tag", {"help": "Tag for the new group", "required": False}),
+            (
+                "--confirm",
+                {
+                    "help": "Confirm the new tags and save to the database",
+                    "action": "store_true",
+                },
+            ),
+        ],
+    )
+
     add_subparser("version", "Print the version", [])
 
     add_subparser("exit", "Exit the repl", [])
@@ -132,6 +172,8 @@ def create_parser():
     )
 
     add_subparser("ls", "List directories in the current directory", [])
+
+    add_subparser("pwd", "Print the current directory", [])
 
     add_subparser(
         "run",

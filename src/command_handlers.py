@@ -13,6 +13,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.common import *
     from src.command_parser import create_parser
     from src.shared_environment import shared_environment as env
+    from src.common import command_split
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
@@ -21,7 +22,6 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from rich import print
     from rich.table import Table
     from jinja2 import Template, StrictUndefined
-    from shlex import split as shlex_split
     import itertools
     import webbrowser
     import yaml
@@ -48,6 +48,8 @@ class ExitREPLException(Exception):
 
 
 # ******************************************************************************
+# Utility functions
+# ******************************************************************************
 
 
 async def handle_command(args, command):
@@ -60,6 +62,7 @@ async def handle_command(args, command):
         "blocks": handle_blocks_command,
         "cd": handle_cd_command,
         "ls": handle_ls_command,
+        "pwd": handle_pwd_command,
         "run": handle_run_command,
         "complete": handle_complete_command,
         "groups": handle_groups_command,
@@ -73,6 +76,8 @@ async def handle_command(args, command):
         "env": handle_env_command,
         "set": handle_set_command,
         "unset": handle_unset_command,
+        "select": handle_select_command,
+        "retag": handle_retag_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -159,7 +164,7 @@ async def interpret(fn, preview=False):
         if command.startswith("#"):
             continue
         command = urllib.parse.unquote(command)  # Decode the command
-        args = parser.parse_args(shlex_split(command))
+        args = parser.parse_args(command_split(command))
         try:
             await handle_command(args, command)
         except Exception as e:
@@ -234,23 +239,9 @@ async def handle_transform_command(args, command):
         print(f"[red]{e}")
 
 
-async def handle_blocks_command(args, command):
-    display_columns = [
-        "group_tag",
-        "block_id",
-        "block_tag",
-        "content",
-        "position",
-        "token_count",
-    ]
+def print_blocks(blocks, column_names, display_columns, title="Current Blocks"):
 
-    try:
-        blocks, column_names = await db_manager.get_current_blocks(args.where)
-    except Exception as e:
-        print(f"[red]{e}")
-        return
-
-    table = Table(title="Current Blocks")
+    table = Table(title=title)
 
     # Add columns to the table using column names we want to display
     for c in display_columns:
@@ -270,6 +261,94 @@ async def handle_blocks_command(args, command):
     console.print(table)
     console.print(f"Total blocks: {len(blocks)}")
     console.print(f"Column names: {column_names}")
+
+
+async def handle_select_command(args, command):
+    if env.get("DEBUG") == "true":
+        print(f"Arguments: {args}")
+    try:
+        where_clause = " ".join(args.where_clause)
+        blocks, column_names = await db_manager.get_current_blocks(where_clause)
+        G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
+        B = []
+        for block in blocks:
+            B.append({"content": block["content"], "tag": block["block_tag"]})
+        if args.confirm:
+            await db_manager.add_group_with_blocks(G, B)
+        else:
+            display_columns = [
+                "tag",
+                "content",
+            ]
+            print_blocks(B, column_names, display_columns, "Preview of Selected Blocks")
+            print(
+                "[green]This is a preview.  To confirm the selection, rerun the command with --confirm[/green]"
+            )
+    except Exception as e:
+        print(f"[red]{e}")
+        return
+
+
+async def handle_retag_command(args, command):
+    pattern = " ".join(args.block_tag)
+    try:
+        blocks, column_names = await db_manager.get_current_blocks("1=1")
+        G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
+        B = []
+        RETAG = []
+        for block in blocks:
+            block_tag = block["block_tag"]
+            if args.block_tag:
+                block_tag = Template(pattern, undefined=StrictUndefined).render(
+                    {**block, **env.get_all()}
+                )
+            B.append({"content": block["content"], "tag": block_tag})
+            RETAG.append(
+                {
+                    "old_block_tag": block["block_tag"],
+                    "new_block_tag": block_tag,
+                    "content": block["content"][:100],
+                }
+            )
+        if args.confirm:
+            await db_manager.add_group_with_blocks(G, B)
+        else:
+            display_columns = [
+                "old_block_tag",
+                "new_block_tag",
+                "content",
+            ]
+            print_blocks(
+                RETAG, display_columns, display_columns, "Preview of Retagged Blocks"
+            )
+            print(
+                "[green]This is a preview.  To confirm the retagging, rerun the command with --confirm[/green]"
+            )
+    except Exception as e:
+        print(f"[red]{e}")
+        print(f"Valid jinja variables are: {column_names}")
+        print(f"You entered: {pattern}")
+        print(
+            "All block tags must be sourrounded with [green][italic]{%raw%}...{%endraw%}"
+        )
+        return
+
+
+async def handle_blocks_command(args, command):
+    try:
+        blocks, column_names = await db_manager.get_current_blocks(args.where)
+        display_columns = [
+            "group_tag",
+            "block_id",
+            "block_tag",
+            "content",
+            "position",
+            "token_count",
+        ]
+        print_blocks(blocks, column_names, display_columns)
+    except Exception as e:
+        print(f"[red]{e}")
+        return
 
 
 async def handle_groups_command(args, command):
@@ -309,6 +388,14 @@ async def handle_cd_command(args, command):
         await set_db(db_name)  # use the database in the new directory
     except Exception as e:
         console.log(f"[red]Failed to change directory: {e}[/red]")
+
+
+# Add a handle_pwd_command
+async def handle_pwd_command(args, command):
+    try:
+        console.log(f"Current directory: {os.getcwd()}")
+    except Exception as e:
+        console.log(f"[red]Failed to get current directory: {e}[/red]")
 
 
 async def handle_ls_command(args, command):

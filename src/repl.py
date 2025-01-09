@@ -10,14 +10,15 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.command_handlers import handle_command, ExitREPLException
     from src.constants import *
     from src.shared_environment import shared_environment as env
+    from src.common import command_split
     import asyncio
     from rich import print
     from prompt_toolkit import PromptSession
     import os
-    from shlex import split as shlex_split
     from argparse import ArgumentError
     from art import text2art
-    from jinja2 import Template, StrictUndefined
+    from jinja2 import Template, StrictUndefined, UndefinedError
+    import json
 
 
 async def interactive_repl():
@@ -33,12 +34,15 @@ async def interactive_repl():
     while True:
         try:
             command = await session.prompt_async("prompter> ")
+            # If the command is empty, skip it
+            if not command:
+                continue
             # Run the command through the jinja template engine
             template = Template(command, undefined=StrictUndefined)
             interpreted_command = template.render(env.get_all())
             if env.get("DEBUG") == "true":
                 print(f"[green]Interpreted command: {interpreted_command}")
-            args = parser.parse_args(shlex_split(interpreted_command))
+            args = parser.parse_args(command_split(interpreted_command))
             await handle_command(args, interpreted_command)
         except ArgumentError as e:
             print("Invalid command", e)
@@ -46,7 +50,18 @@ async def interactive_repl():
             raise
         except (EOFError, KeyboardInterrupt):
             break  # Exit the loop on Ctrl-C or Ctrl-D
+        except UndefinedError as e:
+            print(f"[red]{e}[/red]\n")
+            print("Try:\n")
+            print("* checking that you've quoted string correctly")
+            print("* checking that you've used single ticks inside double ticks")
+            print(f"* wrapping block-level variables with [green]<%raw%>...<%endraw%>")
+            print(
+                f"* checking that any environment variables exist in \n[green]{json.dumps(env.get_all(),indent=2)}[/green]"
+            )
         except Exception as e:
             console.log(
                 f"[red]Command:\n    {command}\nreturned the error \n   {e}[/red]"
             )
+            if env.get("DEBUG") == "true":
+                console.print_exception()

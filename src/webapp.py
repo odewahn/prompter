@@ -23,7 +23,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import json
     from src.command_handlers import handle_command
     from src.command_parser import create_parser
-    from shlex import split as shlex_split
+    from src.common import command_split
     import urllib.parse
 
 
@@ -133,7 +133,7 @@ async def execute_command(request: Request, background_tasks: BackgroundTasks):
 
     parser = create_parser()
     try:
-        args = parser.parse_args(shlex_split(decoded_command))
+        args = parser.parse_args(command_split(decoded_command))
         background_tasks.add_task(handle_command, args, decoded_command)
         return {"message": "Command is being processed"}
         print("Executing command from web frontend:", decoded_command)

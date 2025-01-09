@@ -32,7 +32,6 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from faker import Faker
     import yaml
     from prompt_toolkit import PromptSession
-    from shlex import split as shlex_split
     from art import text2art
     from os import system, chdir
     import traceback

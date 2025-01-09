@@ -72,6 +72,7 @@ In the render phase, each individual command is executed. You can use either env
 
 "cd": handle_cd_command,
 "ls": handle_ls_command,
+"pwd": handle_pwd_command,
 
 ## Utility functions
 
