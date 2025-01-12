@@ -1,8 +1,5 @@
 load {{SOURCE}}/cat-essay.txt
 transform new-line-split
 write --fn="{{DEST}}/test{{position}}.md"
-# write --fn="{{DEST}}/test-{{block_tag.split('.')[0]}}-{{position}}.md"
+write --fn="{{DEST}}/test-{{block_tag.split('.')[0]}}-{{position}}.md"
 write --fn="{{DEST}}/test-{%raw%}{{block_tag.split('.')[0]}}-{{position}}.md{%endraw%}"
-{% for i in range(11) %}
-   load {{SOURCE}}/cat-essay-{{ i }}.txt
-{% endfor %}

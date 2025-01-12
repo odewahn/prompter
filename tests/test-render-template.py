@@ -16,12 +16,12 @@ s = open("../data/env-test.prompter").read()
 
 # render the file
 try:
-    file = render(
+    file = render_file_or_instruction(
         s, metadata={"SOURCE": "http://example.com", "DEST": "~/Desktop/odewahn"}
     )
     print(file)
 except InvalidTemplate as e:
-    print(e.message)
+    print(e)
 
 
 def parse_arg_test(command):

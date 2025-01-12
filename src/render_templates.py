@@ -64,8 +64,10 @@ def merge_kwargs(**kwargs):
     return merged
 
 
-# A file can have missing variables
-def render(content, **kwargs):
+# Render and individual file or instruction.  A lot of this is
+# boilerplate around how to centralize arguments, print deub log, and handle errors
+# Note that we're permisive here around missing variables
+def render_file_or_instruction(content, **kwargs):
     if env.get("DEBUG") == "true":
         console.log(f"[cyan]Rendering a file")
     content = remove_comments(content)
@@ -80,7 +82,7 @@ def render(content, **kwargs):
         if env.get("DEBUG") == "true":
             pretty_log("Rendered", res)
         return res
-    except UndefinedError as e:
+    except Exception as e:
         raise InvalidTemplate(e.message)
 
 

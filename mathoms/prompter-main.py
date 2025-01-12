@@ -198,7 +198,7 @@ def fetch_from_db(sql, tuple):
         conn.close()
         return column_names, unpacked
     except Exception as e:
-        console.log("[red]An error occurred on this request[/red]")
+        console.log("[red]fetch_from_db: An error occurred on this request[/red]")
         console.log(" ".join(sys.argv))
         console.log("SQL used in this request is:\n\n", sql)
         console.log(f"\nThe following error occurred:\n\n[red]{e}[/red]\n")

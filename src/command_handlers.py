@@ -14,6 +14,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.command_parser import create_parser
     from src.shared_environment import shared_environment as env
     from src.common import command_split
+    from src.render_templates import *
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
@@ -145,9 +146,7 @@ async def interpret(fn, preview=False):
         print(traceback.format_exc())
         return
 
-    template = Template(content, undefined=StrictUndefined)
-    instructions = template.render(env.get_all())
-
+    instructions = render_file_or_instruction(content)
     # Remove any blank lines from the instructions and return as a list
     commands = [line for line in instructions.split("\n") if line.strip()]
     # Test if we're just previewing.  If so, then print the commands and return
@@ -216,7 +215,7 @@ async def handle_transform_command(args, command):
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_transform_command: {e}")
         return
 
     G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
@@ -236,7 +235,7 @@ async def handle_transform_command(args, command):
         await db_manager.add_group_with_blocks(G, B)
         console.log(f"New group {G['tag']} created with {len(B)} blocks.")
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_transform_command:{e}")
 
 
 def print_blocks(blocks, column_names, display_columns, title="Current Blocks"):
@@ -285,7 +284,7 @@ async def handle_select_command(args, command):
                 "[green]This is a preview.  To confirm the selection, rerun the command with --confirm[/green]"
             )
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_select_command: {e}")
         return
 
 
@@ -299,9 +298,7 @@ async def handle_retag_command(args, command):
         for block in blocks:
             block_tag = block["block_tag"]
             if args.block_tag:
-                block_tag = Template(pattern, undefined=StrictUndefined).render(
-                    {**block, **env.get_all()}
-                )
+                block_tag = render_argument(pattern, block=block)
             B.append({"content": block["content"], "tag": block_tag})
             RETAG.append(
                 {
@@ -322,15 +319,12 @@ async def handle_retag_command(args, command):
                 RETAG, display_columns, display_columns, "Preview of Retagged Blocks"
             )
             print(
-                "[green]This is a preview.  To confirm the retagging, rerun the command with --confirm[/green]"
+                "[red]This is a preview.  To confirm the retagging, rerun the command with --confirm[/red]"
             )
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_retag_command: {e.message}")
         print(f"Valid jinja variables are: {column_names}")
         print(f"You entered: {pattern}")
-        print(
-            "All block tags must be sourrounded with [green][italic]{%raw%}...{%endraw%}"
-        )
         return
 
 
@@ -347,7 +341,7 @@ async def handle_blocks_command(args, command):
         ]
         print_blocks(blocks, column_names, display_columns)
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_blocks_command: {e}")
         return
 
 
@@ -356,7 +350,7 @@ async def handle_groups_command(args, command):
     try:
         groups, column_names = await db_manager.get_groups()
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_groups_command: {e}")
         return
 
     table = Table(title="Groups")
@@ -450,7 +444,7 @@ async def handle_run_command(args, command):
     try:
         await interpret(args.fn, args.preview)
     except Exception as e:
-        console.print(f"[red]{e}[/red]")
+        console.print(f"[red]handle_run_command: {e.message}[/red]")
 
 
 async def handle_complete_command(args, command):
@@ -528,14 +522,12 @@ async def handle_write_command(args, command):
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_write_command: {e}")
         return
 
     for block in blocks:
         try:
-            fn = Template(args.fn, undefined=StrictUndefined).render(
-                {**block, **env.get_all()}
-            )
+            fn = render_argument(args.fn, block=block)
             with open(fn, "w") as f:
                 print(f"Writing to {fn}")
                 f.write(block["content"])
@@ -563,7 +555,7 @@ async def handle_squash_command(args, command):
         console.log(f"New group {G['tag']} created with {len(B)} blocks.")
 
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_squash_command: {e}")
         return
 
 
@@ -571,14 +563,12 @@ async def handle_speak_command(args, command):
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_speak_command: {e}")
         return
     # Convert the blocks to audio
     for block in blocks:
         try:
-            fn = Template(args.fn, undefined=StrictUndefined).render(
-                {**block, **env.get_all()}
-            )
+            fn = render_argument(args.fn, block=block)
             if not args.preview:
                 with console.status(
                     f"[bold green]Converting {fn} to audio: {block['content'][:20]}"
@@ -596,7 +586,7 @@ async def handle_browse_command(args, command):
     try:
         webbrowser.open(url)
     except Exception as e:
-        print(f"[red]{e}")
+        print(f"[red]handle_browse_command: {e}")
         return
 
 

@@ -9,6 +9,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.constants import *
     from src.db import DatabaseManager
     from src.common import load_file_or_url, load_metadata
+    from src.render_templates import *
     import os
     import asyncio
     from openai import AsyncOpenAI
@@ -18,15 +19,17 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 
 async def openai_completion(
-    client, block, task_template, persona_template, metadata, model, temperature
+    client, block, task_text, persona_text, metadata, model, temperature
 ):
-    task = task_template.render({**metadata, **block})
+    task = render_file_or_instruction(task_text, metadata=metadata, block=block)
 
     messages = [
         {"role": "user", "content": task},
     ]
-    if persona_template:
-        persona = persona_template.render({**metadata, **block})
+    if persona_text:
+        persona = render_file_or_instruction(
+            persona_text, metadata=metadata, block=block
+        )
         messages.append({"role": "system", "content": persona})
 
     response = await client.chat.completions.create(
@@ -51,20 +54,14 @@ async def complete(
     if "OPENAI_API_KEY" not in os.environ:
         raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
 
-    # Set up jinja templates based on the task and persona text
-    task_template = jinja2.Template(task_text)
-    persona_template = None
-    if persona_text:
-        persona_template = jinja2.Template(persona_text)
-
     client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
     # Create a list of requests to send to the OpenAI API
     requests = [
         openai_completion(
             client,
             block,
-            task_template,
-            persona_template,
+            task_text,
+            persona_text,
             metadata,
             model,
             temperature,
