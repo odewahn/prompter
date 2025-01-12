@@ -11,6 +11,12 @@ function History() {
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
+    if (isCollapsed) {
+      setTimeout(() => {
+        const editor = ace.edit("historyEditor");
+        editor.scrollToLine(editor.session.getLength(), true, true, () => {});
+      }, 0);
+    }
   };
 
   useEffect(() => {
