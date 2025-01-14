@@ -41,6 +41,8 @@ def perform(transformation_name, b, **kwargs):
         return transformation_newline_split(b, **kwargs)
     elif transformation_name == "sentence-split":
         return transformation_sentence_split(b, **kwargs)
+    elif transformation_name == "strip-attributes":
+        return transformation_sentence_split(b, **kwargs)
     else:
         raise ValueError(f"Unrecognized transformation: {transformation_name}")
 
@@ -76,6 +78,8 @@ def transformation_strip_attributes(b, **kwargs):
         attrs = {key: value for key, value in tag.attrs.items() if key == "id"}
         tag.attrs = attrs
     return str(soup)
+
+
 # Split an HTML into blocks based on the h1 and h2 tags
 #
 def transformation_html_heading_split(b, **kwargs):
