@@ -120,7 +120,7 @@ def create_parser():
         "transform",
         "Transform a block",
         [
-            ("transformation", {"nargs": "+", "help": "Transformations to apply"}),
+            ("transformation", {"nargs": "+", "help": "Transformations to apply", "choices": ["token-split", "clean-epub", "html-h1-split", "html-h2-split", "html-to-md", "html-to-txt", "new-line-split", "sentence-split", "strip-attributes"]}),
             ("--tag", {"help": "Tag to use for the group", "required": False}),
             (
                 "--where",
