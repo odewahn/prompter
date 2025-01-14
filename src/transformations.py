@@ -19,7 +19,8 @@ def apply_transformation(transformation_name, b, **kwargs):
     elif isinstance(b, list):
         out = [x for item in b for x in perform(transformation_name, item, **kwargs)]
         return out
-    else:
+    elif transformation_name == "strip-attributes":
+        return transformation_strip_attributes(b, **kwargs)
         raise ValueError(f"Unrecognized type: {type(b)}")
 
 
@@ -69,7 +70,12 @@ def transformation_clean_epub(b, **kwargs):
     return out
 
 
-#
+def transformation_strip_attributes(b, **kwargs):
+    soup = BeautifulSoup(b, "html.parser")
+    for tag in soup.find_all(True):  # True matches all tags
+        attrs = {key: value for key, value in tag.attrs.items() if key == "id"}
+        tag.attrs = attrs
+    return str(soup)
 # Split an HTML into blocks based on the h1 and h2 tags
 #
 def transformation_html_heading_split(b, **kwargs):
