@@ -40,9 +40,9 @@ def perform(transformation_name, b, **kwargs):
     elif transformation_name == "new-line-split":
         return transformation_newline_split(b, **kwargs)
     elif transformation_name == "sentence-split":
-        return transformation_sentence_split(b, **kwargs)
+        return transformation_strip_attributes(b, **kwargs)
     elif transformation_name == "strip-attributes":
-        return transformation_sentence_split(b, **kwargs)
+        return transformation_strip_attributes(b, **kwargs)
     else:
         raise ValueError(f"Unrecognized transformation: {transformation_name}")
 
