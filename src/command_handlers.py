@@ -272,7 +272,7 @@ async def handle_select_command(args, command):
         B = []
         for block in blocks:
             B.append({"content": block["content"], "tag": block["block_tag"]})
-        if args.confirm:
+        if not args.preview:
             await db_manager.add_group_with_blocks(G, B)
         else:
             display_columns = [
@@ -307,7 +307,7 @@ async def handle_retag_command(args, command):
                     "content": block["content"][:100],
                 }
             )
-        if args.confirm:
+        if not args.preview:
             await db_manager.add_group_with_blocks(G, B)
         else:
             display_columns = [

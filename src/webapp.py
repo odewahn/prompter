@@ -24,6 +24,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.command_handlers import handle_command
     from src.command_parser import create_parser
     from src.common import command_split
+    from src.shared_environment import shared_environment as env
+    from src.render_templates import *
     import urllib.parse
 
 
@@ -129,14 +131,20 @@ async def execute_command(request: Request, background_tasks: BackgroundTasks):
     if not command:
         raise HTTPException(status_code=400, detail="Command is required")
 
+    if env.get("DEBUG"):
+        print("Executing command from web frontend:", command)
+
     decoded_command = urllib.parse.unquote(command)
+
+    if env.get("DEBUG"):
+        print("Decoded command:", decoded_command)
 
     parser = create_parser()
     try:
-        args = parser.parse_args(command_split(decoded_command))
-        background_tasks.add_task(handle_command, args, decoded_command)
+        interpreted_command = render_file_or_instruction(decoded_command)
+        args = parser.parse_args(command_split(interpreted_command))
+        background_tasks.add_task(handle_command, args, interpreted_command)
         return {"message": "Command is being processed"}
-        print("Executing command from web frontend:", decoded_command)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

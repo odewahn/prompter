@@ -71,7 +71,13 @@ def create_parser():
                 },
             ),
             ("--tag", {"help": "Tag to use for the group", "required": False}),
-            ("--confirm", {"help": "Confirm the selection", "action": "store_true"}),
+            (
+                "--preview",
+                {
+                    "help": "Preview the selection before saving to the database",
+                    "action": "store_true",
+                },
+            ),
         ],
     )
 
@@ -89,9 +95,9 @@ def create_parser():
             ),
             ("--tag", {"help": "Tag for the new group", "required": False}),
             (
-                "--confirm",
+                "--preview",
                 {
-                    "help": "Confirm the new tags and save to the database",
+                    "help": "Preview the new tags before saving to the database",
                     "action": "store_true",
                 },
             ),

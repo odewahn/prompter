@@ -1,17 +1,23 @@
-- Change "browse" to "workshop" to rename the web editor
-
 # Documentation organization
+
+## Core features
+
+"load": handle_load_command,
+"transform": handle_transform_command,
+"complete": handle_complete_command,
+"write": handle_write_command
+
+(Be sure the use `{%raw%}...{%endraw%}` to prevent Jinja from processing block variables if you're using a jinja template in the `--fn` argument.)
 
 ## Data management
 
 "use": handle_use_command,
-"load": handle_load_command,
 "blocks": handle_blocks_command,
 "groups": handle_groups_command,
 "checkout": handle_set_group,
-
-"select": this doesn't exist yet, but maybe it should replace all where clauses
-"squash" -- should this be a subset of transform?
+"select": handle_select_command,
+"squash": handle_squash_command,
+"retag": handle_retag_command,
 
 ## Environment management
 
@@ -39,7 +45,7 @@ complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
 
 Allows you to run a sequence of commands in a file. Use this to automate tasks. A script file is processed in two passes. The first pass is a Jinja template rendering pass. The second pass is a command execution pass. This allows you to use Jinja templating in your script files.
 
-## The rendering pass
+### The rendering pass
 
 In the first pass (the rendering pass), you can use any environment variables that are set in the prompter environment as part of the command template. For example, you might have a script file that looks like this:
 
@@ -56,17 +62,9 @@ Use `{%raw%}...{%endraw%}` to prevent Jinja from processing block variables duri
 write --fn="{{DEST}}/test-{%raw%}{{block_tag.split('.')[0]}}{%endraw%}-{{position}}.md"
 ```
 
-## The command pass
+### The command pass
 
 In the render phase, each individual command is executed. You can use either environment variables or block-level variables (for example, the `block_tag` or `position`).
-
-## Core features
-
-"transform": handle_transform_command,
-"complete": handle_complete_command,
-"write": handle_write_command
-
-(Be sure the use `{%raw%}...{%endraw%}` to prevent Jinja from processing block variables if you're using a jinja template in the `--fn` argument.)
 
 ## Navigating filesystem
 
@@ -77,7 +75,7 @@ In the render phase, each individual command is executed. You can use either env
 ## Utility functions
 
 "speak": handle_speak_command,
-"browse" -- rename this to workshop?
+"browse": handle_browse_command,
 "history": handle_history_command,
 
 ## Misc

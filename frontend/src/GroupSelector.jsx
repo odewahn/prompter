@@ -121,7 +121,8 @@ function GroupSelector({ onGroupSelect, onBlockSelect }) {
             <CardContent>
               <div className="group-card-header">
                 <Typography variant="subtitle2" color="textSecondary">
-                  Group {currentGroupIndex + 1} of {groups.length}
+                  Group {currentGroupIndex + 1} of {groups.length} -{" "}
+                  {blockContents.length} block(s)
                 </Typography>
               </div>
               <Typography variant="body1">
