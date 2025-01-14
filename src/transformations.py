@@ -74,7 +74,9 @@ def transformation_clean_epub(b, **kwargs):
 
 def transformation_strip_attributes(b, **kwargs):
     soup = BeautifulSoup(b, "html.parser")
-    for tag in soup.find_all(True):
+    for tag in soup(["style", "script"]):
+        tag.decompose()
+    for tag in soup.find_all(True):  # True matches all tags
         tag.attrs = {key: value for key, value in tag.attrs.items() if key == "id"}
     return str(soup)
 
