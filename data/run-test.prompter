@@ -1,0 +1,3 @@
+use run-test.db
+load data/*.txt
+transform new-line-split

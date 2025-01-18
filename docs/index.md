@@ -1,33 +1,36 @@
-# Command Reference
+# Core Features
 
-## Core Features
+## use
 
-### use
-
-**Description:** Use a new database.
+Specifiy the name of the database you want to use to store your data. This database is a SQLite database that is created in the current working directory. If you change the working directory, prompter will create a new database in the new directory using the same name.
 
 - **Arguments:**
   - `db_name` (required): Database name to use.
 - **Example:**
   ```
-  use my_database.db
+  use summary.db
   ```
 
-### load
+## load
 
-**Description:** Load a file or files as a new group.
+Load a file or files as a new group.
 
 - **Arguments:**
   - `files` (required): List of files or URLs to load.
   - `--tag` (optional): Tag to use for the group.
 - **Example:**
+
   ```
-  load file1.txt *.md http://example.com --tag=my_group
+  load *.txt --tag=text_files
+
+  load book.epub
+
+  load http://example.com
   ```
 
-### transform
+## transform
 
-**Description:** Transform a block using specified transformations.
+Transform a block using specified transformations. If you chain multiple transformations together, they are applied in the order they are specified.
 
 - **Arguments:**
   - `transformation` (required): Transformations to apply. Available transformations are:
@@ -43,14 +46,17 @@
   - `--where` (optional): Where clause for the blocks.
   - `--n` (optional): Number of tokens to split (default: 1000).
   - `--overlap` (optional): Overlap percentage (as an integer) for token-split (default: 10).
-- **Example:**
+- **Examples:**
+
   ```
   transform clean-epub --tag=cleaned --where="block_tag like 'ch%'"
+
+  transform html-to-md token-split --n=1500
   ```
 
-### complete
+## complete
 
-**Description:** Complete a block using OpenAI.
+Complete a block using OpenAI.
 
 - **Arguments:**
   - `task` (required): Filename or URL of the task template.
@@ -65,9 +71,21 @@
   complete summarize.jinja --tag=summary --model=gpt-4o --temperature=0.3
   ```
 
-### run
+## run
 
-**Description:** Run a file.
+Run a file containing of prompter commands. For example, the following file of commands would allow you to summarize an epub file:
+
+```
+set FN test.epub
+load {{FN}}
+select "block_tag like 'chapter%'"
+transform clean-epub html-to-md token-split --n=1500
+complete summarize-block.task
+squash
+complete cleanup-summary.task
+retag summary-{{block_tag}}.md
+write
+```
 
 - **Arguments:**
   - `fn` (required): File or URL to run.
@@ -76,11 +94,11 @@
   run script.prompter
   ```
 
-## Data Management
+# Data Management
 
-### blocks
+## blocks
 
-**Description:** List all blocks.
+List all blocks.
 
 - **Arguments:**
   - `--where` (optional): Where clause for the blocks.
@@ -89,9 +107,9 @@
   blocks --where="block_tag like 'ch%'"
   ```
 
-### groups
+## groups
 
-**Description:** List all groups.
+List all groups.
 
 - **Arguments:**
   - `--where` (optional): Where clause for the group.
@@ -100,9 +118,9 @@
   groups --where="group_tag like 'my_group%'"
   ```
 
-### checkout
+## checkout
 
-**Description:** Checkout a group.
+Checkout a group.
 
 - **Arguments:**
   - `tag` (required): Tag to checkout. This can be:
@@ -116,9 +134,9 @@
   checkout my_group
   ```
 
-### squash
+## squash
 
-**Description:** Squash the current group into a new group by tag. Use this to combine blocks into a single block.
+Squash the current group into a new group by tag. Use this to combine blocks into a single block.
 
 - **Arguments:**
   - `--delimiter` (optional): Delimiter to use (default: "\n").
@@ -128,9 +146,11 @@
   squash --delimiter="\n\n" --tag=squashed_group
   ```
 
-### write
+# Generating Output
 
-**Description:** Write the current group to a file.
+## write
+
+Write the current group to a file.
 
 - **Arguments:**
   - `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag}}").
@@ -141,56 +161,9 @@
   write --fn="output/{{block_tag}}.txt"
   ```
 
-## Environment Management
+## speak
 
-### set
-
-**Description:** Set an environment variable.
-
-- **Arguments:**
-  - `key` (required): Key to set.
-  - `value` (required): Value to set.
-- **Example:**
-  ```
-  set SOURCE https://example.com
-  ```
-
-### unset
-
-**Description:** Remove an environment variable.
-
-- **Arguments:**
-  - `key` (required): Key to remove.
-- **Example:**
-  ```
-  unset SOURCE
-  ```
-
-#### Usage Notes
-
-Environments set in the bash environment that start with "PROMPTER\_" will be available in the prompter environment. (Note that the "PROMPTER\_" prefix will be stripped off.) For example, an environment variable created with `export PROMPTER_ENV=dev` automantically becomes available in the prompter environment as `ENV=dev`. You can use this freature to pass environment variables into prompter when it starts.
-
-"env": handle_env_command,
-"set": handle_set_command,
-"unset": handle_unset_command,
-
-For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:
-
-```
-set SOURCE https://example.com
-```
-
-And then you can do something like this:
-
-```
-complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
-```
-
-## Utility Functions
-
-### speak
-
-**Description:** Convert the current block to audio files.
+Convert the current block to audio files.
 
 - **Arguments:**
   - `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag.split('.') | first}}-{{ '%04d' % position}}.mp3").
@@ -202,20 +175,61 @@ complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
   speak --fn="audio/{{block_tag}}.mp3" --voice=alloy
   ```
 
-## Misc
+# Environment Management
 
-### version
+## set
 
-**Description:** Print the version of the application.
+Set an environment variable.
+
+- **Arguments:**
+  - `key` (required): Key to set.
+  - `value` (required): Value to set.
+- **Example:**
+  ```
+  set SOURCE https://example.com
+  ```
+
+## unset
+
+Remove an environment variable.
+
+- **Arguments:**
+  - `key` (required): Key to remove.
+- **Example:**
+  ```
+  unset SOURCE
+  ```
+
+### Usage Notes
+
+Environment variables allow you to create symbols you can use in instructions, rather than literal strings. For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:
+
+```
+set SOURCE https://example.com
+```
+
+And then you can do something like this:
+
+```
+complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
+```
+
+You can pass environment variable into your scripts when they starts by creating a (bash) variable that begins with `PROMPTER\_`. (Note that the "PROMPTER\_" prefix will be stripped off.) For example, an environment variable created with `export PROMPTER_ENV=dev` automantically becomes available in the prompter environment as `ENV=dev`.
+
+# Other Commands
+
+## version
+
+Print the version of the application.
 
 - **Example:**
   ```
   version
   ```
 
-### exit
+## exit
 
-**Description:** Exit the REPL (Read-Eval-Print Loop).
+Exit the REPL (Read-Eval-Print Loop).
 
 - **Example:**
   ```
