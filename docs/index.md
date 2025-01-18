@@ -105,7 +105,12 @@
 **Description:** Checkout a group.
 
 - **Arguments:**
-  - `tag` (required): Tag to use for the group.
+  - `tag` (required): Tag to checkout. This can be:
+    - _tag_: the name of the group to checkout
+    - `latest`: checkout the latest group
+    - `first`: checkout the first group
+    - `next`: checkout the next group
+    - `previous`: checkout the previous group
 - **Example:**
   ```
   checkout my_group

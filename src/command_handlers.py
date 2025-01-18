@@ -88,6 +88,48 @@ async def handle_command(args, command):
 
 
 # ******************************************************************************
+# Utilitity functions specific to commands
+# ******************************************************************************
+def find_prev_and_next(l):
+    # if there are no element then raise an exception
+    if len(l) == 0:
+        raise Exception("No groups found")
+    # First check if there is only one element in the list.  If so, then return the same element
+    if len(l) == 1:
+        return l[0]["group_tag"], l[0]["group_tag"]
+    # If there are more than one elements, then find the current group
+    current_idx = -1
+    # Find the index for the current group
+    for index, d in enumerate(l):
+        if d.get("is_current") == 1:
+            current_idx = index
+            break
+    # If the current group is not found, then raise an exception
+    if current_idx == -1:
+        raise Exception("Current group not found")
+    # Find the previous and next group tag
+    if current_idx == 0:
+        # If the current group is the first group, then the previous group is the same as the current group
+        prev = l[current_idx]["group_tag"]
+        next = l[current_idx + 1]["group_tag"]
+    elif current_idx == len(l) - 1:
+        # If the current group is the last group, then the next group is the same as the current group
+        prev = l[current_idx - 1]["group_tag"]
+        next = l[current_idx]["group_tag"]
+    else:
+        # If the current group is in the middle, then the previous group is the one before the current group
+        prev = l[current_idx - 1]["group_tag"]
+        next = l[current_idx + 1]["group_tag"]
+    return prev, next
+
+
+def get_tag(tag):
+    if tag in ["latest", "first", "next", "previous"]:
+        raise Exception(f"{tag} is a reserved word and cannot be used as a tag")
+    return tag if tag else generate_random_tag()
+
+
+# ******************************************************************************
 # Functions related to loading files
 # ******************************************************************************
 async def load_files(files, tag, command):
@@ -196,7 +238,7 @@ async def handle_load_command(args, command):
     for file in args.files:
         if file.startswith("http"):
             files.append(file)
-    tag = args.tag or generate_random_tag()
+    tag = get_tag(args.tag)
     await load_files(files, tag, command)
     console.log(f"Loaded {len(files)} files into group {tag}")
 
@@ -218,7 +260,7 @@ async def handle_transform_command(args, command):
         print(f"[red]handle_transform_command: {e}")
         return
 
-    G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
+    G = {"tag": get_tag(args.tag), "command": command}
     B = []
     try:
         for block in blocks:
@@ -268,7 +310,7 @@ async def handle_select_command(args, command):
     try:
         where_clause = " ".join(args.where_clause)
         blocks, column_names = await db_manager.get_current_blocks(where_clause)
-        G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
+        G = {"tag": get_tag(args.tag), "command": command}
         B = []
         for block in blocks:
             B.append({"content": block["content"], "tag": block["block_tag"]})
@@ -292,7 +334,7 @@ async def handle_retag_command(args, command):
     pattern = " ".join(args.block_tag)
     try:
         blocks, column_names = await db_manager.get_current_blocks("1=1")
-        G = {"tag": args.tag if args.tag else generate_random_tag(), "command": command}
+        G = {"tag": get_tag(args.tag), "command": command}
         B = []
         RETAG = []
         for block in blocks:
@@ -478,7 +520,7 @@ async def handle_complete_command(args, command):
         )
         # Add the completed blocks to the database
         G = {
-            "tag": args.tag if args.tag else generate_random_tag(),
+            "tag": get_tag(args.tag),
             "command": command,
             "task_prompt": task_text,
             "persona_prompt": persona_text,
@@ -495,7 +537,19 @@ async def handle_complete_command(args, command):
 
 async def handle_set_group(args, command):
     try:
-        await db_manager.set_current_group(args.tag)
+        tag = args.tag
+        groups, column_headers = await db_manager.get_groups()
+        # Find the index of the current group
+        previous_tag, next_tag = find_prev_and_next(groups)
+        if args.tag == "latest":
+            tag = groups[-1]["group_tag"]
+        elif args.tag == "first":
+            tag = groups[0]["group_tag"]
+        elif args.tag == "next":
+            tag = next_tag
+        elif args.tag == "previous":
+            tag = previous_tag
+        await db_manager.set_current_group(tag)
     except Exception as e:
         raise Exception(f"Error setting group: {e}")
 
@@ -505,7 +559,7 @@ async def handle_squash_command(args, command):
         blocks, headers = await db_manager.get_squashed_current_blocks(args.delimiter)
         # Add the completed blocks to the database
         G = {
-            "tag": args.tag if args.tag else generate_random_tag(),
+            "tag": get_tag(args.tag),
             "command": command,
         }
         B = []
@@ -542,7 +596,7 @@ async def handle_squash_command(args, command):
     try:
         blocks, column_names = await db_manager.get_current_blocks(args.where)
         G = {
-            "tag": args.tag if args.tag else generate_random_tag(),
+            "tag": get_tag(args.tag),
             "command": command,
         }
         B = []
