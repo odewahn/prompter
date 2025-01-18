@@ -16,6 +16,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.repl import interactive_repl
     from src.db import DatabaseManager
     from src.command_handlers import init_db_manager as init_repl_db_manager
+    from src.command_parser import create_parser
+    from src.common import command_split
     import uvicorn
     import asyncio
     import sys
@@ -45,7 +47,7 @@ async def initialize_database(db_url):
     init_repl_db_manager(db_url)
 
 
-async def main():
+async def interactive_mode():
     db_url = DEFAULT_DB_URL
     await initialize_database(db_url)
 
@@ -69,6 +71,23 @@ async def main():
         await asyncio.gather(*tasks, return_exceptions=True)
 
 
+# This is the entry point for the file mode.  If the user supplies a file name on the command line, then
+# use the handle_run_command to just run it directly and then exit.
+async def run_file_mode(fn):
+    db_url = DEFAULT_DB_URL
+    await initialize_database(db_url)
+    cmd = f"run {fn}"
+    parser = create_parser()
+    args = parser.parse_args(command_split(cmd))
+    await handle_command(args, cmd)
+
+
 if __name__ == "__main__":
     # os.chdir("/Users/odewahn/Desktop/cat-essay")
-    asyncio.run(main())
+    if len(sys.argv) > 1:
+        # fn is the last argument in the command line
+        fn = sys.argv[-1]
+        print(f"Running file {fn}")
+        asyncio.run(run_file_mode(fn))
+    else:
+        asyncio.run(interactive_mode())

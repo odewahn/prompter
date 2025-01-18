@@ -1,3 +1,5 @@
-use run-test.db
 load data/*.txt
 transform new-line-split
+retag data/test-{{block_tag}}-{{position}}.txt
+env
+write
