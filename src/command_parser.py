@@ -120,7 +120,25 @@ def create_parser():
         "transform",
         "Transform a block",
         [
-            ("transformation", {"nargs": "+", "help": "Transformations to apply", "choices": ["token-split", "clean-epub", "html-h1-split", "html-h2-split", "html-to-md", "html-to-txt", "new-line-split", "sentence-split", "strip-attributes"]}),
+            (
+                "transformation",
+                {
+                    "nargs": "+",
+                    "help": "Transformations to apply",
+                    "choices": [
+                        "token-split",
+                        "clean-epub",
+                        "html-h1-split",
+                        "html-h2-split",
+                        "html-to-md",
+                        "html-to-txt",
+                        "new-line-split",
+                        "sentence-split",
+                        "strip-attributes",
+                        "html-gist",
+                    ],
+                },
+            ),
             ("--tag", {"help": "Tag to use for the group", "required": False}),
             (
                 "--where",
@@ -299,6 +317,10 @@ def create_parser():
             (
                 "--voice",
                 {"help": "Voice to use", "default": "alloy"},
+            ),
+            (
+                "--speed",
+                {"type": float, "help": "Speed of the speech", "default": 1.0},
             ),
             (
                 "--preview",

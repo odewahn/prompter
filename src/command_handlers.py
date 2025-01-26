@@ -627,7 +627,7 @@ async def handle_speak_command(args, command):
                 with console.status(
                     f"[bold green]Converting {fn} to audio: {block['content'][:20]}"
                 ) as status:
-                    await dump_to_audio(block["content"], fn, args.voice)
+                    await dump_to_audio(block["content"], fn, args.voice, args.speed)
         except Exception as e:
             print(f"[red]Error: {e}")
             print(f"Valid jinja variables are: {column_names}")

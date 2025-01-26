@@ -104,12 +104,13 @@ def chunk_text(text, chunk_size=MAX_SPEECH_LENGTH):
     return chunks
 
 
-async def dump_to_audio(text, fn, voice):
+async def dump_to_audio(text, fn, voice, speed=1.0):
     # is os.environ["OPENAI_API_KEY"] is not set then print a warning
     if "OPENAI_API_KEY" not in os.environ:
         raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
 
     # Save the current working directory so that we can return to it
+    console.log(f"Dumping text to audio: {fn} using voice: {voice} at speed: {speed}")
 
     client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
     chunks = chunk_text(text)
@@ -121,14 +122,20 @@ async def dump_to_audio(text, fn, voice):
     await asyncio.gather(*requests)
     # Reassemble the chunks.  If there is only one chunk, just rename it
     # Otherwise, concatenate the chunks and save the result
-    if len(chunk_audio_name) == 1:
-        os.rename(chunk_audio_name[0], fn)
-        return
-    else:
-        audio = AudioSegment.empty()
-        for chunk_name in chunk_audio_name:
-            audio += AudioSegment.from_mp3(chunk_name)
-        audio.export(f"{fn}", format="mp3")
-        # Clean up
-        for chunk_name in chunk_audio_name:
-            os.remove(chunk_name)
+    audio = AudioSegment.empty()
+    for chunk_name in chunk_audio_name:
+        # make the audio at the speed rate specified
+        audio += AudioSegment.from_mp3(chunk_name)
+    # Export the audio with FFmpeg, using the atempo filter for time-stretching with pitch preservation
+    audio.export(
+        f"{fn}",
+        format="mp3",  # Output format (you can customize it as needed)
+        parameters=[
+            "-filter:a",
+            f"atempo={speed}",  # FFmpeg atempo filter for speed adjustments
+        ],
+    )
+
+    # Clean up
+    for chunk_name in chunk_audio_name:
+        os.remove(chunk_name)
