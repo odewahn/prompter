@@ -1,0 +1,12 @@
+set debug true
+load cat-essay.txt
+blocks
+transform new-line-split
+blocks
+squash
+complete summarize-block.task
+blocks
+groups
+retag /output/summary.txt
+write
+env
