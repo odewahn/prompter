@@ -43,8 +43,8 @@ def perform(transformation_name, b, **kwargs):
         return transformation_strip_attributes(b, **kwargs)
     elif transformation_name == "strip-attributes":
         return transformation_strip_attributes(b, **kwargs)
-    elif transformation_name == "html-gist":
-        return transformation_html_gist(b, **kwargs)
+    elif transformation_name == "extract-headers":
+        return transformation_extract_headers(b, **kwargs)
     else:
         raise ValueError(f"Unrecognized transformation: {transformation_name}")
 
@@ -138,13 +138,10 @@ def transformation_sentence_split(b, **kwargs):
 
 # Add a transformation that will pull out all headers in order, as well as the firs
 # paragraph of each section
-def transformation_html_gist(b, **kwargs):
+def transformation_extract_headers(b, **kwargs):
     soup = BeautifulSoup(b, "html.parser")
-    out = []
+    out = ""
     for tag in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
         # intialize text with the full tag and its text
-        txt = repr(tag).replace("\n", " ")
-        # txt += "\n"
-        # txt += tag.find_next("p").text
-        out.append(txt)
+        out += repr(tag).replace("\n", " ") + "\n"
     return out

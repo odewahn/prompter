@@ -135,7 +135,7 @@ def create_parser():
                         "new-line-split",
                         "sentence-split",
                         "strip-attributes",
-                        "html-gist",
+                        "extract-headers",
                     ],
                 },
             ),

@@ -120,11 +120,9 @@ async def dump_to_audio(text, fn, voice, speed=1.0):
         for idx, chunk in enumerate(chunks)
     ]
     await asyncio.gather(*requests)
-    # Reassemble the chunks.  If there is only one chunk, just rename it
-    # Otherwise, concatenate the chunks and save the result
+    # Concatenate the chunks and save the result
     audio = AudioSegment.empty()
     for chunk_name in chunk_audio_name:
-        # make the audio at the speed rate specified
         audio += AudioSegment.from_mp3(chunk_name)
     # Export the audio with FFmpeg, using the atempo filter for time-stretching with pitch preservation
     audio.export(
