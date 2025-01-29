@@ -239,6 +239,8 @@ async def handle_load_command(args, command):
         if file.startswith("http"):
             files.append(file)
     tag = get_tag(args.tag)
+    # Sort the files
+    files.sort()
     await load_files(files, tag, command)
     console.log(f"Loaded {len(files)} files into group {tag}")
 

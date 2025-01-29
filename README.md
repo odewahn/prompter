@@ -110,15 +110,7 @@ pyinstaller --noconfirm --clean prompter.spec
 
 ### To package, sign, and notarize
 
-Before you can notarize, you need to have a developer account with Apple and have set up the notarization process. This is a bit of a pain, but it's not too bad. You can find the instructions [here](https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution).
-
-First, set up the keychain stuff:
-
-xcrun notarytool store-credentials ODEWAHN \
- --apple-id andrew@odewahn.com \
- --team-id 8R36RY2J2J
-
-Then you can codesign the app. I used this this tool, whih does all the steps in a nice package:
+I used this this tool, whih does all the steps in a nice package:
 
 https://github.com/txoof/codesign
 
@@ -127,6 +119,16 @@ Note that I renamed it `pycodesign` when I downloaded it, even though it's calle
 ```
 cd dist
 pycodesign ../pycodesign.ini
+```
+
+NB: Before you can notarize, you need to have a developer account with Apple and have set up the notarization process. This is a bit of a pain, but it's not too bad. You can find the instructions [here](https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution).
+
+First, set up the keychain stuff:
+
+```
+xcrun notarytool store-credentials ODEWAHN \
+ --apple-id andrew@odewahn.com \
+ --team-id 8R36RY2J2J
 ```
 
 ## Build for Docker
