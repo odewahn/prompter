@@ -136,7 +136,7 @@ xcrun notarytool store-credentials ODEWAHN \
 First, build the image:
 
 ```
-docker build -t prompter -f Prompter.Dockerfile .
+docker build --no-cache  -t prompter -f Prompter.Dockerfile .
 ```
 
 Then run it -- you can use environment variables to pass in the commands you want to run:
@@ -151,7 +151,7 @@ https://stackoverflow.com/questions/25292198/docker-how-can-i-copy-a-file-from-a
 
 ```
 id=$(docker create prompter)
-docker cp $id:/usr/local/bin/prompter .
+docker cp $id:/usr/local/bin/prompter ./dist/prompter.ubuntu
 docker rm $id
 ```
 
