@@ -141,7 +141,7 @@ def transformation_sentence_split(b, **kwargs):
 def transformation_extract_headers(b, **kwargs):
     soup = BeautifulSoup(b, "html.parser")
     out = ""
-    for tag in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
+    for tag in soup.find_all(["h1", "h2", "h3", "h4"]):
         # intialize text with the full tag and its text
         out += repr(tag).replace("\n", " ") + "\n"
     return out

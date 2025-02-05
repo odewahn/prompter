@@ -42,6 +42,8 @@ Transform a block using specified transformations. If you chain multiple transfo
     - `html-to-txt`: Converts HTML to plain text.
     - `new-line-split`: Splits text into blocks based on new lines.
     - `sentence-split`: Splits text into blocks based on sentences.
+    - `strip-attributes`: Remove all attributes from HTML tags.
+    - `extracct-headers`: Extract onle HTML headers (4 levels) deep
   - `--tag` (optional): Tag to use for the group.
   - `--where` (optional): Where clause for the blocks.
   - `--n` (optional): Number of tokens to split (default: 1000).
