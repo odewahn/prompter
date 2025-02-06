@@ -45,14 +45,14 @@ export default function PromptWorkshop({ block }) {
 
   const [taskFN, setTaskFN] = useState("");
   const [personaFN, setPersonaFN] = useState("");
-  const [metadataFN, setMetadataFN] = useState("");
+  const [contextFN, setcontextFN] = useState("");
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
   const [taskPrompt, setTaskPrompt] = useState("");
   const [personaPrompt, setPersonaPrompt] = useState("");
-  const [metadata, setMetadata] = useState("");
+  const [context, setcontext] = useState("");
   const [model, setModel] = useState("gpt-4o-mini");
   const [temperature, setTemperature] = useState(0.1);
   const [completion, setCompletion] = useState("");
@@ -78,7 +78,7 @@ export default function PromptWorkshop({ block }) {
     block,
     task,
     persona,
-    metadata,
+    context,
     model,
     temperature
   ) => {
@@ -93,7 +93,7 @@ export default function PromptWorkshop({ block }) {
           block,
           task,
           persona,
-          metadata,
+          context,
           model,
           temperature,
         }),
@@ -123,9 +123,9 @@ export default function PromptWorkshop({ block }) {
     if (personaFN) {
       cmd += " --persona=" + personaFN;
     }
-    // Add metadataFN to the command if it exists
-    if (metadataFN) {
-      cmd += " --metadata=" + metadataFN;
+    // Add contextFN to the command if it exists
+    if (contextFN) {
+      cmd += " --context=" + contextFN;
     }
     // Add model to the command if it exists
     if (model !== "gpt-4o-mini") {
@@ -136,7 +136,7 @@ export default function PromptWorkshop({ block }) {
       cmd += " --temperature=" + temperature;
     }
     setCommand(cmd);
-  }, [taskFN, personaFN, metadataFN, model, temperature]);
+  }, [taskFN, personaFN, contextFN, model, temperature]);
 
   return (
     <div className="prompt-workshop-container">
@@ -162,7 +162,7 @@ export default function PromptWorkshop({ block }) {
               >
                 <Tab label="Task" />
                 <Tab label="Persona" />
-                <Tab label="Metadata" />
+                <Tab label="context" />
                 <Tab label="Model" />
               </Tabs>
             </Box>
@@ -195,14 +195,14 @@ export default function PromptWorkshop({ block }) {
               </TabPanel>
               <TabPanel tabIndex={tabIndex} index={2}>
                 <FileEditor
-                  value={metadata}
-                  filename={metadataFN}
+                  value={context}
+                  filename={contextFN}
                   language="yaml"
                   onChange={(value) => {
-                    setMetadata(value);
+                    setcontext(value);
                   }}
                   onFilenameChange={(filename) => {
-                    setMetadataFN(filename);
+                    setcontextFN(filename);
                   }}
                 />
               </TabPanel>
@@ -256,7 +256,7 @@ export default function PromptWorkshop({ block }) {
                   block,
                   taskPrompt,
                   personaPrompt,
-                  convertYAMLtoJSON(metadata),
+                  convertYAMLtoJSON(context),
                   model,
                   temperature
                 );

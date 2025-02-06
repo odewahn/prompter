@@ -24,7 +24,7 @@ class DatabaseManager:
 
     async def initialize_db(self):
         async with self.engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+            await conn.run_sync(Base.context.create_all)
 
     async def get_user(self, user_id):
         async with self.SessionLocal() as session:

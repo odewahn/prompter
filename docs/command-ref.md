@@ -54,7 +54,7 @@ Complete a block using OpenAI.
 - **Arguments:**
   - `task` (required): Filename or URL of the task template.
   - `--persona` (optional): Filename or URL of the persona template.
-  - `--metadata` (optional): Metadata file (default: DEFAULT_METADATA_FN).
+  - `--context` (optional): context file (default: DEFAULT_CONTEXT_FN).
   - `--tag` (optional): Tag to use for the group.
   - `--model` (optional): Model to use (default: OPENAI_DEFAULT_MODEL).
   - `--temperature` (optional): Temperature to use (default: OPENAI_DEFAULT_TEMPERATURE).

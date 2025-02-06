@@ -1,4 +1,4 @@
-VERSION = "0.6.1"
+VERSION = "0.7.0"
 
 DEFAULT_DATABASE_NAME = "mydatabase.db"
 DEFAULT_DB_URL = f"sqlite+aiosqlite:///{DEFAULT_DATABASE_NAME}"
@@ -6,7 +6,7 @@ DEFAULT_DB_URL = f"sqlite+aiosqlite:///{DEFAULT_DATABASE_NAME}"
 # ******************************************************************************
 # General constants
 # ******************************************************************************
-DEFAULT_METADATA_FN = "metadata.yaml"
+DEFAULT_CONTEXT_FN = "metadata.yaml"
 PROD_WEB_URL = "http://localhost:8000/static/index.html"
 DEV_WEB_URL = "http://localhost:5173"
 DEFAULT_ENVIRONMENT = {"DEBUG": "false", "ENV": "prod"}

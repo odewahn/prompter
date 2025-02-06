@@ -497,13 +497,13 @@ async def handle_complete_command(args, command):
     # load the templates
     task_text = None
     persona_text = None
-    metadata = {}
+    context = {}
     try:
         task_text = await load_file_or_url(args.task)
         if args.persona:
             persona_text = await load_file_or_url(args.persona)
-        if args.metadata:
-            metadata = await load_metadata(args.metadata)
+        if args.context:
+            context = await load_context(args.context)
     except Exception as e:
         raise e
     # Get the current blocks
@@ -516,7 +516,7 @@ async def handle_complete_command(args, command):
             current_blocks,
             task_text,
             persona_text,
-            metadata,
+            context,
             model=args.model,
             temperature=args.temperature,
         )
@@ -526,7 +526,7 @@ async def handle_complete_command(args, command):
             "command": command,
             "task_prompt": task_text,
             "persona_prompt": persona_text,
-            "metadata_yaml": yaml.dump(metadata),
+            "context_yaml": yaml.dump(context),
         }
         B = []
         for block in completed_blocks:

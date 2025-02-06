@@ -50,9 +50,6 @@ class Group(Base):
     is_current = Column(Boolean, default=False)
     command = Column(String)
     tag = Column(String, unique=True)
-    task_prompt = Column(String)
-    persona_prompt = Column(String)
-    metadata_yaml = Column(String)
     created_at = Column(DateTime, server_default=func.now())
 
 
@@ -87,7 +84,7 @@ class DatabaseManager:
     async def close(self):
         await self.engine.dispose()
 
-    async def add_group(self, tag, command, task_prompt="", persona_prompt=""):
+    async def add_group(self, tag, command):
         async with self.SessionLocal() as session:
             async with session.begin():
                 # Set is_current to False for all existing Groups
@@ -99,8 +96,6 @@ class DatabaseManager:
                     tag=tag,
                     command=urllib.parse.unquote(command),
                     is_current=True,
-                    task_prompt=task_prompt,
-                    persona_prompt=persona_prompt,
                 )
                 session.add(group)
                 await session.flush()  # Ensure the block_group.id is available
@@ -141,9 +136,6 @@ class DatabaseManager:
                     tag=group_data.get("tag"),
                     command=group_data.get("command"),
                     is_current=True,
-                    task_prompt=group_data.get("task_prompt", ""),
-                    persona_prompt=group_data.get("persona_prompt", ""),
-                    metadata_yaml=group_data.get("metadata_yaml", ""),
                 )
                 session.add(group)
                 await session.flush()  # Ensure the group.id is available

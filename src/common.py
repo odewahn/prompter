@@ -54,14 +54,14 @@ async def load_file_or_url(fn):
             raise Exception(f"Failed to load file: {fn} because {e}")
 
 
-async def load_metadata(fn):
+async def load_context(fn):
     try:
         with open(os.path.expanduser(fn), "r") as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
         return {}
     except Exception as e:
-        raise Exception(f"Failed to load metadata file: {fn} because {e}")
+        raise Exception(f"Failed to load context file: {fn} because {e}")
 
 
 # Centralizing this here for now, but I might want to revisit this later using a better lexing process

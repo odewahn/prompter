@@ -5,7 +5,7 @@ prompter is a utility for managing common activities when processing large amoun
 - Load text from files or EPUBs into a database
 - Transform text using a variety of transformations. For example, convert an EPUB to markdown, split a long block into smaller blocks, or split a block into sentences. A lot of this work is required to fit the text into the LLM's token limit.
 - Filter out blocks of text. For example, you might only want to process one chapter in a book.
-- Apply templated prompts to your blocks and send them to an LLM. You can use metadata in your prompts to make them more dynamic. For example, you might have a metadata file with keys like `title`, `author`, and `topic`. You can include these keys in your prompt templates.
+- Apply templated prompts to your blocks and send them to an LLM. You can use context in your prompts to make them more dynamic. For example, you might have a context file with keys like `title`, `author`, and `topic`. You can include these keys in your prompt templates.
 
 prompter helps you massage text into smaller blocks that can be fed into an LLM using a [Jinja](https://jinja.palletsprojects.com/) template. This template contains the text of your prompt, along with variables that get passed in from the block. For example, you might have a template like this with three variables -- a topic, a title, an author, and a block of text:
 
@@ -18,7 +18,7 @@ markdown format for you to use summarize:
 {{block}}
 ```
 
-You supply the metadata in a YAML file, like this:
+You supply the context in a YAML file, like this:
 
 ```yml
 title: Fooing the Bar
@@ -26,7 +26,7 @@ topic: Python Programming
 author: A. N. Other
 ```
 
-When you run the `prompt` command in prompter, a block of text and the metadata is passed into the template:
+When you run the `prompt` command in prompter, a block of text and the context is passed into the template:
 
 ```jinja
 You are a technical instructional designer who is reviewing
@@ -37,7 +37,7 @@ some text in markdown format for you to use summarize:
 <BLOCK OF TEXT>
 ```
 
-This fully rendered text is sent to an LLM for completion. The process is repeated for the other blocks of content until all the sections you select are processed. You can then convert these resposes into new blocks or metadata, or just dump them out an save them in a file.
+This fully rendered text is sent to an LLM for completion. The process is repeated for the other blocks of content until all the sections you select are processed. You can then convert these resposes into new blocks or context, or just dump them out an save them in a file.
 
 You can run it in an interactive mode or as a script. To run it interactively, run `prompter` with no arguments. You then enter commands at the prompt as if you were using the CLI.
 
@@ -58,8 +58,8 @@ prompter filter --where="block_tag like 'ch%'"
 prompter transform --transformation="clean-epub, html-h1-split, html2md"
 # Only work on sections with more than 1000 tokens
 prompter filter --where="token_count > 1000" --group_tag=key-sections
-# Apply the summarization template using the metadata in metadata.yml
-prompter prompt --fn=summarize.jinja --globals=metadata.yml
+# Apply the summarization template using the context in context.yml
+prompter prompt --fn=summarize.jinja --globals=context.yml
 # Write the results to a file
 prompter dump --source=prompts > key-points.md
 ```
@@ -86,9 +86,9 @@ prompter is meant to help you explore the vairous transformations and prompts re
 
 At this point, you might need to poke around a bit in the data to figure out how it's structured. You can use the `dump` command to inspect the blocks. Once you have an idea of how it looks, you can use the various transformations to clean up the data and split it into smaller blocks that will fit into the LLM's context window, which is typically around 8192 tokens. For example, you might use the `html-h1-split` transformation to split the text into blocks based on the H1 tags in the HTML. Finally, you might also want to restrict the blocks you're working with to a subset of the data. You can use the `filter` command to do this. For example, you might only want to work with blocks that have more than 1000 tokens.
 
-Next, you can start creating prompt templates. These should be Jinja templates that include the text of the prompt and any metadata you want to include. When you run the `prompt` command, you'll pass in the name of the template and the metadata file, and each block in the set you supply will be passed into the template in the `{{block}}` variable. The fully rendered prompt will be sent to the LLM for completion.
+Next, you can start creating prompt templates. These should be Jinja templates that include the text of the prompt and any context you want to include. When you run the `prompt` command, you'll pass in the name of the template and the context file, and each block in the set you supply will be passed into the template in the `{{block}}` variable. The fully rendered prompt will be sent to the LLM for completion.
 
-Finally, you can use the `dump` command to write the results to a file, or transfer them into other blocks or metadata.
+Finally, you can use the `dump` command to write the results to a file, or transfer them into other blocks or context.
 
 Once you've found the right set of transformations and filters, you can script the whole process to automate the generation of prompts and responses and save it as a bash script.
 
@@ -105,9 +105,9 @@ prompter has the following commands:
 - `blocks` -- list all blocks in the current group
 - `groups` -- list all groups
 - `set-group` -- set the current group
-- `prompt` -- generate prompts from a set of blocks based on metadata and a template
+- `prompt` -- generate prompts from a set of blocks based on context and a template
 - `prompts` -- list all prompts
-- `transfer-prompts` -- convert prompts into blocks or metadata
+- `transfer-prompts` -- convert prompts into blocks or context
 - `version` - show the version of the software
 - `set-api-key` - set the api key used for the LLM
 - `dump` - write blocks or prompts to standard output
@@ -320,7 +320,7 @@ dump  --dir="~/Desktop/test"
 
 ## `prompt`
 
-Generate prompts from a set of blocks based on metadata and a template, and then used an LLM complection endpoint to generate completions.
+Generate prompts from a set of blocks based on context and a template, and then used an LLM complection endpoint to generate completions.
 
 ### Arguments
 
@@ -330,7 +330,7 @@ Generate prompts from a set of blocks based on metadata and a template, and then
 - `--order` (optional) A SQL ORDER BY clause to order the results.
 - `--model` (optional) The name of the model to use in the format `provider:model`, where provider is `openai` or `groq`, and model is the name of the model. The default is `openai:gpt-4o`. You can find the names of the models for each provider by running `prompter models --provider=openai|groq`.
 - `--prompt_tag` (optional) A tag to use for the prompt; this tag can be referred to later in queries.
-- `--globals` (optional) A YAML file with global metadata values that can be used in the prompt template.
+- `--globals` (optional) A YAML file with global context values that can be used in the prompt template.
 
 ### Examples
 
@@ -346,10 +346,10 @@ Prompt for a specific group:
 prompter prompt --fn=summarize.jinja --where="block_tag like 'ch12%'"
 ```
 
-Prompt and provide global metadata from a file:
+Prompt and provide global context from a file:
 
 ```
-prompter prompt --fn=extract-key-points.jinja --globals=metadata.yml
+prompter prompt --fn=extract-key-points.jinja --globals=context.yml
 ```
 
 ## `models`
@@ -393,14 +393,14 @@ prompter prompts --where="prompt_tag like 'ch12%'"
 
 ## `transfer-prompts`
 
-Convert prompts into blocks or metadata. This is useful is you want to do later processing with a prompt.
+Convert prompts into blocks or context. This is useful is you want to do later processing with a prompt.
 
 ### Arguments
 
 - `--where` (optional) A SQL WHERE clause to filter the results. Running `promplab transfer-prompts` will show the columns available for filtering. These are currently `['prompt_id', 'block_id', 'prompt', 'response', 'model', 'prompt_tag', 'created_at']`
 - `--order` (optional) A SQL ORDER BY clause to order the results.
-- `--to` (required) The type of object to transfer the prompts to. Options are `blocks` or `metadata`.
-- `--metadata_key` (optional) The key to use for the metadata. Only valid when `--to=metadata`.
+- `--to` (required) The type of object to transfer the prompts to. Options are `blocks` or `context`.
+- `--context_key` (optional) The key to use for the context. Only valid when `--to=context`.
 
 ### Examples
 
@@ -410,10 +410,10 @@ Transfer prompts to blocks:
 prompter transfer-prompts --to=blocks
 ```
 
-Transfer prompts to metadata:
+Transfer prompts to context:
 
 ```
-prompter transfer-prompts --to=metadata --metadata_key=key-points
+prompter transfer-prompts --to=context --context_key=key-points
 ```
 
 ## `version`
@@ -456,7 +456,7 @@ Runs a script that contains a series of commands. This is useful for automating 
 ### Arguments
 
 - `--fn` (required) The name of the script file to run.
-- `--globals` (optional) A YAML file with global metadata values that can be used in the script
+- `--globals` (optional) A YAML file with global context values that can be used in the script
 - `--preview` (optional) Prints the rendered script to standard output only (does not execute it).
 
 ### Examples
@@ -476,7 +476,7 @@ transform --transformation="sentence-split"
 blocks --order=block_id
 ```
 
-Here's an example of a script that uses global metadata and a preview:
+Here's an example of a script that uses global context and a preview:
 
 ```
 run --fn=/Users/odewahn/Desktop/content/summaries/summarizer.jinja --globals=metadata.yaml --preview

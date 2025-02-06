@@ -214,16 +214,16 @@ def print_results(title, column_names, results):
     console.print(table)
 
 
-# Take a command file used in the "run" option and render it using the metadata
+# Take a command file used in the "run" option and render it using the context
 def render_command_file():
     console.log("Rendering command file", args.fn)
     instructions = load_user_file(args.fn)
-    metadata = {}
+    context = {}
     if args.globals is not None:
-        metadata = read_metadata(args.globals)
+        context = read_context(args.globals)
     # Render the template
     template = Template(instructions)
-    instructions = template.render(**metadata)
+    instructions = template.render(**context)
     out = []
     for instruction in instructions.split("\n"):
         if len(instruction) > 0:
@@ -232,28 +232,28 @@ def render_command_file():
 
 
 # *****************************************************************************************
-#  Metadata
+#  context
 # *****************************************************************************************
 
 
-def read_metadata(fn):
+def read_context(fn):
     txt = load_user_file(fn)
     # parse the yml file into a dictionary
-    metadata = yaml.safe_load(txt)
-    return metadata
+    context = yaml.safe_load(txt)
+    return context
 
 
-# Takes prompts and converts them to metadata under the supplied key
-def action_transfer_prompts_to_metadata():
+# Takes prompts and converts them to context under the supplied key
+def action_transfer_prompts_to_context():
     header, results = fetch_prompts()
     try:
-        sql = load_system_file("sql/create_metadata.sql")
+        sql = load_system_file("sql/create_context.sql")
         conn = sqlite3.connect(args.db)
         conn.isolation_level = None
         c = conn.cursor()
         c.execute("BEGIN")
         for r in results:
-            c.execute(sql, (r["block_id"], args.metadata_key, r["response"]))
+            c.execute(sql, (r["block_id"], args.context_key, r["response"]))
         conn.commit()
     except Exception as e:
         console.log("Unable to process request:", e)
@@ -525,15 +525,15 @@ def action_transform(transformation):
 async def action_prompt():
     task_prompt = load_user_file(args.task)
     persona_prompt = load_user_file(args.persona) if args.persona is not None else ""
-    metadata = {}
+    context = {}
     if args.globals is not None:
-        metadata = read_metadata(args.globals)
+        context = read_context(args.globals)
     template = Template(task_prompt)
     headers, blocks = fetch_blocks()
     # Load the tasks to be processed into a list
     tasks = []
     for b in blocks:
-        prompt_text = template.render(block=b["block"], **metadata)
+        prompt_text = template.render(block=b["block"], **context)
         # if not response_already_exists(prompt_text):
         tasks.append({"block_id": b["block_id"], "prompt_text": prompt_text})
     # Call the completion service with the tasks using asyncio
@@ -735,11 +735,11 @@ def define_arguments(argString=None):
         default=2000,
         type=int,
     )
-    # Arguments related to tranferring data from prompts to metadata or blocks
+    # Arguments related to tranferring data from prompts to context or blocks
     parser.add_argument(
         "--to",
         help="Where to transfer prompts",
-        choices=["metadata", "blocks"],
+        choices=["context", "blocks"],
         required=False,
         default="blocks",
     )
@@ -750,13 +750,13 @@ def define_arguments(argString=None):
         required=False,
         default="blocks",
     )
-    # Arguments related to metadata
+    # Arguments related to context
     parser.add_argument(
-        "--globals", help="Name of the file with global metadata", required=False
+        "--globals", help="Name of the file with global context", required=False
     )
     parser.add_argument(
-        "--metadata_key",
-        help="Name of metadata key; this will match the name in a prompt template",
+        "--context_key",
+        help="Name of context key; this will match the name in a prompt template",
         required=False,
     )
     # Arguments related to dumping data
@@ -878,10 +878,10 @@ async def process_command():
 
     if args.action == "transfer-prompts":
         check_db(args.db)
-        if args.to == "metadata" and args.metadata_key is None:
-            raise Exception("You must provide a --metadata_key")
-        if args.to == "metadata":
-            action_transfer_prompts_to_metadata()
+        if args.to == "context" and args.context_key is None:
+            raise Exception("You must provide a --context_key")
+        if args.to == "context":
+            action_transfer_prompts_to_context()
         elif args.to == "blocks":
             action_transfer_prompts_to_blocks()
         else:
@@ -951,13 +951,13 @@ async def process_command():
 async def run():
     global args
     commands = load_user_file(args.fn)
-    # Load the metadata
-    metadata = {}
+    # Load the context
+    context = {}
     if args.globals is not None:
-        metadata = read_metadata(args.globals)
+        context = read_context(args.globals)
     # Render the template
     template = Template(commands)
-    commands = template.render(**metadata)
+    commands = template.render(**context)
     # Print the commands
     console.log(commands)
     # Leave if we're just previewing

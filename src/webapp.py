@@ -84,7 +84,7 @@ class CompletionRequest(BaseModel):
     block: dict
     task: str
     persona: str
-    metadata: dict
+    context: dict
     model: str
     temperature: float
 
@@ -96,7 +96,7 @@ async def complete_prompt(request: CompletionRequest):
             blocks=[request.block],
             task_text=request.task,
             persona_text=request.persona,
-            metadata=request.metadata,
+            context=request.context,
             model=request.model,
             temperature=request.temperature,
         )

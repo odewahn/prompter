@@ -44,7 +44,7 @@ def remove_comments(s):
 
 
 # Merge the kwargs with the shared environment at the top level.  For example, if the shared environment is
-# {"ENV": "dev"} and the kwargs are {"metadata": {"SOURCE": "http://example.com"}}, the merged dictionary should be
+# {"ENV": "dev"} and the kwargs are {"context": {"SOURCE": "http://example.com"}}, the merged dictionary should be
 # {"ENV": "dev", "SOURCE": "http://example.com"}
 def merge_kwargs(**kwargs):
     # Merge the shared environment with the kwargs

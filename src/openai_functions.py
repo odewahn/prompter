@@ -8,7 +8,7 @@ console = Console()
 with console.status(f"[bold green]Loading required libraries...") as status:
     from src.constants import *
     from src.db import DatabaseManager
-    from src.common import load_file_or_url, load_metadata
+    from src.common import load_file_or_url, load_context
     from src.render_templates import *
     import os
     import asyncio
@@ -19,17 +19,15 @@ with console.status(f"[bold green]Loading required libraries...") as status:
 
 
 async def openai_completion(
-    client, block, task_text, persona_text, metadata, model, temperature
+    client, block, task_text, persona_text, context, model, temperature
 ):
-    task = render_file_or_instruction(task_text, metadata=metadata, block=block)
+    task = render_file_or_instruction(task_text, context=context, block=block)
 
     messages = [
         {"role": "user", "content": task},
     ]
     if persona_text:
-        persona = render_file_or_instruction(
-            persona_text, metadata=metadata, block=block
-        )
+        persona = render_file_or_instruction(persona_text, context=context, block=block)
         messages.append({"role": "system", "content": persona})
 
     response = await client.chat.completions.create(
@@ -45,7 +43,7 @@ async def complete(
     blocks,
     task_text=None,
     persona_text=None,
-    metadata={},
+    context={},
     model=OPENAI_DEFAULT_MODEL,
     temperature=OPENAI_DEFAULT_TEMPERATURE,
 ):
@@ -62,7 +60,7 @@ async def complete(
             block,
             task_text,
             persona_text,
-            metadata,
+            context,
             model,
             temperature,
         )

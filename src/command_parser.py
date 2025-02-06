@@ -226,10 +226,10 @@ def create_parser():
                 {"help": "Filename of the persona template", "required": False},
             ),
             (
-                "--metadata",
+                "--context",
                 {
-                    "help": "Metadata file",
-                    "default": DEFAULT_METADATA_FN,
+                    "help": "context file",
+                    "default": DEFAULT_CONTEXT_FN,
                 },
             ),
             (
@@ -254,7 +254,7 @@ def create_parser():
             (
                 "--source",
                 {
-                    "help": "URL or local path for the task or scenario (does not apply to metadata)",
+                    "help": "URL or local path for the task or scenario (does not apply to context)",
                     "required": False,
                     "type": str,
                 },

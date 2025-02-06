@@ -17,7 +17,7 @@ s = open("../data/env-test.prompter").read()
 # render the file
 try:
     file = render_file_or_instruction(
-        s, metadata={"SOURCE": "http://example.com", "DEST": "~/Desktop/odewahn"}
+        s, context={"SOURCE": "http://example.com", "DEST": "~/Desktop/odewahn"}
     )
     print(file)
 except InvalidTemplate as e:
@@ -39,7 +39,7 @@ write --fn="~/test-{{block_tag.split('.')[0]}}-{{ '%04d' % position}}.txt" --whe
 out = render_argument(
     args.fn,
     block={"block_tag": "test.123", "position": 1},
-    metadata={"title": "A simple plan", "author": "Andrew Odewahn"},
+    context={"title": "A simple plan", "author": "Andrew Odewahn"},
 )
 print("The answer is", out)
 
@@ -53,6 +53,6 @@ load http//example.com ~/Desktop/odewahn/cat-essay.txt test.epub
 out = render_argument(
     args.files,
     block={"block_tag": "test.123", "position": 1},
-    metadata={"title": "A simple plan", "author": "Andrew Odewahn"},
+    context={"title": "A simple plan", "author": "Andrew Odewahn"},
 )
 print("The answer is", out)

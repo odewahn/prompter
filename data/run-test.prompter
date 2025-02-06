@@ -1,5 +1,5 @@
-load data/*.txt
+load *.txt
 transform new-line-split
-retag data/test-{{block_tag}}-{{position}}.txt
+retag test-{{block_tag}}-{{position}}.txt
 env
 write
