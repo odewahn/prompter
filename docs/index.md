@@ -1,6 +1,6 @@
 # prompter
 
-prompter is a utility for managing common activities when processing large amounts of text with an LLM.
+Prompter is a tool for scripting text transformations with OpenAI.
 
 ![Prompter](images/browser.png)
 
