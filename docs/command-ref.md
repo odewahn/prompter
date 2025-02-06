@@ -6,7 +6,7 @@
 
 Opens a browser application so that you can view data, run commands, and experiement with different prompts.
 
-![Browse](images/browse.png)
+![Browse](images/browser.png)
 
 ### load
 
