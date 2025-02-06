@@ -334,15 +334,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#browse" class="md-nav__link">
-    <span class="md-ellipsis">
-      browse
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#load" class="md-nav__link">
     <span class="md-ellipsis">
       load
@@ -373,6 +364,15 @@
   <a href="#run" class="md-nav__link">
     <span class="md-ellipsis">
       run
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#browse" class="md-nav__link">
+    <span class="md-ellipsis">
+      browse
     </span>
   </a>
   
@@ -587,15 +587,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#browse" class="md-nav__link">
-    <span class="md-ellipsis">
-      browse
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#load" class="md-nav__link">
     <span class="md-ellipsis">
       load
@@ -626,6 +617,15 @@
   <a href="#run" class="md-nav__link">
     <span class="md-ellipsis">
       run
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#browse" class="md-nav__link">
+    <span class="md-ellipsis">
+      browse
     </span>
   </a>
   
@@ -816,9 +816,6 @@
 
 <h1 id="command-reference">Command Reference</h1>
 <h2 id="core-features">Core Features</h2>
-<h3 id="browse">browse</h3>
-<p>Opens a browser application so that you can view data, run commands, and experiement with different prompts.</p>
-<p><img alt="Browse" src="../images/browser.png" /></p>
 <h3 id="load">load</h3>
 <p>Load a file or files as a new group.</p>
 <ul>
@@ -847,7 +844,7 @@
 <li><code>new-line-split</code>: Splits text into blocks based on new lines.</li>
 <li><code>sentence-split</code>: Splits text into blocks based on sentences.</li>
 <li><code>strip-attributes</code>: Remove all attributes from HTML tags.</li>
-<li><code>extracct-headers</code>: Extract onle HTML headers (4 levels) deep</li>
+<li><code>extract-headers</code>: Extract HTML headers (through h4)</li>
 </ul>
 </li>
 <li><code>--tag</code> (optional): Tag to use for the group.</li>
@@ -894,6 +891,9 @@
   <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>run script.prompter
 </span></code></pre></div></li>
 </ul>
+<h3 id="browse">browse</h3>
+<p>Opens a browser application so that you can view data, run commands, and experiement with different prompts.</p>
+<p><img alt="Browse" src="../images/browser.png" /></p>
 <h2 id="data-management">Data Management</h2>
 <h3 id="use">use</h3>
 <p>Specifiy the name of the SQLite database you want to use to store your data. This database will be created in the current working directory. If you change the working directory, prompter will create a new database in the new directory using the same name.</p>
