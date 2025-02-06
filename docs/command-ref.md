@@ -2,6 +2,12 @@
 
 ## Core Features
 
+### browse
+
+Opens a browser application so that you can view data, run commands, and experiement with different prompts.
+
+![Browse](images/browse.png)
+
 ### load
 
 Load a file or files as a new group.
