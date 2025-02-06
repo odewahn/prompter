@@ -2,12 +2,6 @@
 
 ## Core Features
 
-### browse
-
-Opens a browser application so that you can view data, run commands, and experiement with different prompts.
-
-![Browse](images/browser.png)
-
 ### load
 
 Load a file or files as a new group.
@@ -40,7 +34,7 @@ Transform a block using specified transformations. If you chain multiple transfo
     - `new-line-split`: Splits text into blocks based on new lines.
     - `sentence-split`: Splits text into blocks based on sentences.
     - `strip-attributes`: Remove all attributes from HTML tags.
-    - `extracct-headers`: Extract onle HTML headers (4 levels) deep
+    - `extract-headers`: Extract HTML headers (through h4)
   - `--tag` (optional): Tag to use for the group.
   - `--where` (optional): Where clause for the blocks.
   - `--n` (optional): Number of tokens to split (default: 1000).
@@ -92,6 +86,12 @@ write
   ```
   run script.prompter
   ```
+
+### browse
+
+Opens a browser application so that you can view data, run commands, and experiement with different prompts.
+
+![Browse](images/browser.png)
 
 ## Data Management
 
