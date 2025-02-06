@@ -146,6 +146,18 @@
 </div>
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/odewahn/prompter" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -179,6 +191,18 @@
     </a>
     Prompter Docs
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/odewahn/prompter" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -309,57 +333,20 @@
                   
 
 
+  
+  
+
 
 <h1 id="prompter">prompter</h1>
-<p>prompter is a utility for managing common activities when processing large amounts of text with an LLM. It lets you:</p>
+<p>prompter is a utility for managing common activities when processing large amounts of text with an LLM.</p>
+<p><img alt="Prompter" src="images/browser.png" /></p>
+<p>It lets you:</p>
 <ul>
 <li>Load text from files or EPUBs into a database</li>
 <li>Transform text using a variety of transformations. For example, convert an EPUB to markdown, split a long block into smaller blocks, or split a block into sentences. A lot of this work is required to fit the text into the LLM's token limit.</li>
 <li>Filter out blocks of text. For example, you might only want to process one chapter in a book.</li>
 <li>Apply templated prompts to your blocks and send them to an LLM. You can use context in your prompts to make them more dynamic. For example, you might have a context file with keys like <code>title</code>, <code>author</code>, and <code>topic</code>. You can include these keys in your prompt templates.</li>
 </ul>
-<p>prompter helps you massage text into smaller blocks that can be fed into an LLM using a <a href="https://jinja.palletsprojects.com/">Jinja</a> template. This template contains the text of your prompt, along with variables that get passed in from the block. For example, you might have a template like this with three variables -- a topic, a title, an author, and a block of text:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>You are a technical instructional designer who is reviewing
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>a book about {{topic}} called {{title}} by {{author}}.  Your job is to
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>summarize the key points in each section.  Here is some text in
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>markdown format for you to use summarize:
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>{{block}}
-</span></code></pre></div>
-<p>You supply the context in a YAML file, like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>title: Fooing the Bar
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>topic: Python Programming
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>author: A. N. Other
-</span></code></pre></div>
-<p>When you run the <code>prompt</code> command in prompter, a block of text and the context is passed into the template:</p>
-<div class="language-jinja highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="x">You are a technical instructional designer who is reviewing</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="x">a book about Python Programming called Fooing the Bar by A. N. Other.</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="x">Your job is to summarize the key points in each section.  Here is</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="x">some text in markdown format for you to use summarize:</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="x">&lt;BLOCK OF TEXT&gt;</span>
-</span></code></pre></div>
-<p>This fully rendered text is sent to an LLM for completion. The process is repeated for the other blocks of content until all the sections you select are processed. You can then convert these resposes into new blocks or context, or just dump them out an save them in a file.</p>
-<p>You can run it in an interactive mode or as a script. To run it interactively, run <code>prompter</code> with no arguments. You then enter commands at the prompt as if you were using the CLI.</p>
-<p><img alt="prompter interactive" src="misc/prompter-repl.png" /></p>
-<p>Finally, prompter can be used as part of a script to automate the process of generating prompts and responses. For example, here's an example of how tou might summarize the full contents of a book:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Make sure the bash script exits if any command fails</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">set</span><span class="w"> </span>-e
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Create a new database</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>prompter<span class="w"> </span>init
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Load the epub</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>prompter<span class="w"> </span>load<span class="w"> </span>--fn<span class="o">=</span>book.epub
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Apply a filter to only work on chapter</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>prompter<span class="w"> </span>filter<span class="w"> </span>--where<span class="o">=</span><span class="s2">&quot;block_tag like &#39;ch%&#39;&quot;</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Clean up the extraneous HTML, split the text into sections, and convert to markdown</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>prompter<span class="w"> </span>transform<span class="w"> </span>--transformation<span class="o">=</span><span class="s2">&quot;clean-epub, html-h1-split, html2md&quot;</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Only work on sections with more than 1000 tokens</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>prompter<span class="w"> </span>filter<span class="w"> </span>--where<span class="o">=</span><span class="s2">&quot;token_count &gt; 1000&quot;</span><span class="w"> </span>--group_tag<span class="o">=</span>key-sections
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Apply the summarization template using the context in context.yml</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>prompter<span class="w"> </span>prompt<span class="w"> </span>--fn<span class="o">=</span>summarize.jinja<span class="w"> </span>--globals<span class="o">=</span>context.yml
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1"># Write the results to a file</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>prompter<span class="w"> </span>dump<span class="w"> </span>--source<span class="o">=</span>prompts<span class="w"> </span>&gt;<span class="w"> </span>key-points.md
-</span></code></pre></div>
 
 
 
