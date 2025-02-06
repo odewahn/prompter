@@ -1,239 +1,65 @@
-# Core Features
+# prompter
 
-## use
+prompter is a utility for managing common activities when processing large amounts of text with an LLM. It lets you:
 
-Specifiy the name of the database you want to use to store your data. This database is a SQLite database that is created in the current working directory. If you change the working directory, prompter will create a new database in the new directory using the same name.
+- Load text from files or EPUBs into a database
+- Transform text using a variety of transformations. For example, convert an EPUB to markdown, split a long block into smaller blocks, or split a block into sentences. A lot of this work is required to fit the text into the LLM's token limit.
+- Filter out blocks of text. For example, you might only want to process one chapter in a book.
+- Apply templated prompts to your blocks and send them to an LLM. You can use metadata in your prompts to make them more dynamic. For example, you might have a metadata file with keys like `title`, `author`, and `topic`. You can include these keys in your prompt templates.
 
-- **Arguments:**
-  - `db_name` (required): Database name to use.
-- **Example:**
-  ```
-  use summary.db
-  ```
-
-## load
-
-Load a file or files as a new group.
-
-- **Arguments:**
-  - `files` (required): List of files or URLs to load.
-  - `--tag` (optional): Tag to use for the group.
-- **Example:**
-
-  ```
-  load *.txt --tag=text_files
-
-  load book.epub
-
-  load http://example.com
-  ```
-
-## transform
-
-Transform a block using specified transformations. If you chain multiple transformations together, they are applied in the order they are specified.
-
-- **Arguments:**
-  - `transformation` (required): Transformations to apply. Available transformations are:
-    - `token-split`: Breaks text into overlapping chunks of 1000 tokens overlapping by 10%.
-    - `clean-epub`: Simplifies the HTML of an EPUB.
-    - `html-h1-split`: Breaks HTML into blocks based on H1 tags.
-    - `html-h2-split`: Breaks HTML into blocks based on H1 and H2 tags.
-    - `html-to-md`: Converts HTML to Markdown.
-    - `html-to-txt`: Converts HTML to plain text.
-    - `new-line-split`: Splits text into blocks based on new lines.
-    - `sentence-split`: Splits text into blocks based on sentences.
-    - `strip-attributes`: Remove all attributes from HTML tags.
-    - `extracct-headers`: Extract onle HTML headers (4 levels) deep
-  - `--tag` (optional): Tag to use for the group.
-  - `--where` (optional): Where clause for the blocks.
-  - `--n` (optional): Number of tokens to split (default: 1000).
-  - `--overlap` (optional): Overlap percentage (as an integer) for token-split (default: 10).
-- **Examples:**
-
-  ```
-  transform clean-epub --tag=cleaned --where="block_tag like 'ch%'"
-
-  transform html-to-md token-split --n=1500
-  ```
-
-## complete
-
-Complete a block using OpenAI.
-
-- **Arguments:**
-  - `task` (required): Filename or URL of the task template.
-  - `--persona` (optional): Filename or URL of the persona template.
-  - `--metadata` (optional): Metadata file (default: DEFAULT_METADATA_FN).
-  - `--tag` (optional): Tag to use for the group.
-  - `--model` (optional): Model to use (default: OPENAI_DEFAULT_MODEL).
-  - `--temperature` (optional): Temperature to use (default: OPENAI_DEFAULT_TEMPERATURE).
-  - `--where` (optional): Where clause for the blocks.
-- **Example:**
-  ```
-  complete summarize.jinja --tag=summary --model=gpt-4o --temperature=0.3
-  ```
-
-## run
-
-Run a file containing of prompter commands. For example, the following file of commands would allow you to summarize an epub file:
+prompter helps you massage text into smaller blocks that can be fed into an LLM using a [Jinja](https://jinja.palletsprojects.com/) template. This template contains the text of your prompt, along with variables that get passed in from the block. For example, you might have a template like this with three variables -- a topic, a title, an author, and a block of text:
 
 ```
-set FN test.epub
-load {{FN}}
-select "block_tag like 'chapter%'"
-transform clean-epub html-to-md token-split --n=1500
-complete summarize-block.task
-squash
-complete cleanup-summary.task
-retag summary-{{block_tag}}.md
-write
+You are a technical instructional designer who is reviewing
+a book about {{topic}} called {{title}} by {{author}}.  Your job is to
+summarize the key points in each section.  Here is some text in
+markdown format for you to use summarize:
+
+{{block}}
 ```
 
-- **Arguments:**
-  - `fn` (required): File or URL to run.
-- **Example:**
-  ```
-  run script.prompter
-  ```
+You supply the metadata in a YAML file, like this:
 
-# Data Management
-
-## blocks
-
-List all blocks.
-
-- **Arguments:**
-  - `--where` (optional): Where clause for the blocks.
-- **Example:**
-  ```
-  blocks --where="block_tag like 'ch%'"
-  ```
-
-## groups
-
-List all groups.
-
-- **Arguments:**
-  - `--where` (optional): Where clause for the group.
-- **Example:**
-  ```
-  groups --where="group_tag like 'my_group%'"
-  ```
-
-## checkout
-
-Checkout a group.
-
-- **Arguments:**
-  - `tag` (required): Tag to checkout. This can be:
-    - _tag_: the name of the group to checkout
-    - `latest`: checkout the latest group
-    - `first`: checkout the first group
-    - `next`: checkout the next group
-    - `previous`: checkout the previous group
-- **Example:**
-  ```
-  checkout my_group
-  ```
-
-## squash
-
-Squash the current group into a new group by tag. Use this to combine blocks into a single block.
-
-- **Arguments:**
-  - `--delimiter` (optional): Delimiter to use (default: "\n").
-  - `--tag` (optional): Tag for the new group.
-- **Example:**
-  ```
-  squash --delimiter="\n\n" --tag=squashed_group
-  ```
-
-# Generating Output
-
-## write
-
-Write the current group to a file.
-
-- **Arguments:**
-  - `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag}}").
-  - `--where` (optional): Where clause for the blocks.
-- **Examples:**
-  Write each block to a file named after its tag:
-  ```
-  write --fn="output/{{block_tag}}.txt"
-  ```
-
-## speak
-
-Convert the current block to audio files.
-
-- **Arguments:**
-  - `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag.split('.') | first}}-{{ '%04d' % position}}.mp3").
-  - `--where` (optional): Where clause for the blocks.
-  - `--voice` (optional): Voice to use (default: "alloy").
-  - `--preview` (optional): Preview the filenames.
-- **Example:**
-  ```
-  speak --fn="audio/{{block_tag}}.mp3" --voice=alloy
-  ```
-
-# Environment Management
-
-## set
-
-Set an environment variable.
-
-- **Arguments:**
-  - `key` (required): Key to set.
-  - `value` (required): Value to set.
-- **Example:**
-  ```
-  set SOURCE https://example.com
-  ```
-
-## unset
-
-Remove an environment variable.
-
-- **Arguments:**
-  - `key` (required): Key to remove.
-- **Example:**
-  ```
-  unset SOURCE
-  ```
-
-### Usage Notes
-
-Environment variables allow you to create symbols you can use in instructions, rather than literal strings. For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:
-
-```
-set SOURCE https://example.com
+```yml
+title: Fooing the Bar
+topic: Python Programming
+author: A. N. Other
 ```
 
-And then you can do something like this:
+When you run the `prompt` command in prompter, a block of text and the metadata is passed into the template:
 
+```jinja
+You are a technical instructional designer who is reviewing
+a book about Python Programming called Fooing the Bar by A. N. Other.
+Your job is to summarize the key points in each section.  Here is
+some text in markdown format for you to use summarize:
+
+<BLOCK OF TEXT>
 ```
-complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
+
+This fully rendered text is sent to an LLM for completion. The process is repeated for the other blocks of content until all the sections you select are processed. You can then convert these resposes into new blocks or metadata, or just dump them out an save them in a file.
+
+You can run it in an interactive mode or as a script. To run it interactively, run `prompter` with no arguments. You then enter commands at the prompt as if you were using the CLI.
+
+![prompter interactive](misc/prompter-repl.png)
+
+Finally, prompter can be used as part of a script to automate the process of generating prompts and responses. For example, here's an example of how tou might summarize the full contents of a book:
+
+```bash
+# Make sure the bash script exits if any command fails
+set -e
+# Create a new database
+prompter init
+# Load the epub
+prompter load --fn=book.epub
+# Apply a filter to only work on chapter
+prompter filter --where="block_tag like 'ch%'"
+# Clean up the extraneous HTML, split the text into sections, and convert to markdown
+prompter transform --transformation="clean-epub, html-h1-split, html2md"
+# Only work on sections with more than 1000 tokens
+prompter filter --where="token_count > 1000" --group_tag=key-sections
+# Apply the summarization template using the metadata in metadata.yml
+prompter prompt --fn=summarize.jinja --globals=metadata.yml
+# Write the results to a file
+prompter dump --source=prompts > key-points.md
 ```
-
-You can pass environment variable into your scripts when they starts by creating a (bash) variable that begins with `PROMPTER\_`. (Note that the "PROMPTER\_" prefix will be stripped off.) For example, an environment variable created with `export PROMPTER_ENV=dev` automantically becomes available in the prompter environment as `ENV=dev`.
-
-# Other Commands
-
-## version
-
-Print the version of the application.
-
-- **Example:**
-  ```
-  version
-  ```
-
-## exit
-
-Exit the REPL (Read-Eval-Print Loop).
-
-- **Example:**
-  ```
-  exit
-  ```

@@ -1,6 +1,7 @@
 .venv
 .aider*
 .env
+.docs-venv
 *.db
 *.log
 __pycache__
@@ -9,6 +10,7 @@ dist
 .DS_Store
 *.mp3
 node_modules/
+site
 
 # Frontent things to exclude
 *.log
@@ -33,3 +35,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Docs things to exclude
+
