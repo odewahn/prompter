@@ -347,6 +347,15 @@
 <li>Filter out blocks of text. For example, you might only want to process one chapter in a book.</li>
 <li>Apply templated prompts to your blocks and send them to an LLM. You can use context in your prompts to make them more dynamic. For example, you might have a context file with keys like <code>title</code>, <code>author</code>, and <code>topic</code>. You can include these keys in your prompt templates.</li>
 </ul>
+<p>You can create simple scripts so that you can automate many commaon transformation tasks:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>load<span class="w"> </span>test.epub
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>transform<span class="w"> </span>html-to-md<span class="w"> </span>token-split<span class="w"> </span>--n<span class="o">=</span><span class="m">5000</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">complete</span><span class="w"> </span>summarize-block.task
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>squash
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">complete</span><span class="w"> </span>cleanup-summary.task
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>retag<span class="w"> </span>summary-<span class="o">{{</span>block_tag<span class="o">}}</span>.md
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>write
+</span></code></pre></div>
 
 
 
