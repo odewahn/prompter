@@ -9,6 +9,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from markdownify import markdownify as md
     import markdown
     from bs4 import BeautifulSoup
+    import feedparser
+    import json
 
 
 def apply_transformation(transformation_name, b, **kwargs):
@@ -45,6 +47,8 @@ def perform(transformation_name, b, **kwargs):
         return transformation_strip_attributes(b, **kwargs)
     elif transformation_name == "extract-headers":
         return transformation_extract_headers(b, **kwargs)
+    elif transformation_name == "feed-to-abridged-json":
+        return transformation_feed_to_abridged_json(b, **kwargs)
     else:
         raise ValueError(f"Unrecognized transformation: {transformation_name}")
 
@@ -145,3 +149,17 @@ def transformation_extract_headers(b, **kwargs):
         # intialize text with the full tag and its text
         out += repr(tag).replace("\n", " ") + "\n"
     return out
+
+
+def transformation_feed_to_abridged_json(b, **kwargs):
+    N = kwargs.get("n", 1000)
+    feed = feedparser.parse(b)
+    # convert the "value" field from html to markdown
+    out = []
+    for entry in feed.entries:
+        rec = {}
+        rec["title"] = entry.title
+        rec["link"] = entry.link
+        rec["summary"] = entry.summary[:N]
+        out.append(rec)
+    return json.dumps(out, indent=4)

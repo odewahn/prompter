@@ -35,6 +35,7 @@ Transform a block using specified transformations. If you chain multiple transfo
     - `sentence-split`: Splits text into blocks based on sentences.
     - `strip-attributes`: Remove all attributes from HTML tags.
     - `extract-headers`: Extract HTML headers (through h4)
+    - `feed-to-abridged-json`: Converts an RSS feed to an abridged JSON format Use --n to specify the number characters to use from the summary.
   - `--tag` (optional): Tag to use for the group.
   - `--where` (optional): Where clause for the blocks.
   - `--n` (optional): Number of tokens to split (default: 1000).

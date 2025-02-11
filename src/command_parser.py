@@ -136,6 +136,7 @@ def create_parser():
                         "sentence-split",
                         "strip-attributes",
                         "extract-headers",
+                        "feed-to-abridged-json",
                     ],
                 },
             ),
@@ -148,7 +149,7 @@ def create_parser():
                 "--n",
                 {
                     "type": int,
-                    "help": "Number of tokens to split",
+                    "help": "Number of items",
                     "required": False,
                     "default": 1000,
                 },

@@ -1,4 +1,4 @@
-VERSION = "0.7.0"
+VERSION = "0.7.1"
 
 DEFAULT_DATABASE_NAME = "mydatabase.db"
 DEFAULT_DB_URL = f"sqlite+aiosqlite:///{DEFAULT_DATABASE_NAME}"

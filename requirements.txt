@@ -16,3 +16,4 @@ openai
 pyyaml
 pyinstaller
 pydub
+feedparser
