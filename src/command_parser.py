@@ -263,6 +263,36 @@ def create_parser():
         ],
     )
 
+    add_subparser(
+        "embed",
+        "Compute vector embeddings for the current block and save to a CSV file",
+        [
+            (
+                "--fn",
+                {
+                    "help": "Filename of where to save the embeddings",
+                    "required": False,
+                    "type": str,
+                    "default": "embeddings.csv",
+                },
+            ),
+            (
+                "--where",
+                {"help": "Where clause for the blocks", "required": False, "type": str},
+            ),
+            (
+                "--embedder",
+                {
+                    "help": "Embedder to use to complete embeddings",
+                    "required": False,
+                    "type": str,
+                    "default": "openai",
+                    "choices": ["openai", "dummy"],
+                },
+            ),
+        ],
+    )
+
     add = add_subparser(
         "checkout",
         "Checkout a group",

@@ -16,6 +16,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.shared_environment import shared_environment as env
     from src.common import command_split
     from src.render_templates import *
+    from src.embeddings import create_embedder, compute_embeddings
     from ebooklib import epub
     from ebooklib import ITEM_DOCUMENT as ebooklib_ITEM_DOCUMENT
     import os
@@ -80,6 +81,7 @@ async def handle_command(args, command):
         "unset": handle_unset_command,
         "select": handle_select_command,
         "retag": handle_retag_command,
+        "embed": handle_embed_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -672,3 +674,31 @@ async def handle_set_command(args, command):
 
 async def handle_unset_command(args, command):
     env.unset(args.key)
+
+
+async def handle_embed_command(args, command):
+
+    current_blocks, _ = await db_manager.get_current_blocks(args.where)
+    if not current_blocks:
+        raise Exception("No blocks found to complete")
+    try:
+        with console.status(f"[bold green]Embedding...") as status:
+            embedder = create_embedder(args.embedder)
+            embeddings = await compute_embeddings(
+                [block["content"] for block in current_blocks], embedder
+            )
+        # Write out to a csv file
+        with open(args.fn, "w") as f:
+            # Write a header row
+            f.write(
+                "group_tag, block_tag, block_id, position, "
+                + ", ".join([f"v{i}" for i in range(len(embeddings[0]))])
+                + "\n",
+            )
+            for block, embedding in zip(current_blocks, embeddings):
+                f.write(
+                    f"{block['group_tag']}, {block['block_tag']}, {block['block_id']}, {block['position']}, {','.join(map(str, embedding))}\n"
+                )
+
+    except Exception as e:
+        raise Exception(f"Error embedding blocks: {e}")

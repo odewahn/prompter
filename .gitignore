@@ -9,6 +9,7 @@ build
 dist
 .DS_Store
 *.mp3
+*.csv
 node_modules/
 site
 

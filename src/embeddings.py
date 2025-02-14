@@ -1,36 +1,37 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import asyncio
+import os
+from src.constants import *
 
 
 # Base class for embedding
 class Embedder(ABC):
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-
     @abstractmethod
     async def compute_embedding(self, text):
         pass
 
 
 # This class is here for reference and to give a quick way to do tests
+@dataclass
 class DummyEmbedder(Embedder):
-    def __init__(self, api_key: str, dimensionality: int = 8):
-        super().__init__(api_key)
-        self.dimensionality = dimensionality
+    dimensionality: int = 8
 
     async def compute_embedding(self, text):
         return [0.0] * self.dimensionality
 
 
+@dataclass
 class OpenAIEmbedder(Embedder):
-    def __init__(self, api_key: str):
-        super().__init__(api_key)
+
+    # is os.environ["OPENAI_API_KEY"] is not set then print a warning
+    if "OPENAI_API_KEY" not in os.environ:
+        raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
 
     async def compute_embedding(self, text):
         from openai import AsyncOpenAI
 
-        client = AsyncOpenAI(api_key=self.api_key)
+        client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
         response = await client.embeddings.create(
             model="text-embedding-ada-002", input=text
         )
