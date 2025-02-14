@@ -24,11 +24,24 @@ class OpenAIEmbedder(Embedder):
         return response.data[0].embedding
 
 
-# Factory function for creating embedders
+@dataclass
+class VertexAIEmbedder(Embedder):
+    project_id: str
+    location: str
+    model_id: str
+
+    async def compute_embedding(self, text):
+        from google.cloud import aiplatform
+
+        aiplatform.init(project=self.project_id, location=self.location)
+        model = aiplatform.Model(self.model_id)
+        response = model.predict(instances=[{"content": text}])
+        return response.predictions[0]["embedding"]
 def create_embedder(embedder_type, **kwargs):
     if embedder_type == "openai":
         return OpenAIEmbedder(**kwargs)
-    else:
+    elif embedder_type == "vertexai":
+        return VertexAIEmbedder(**kwargs)
         raise ValueError(f"Unknown embedder type: {embedder_type}")
 
 
