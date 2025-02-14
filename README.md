@@ -1,6 +1,34 @@
-# Installation
+# Installation and Usage
 
-# Usage
+See [https://odewahn.github.io/prompter/](https://odewahn.github.io/prompter/)
+
+# To Do / Wishlist
+
+## Short
+
+- Improve documentation
+  -- more examples
+  -- how to run in docker
+
+- UI improvements
+  -- Jazz up the UI a bit / make it match the docs
+  -- Add a "processing" UI state - maybe use the context to share data. Simple thing would be to poll an environment variable
+
+- Additional functionality
+  -- Compute embeddings for blocks and save them out
+  -- Get something running as a webhook
+  -- Get something deployed via cloud run
+  -- use tiktoken to get token counts
+
+## Medium
+
+- Support for Anthropic
+- Be able to do dimensionality reduction on the embeddings
+- show rate limits somehow
+
+## Longer
+
+- A much deeper ability to compute and manage context. For example, use a cimplete command to create something that tcan then be used as context for another completion. Base it usely on unix file perms -- world, group, block.
 
 # Development
 
