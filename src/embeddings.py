@@ -26,8 +26,10 @@ class OpenAIEmbedder(Embedder):
 
 @dataclass
 class DummyEmbedder(Embedder):
-    async def compute_embedding(self, text, dimensionality: int = 8):
-        return [0.0] * dimensionality
+    dimensionality: int = 8
+
+    async def compute_embedding(self, text):
+        return [0.0] * self.dimensionality
 
 
 def create_embedder(embedder_type, **kwargs):
