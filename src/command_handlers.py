@@ -9,7 +9,8 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     from src.db import DatabaseManager
     from src.constants import *
     from src.transformations import apply_transformation
-    from src.openai_functions import complete, dump_to_audio
+    from src.openai_functions import complete
+    from src.speak import dump_to_audio
     from src.common import *
     from src.command_parser import create_parser
     from src.shared_environment import shared_environment as env
