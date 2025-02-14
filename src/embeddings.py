@@ -5,23 +5,27 @@ import asyncio
 
 # Base class for embedding
 class Embedder(ABC):
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+
     @abstractmethod
     async def compute_embedding(self, text):
         pass
 
 
 # This class is here for reference and to give a quick way to do tests
-@dataclass
 class DummyEmbedder(Embedder):
-    dimensionality: int = 8
+    def __init__(self, api_key: str, dimensionality: int = 8):
+        super().__init__(api_key)
+        self.dimensionality = dimensionality
 
     async def compute_embedding(self, text):
         return [0.0] * self.dimensionality
 
 
-@dataclass
 class OpenAIEmbedder(Embedder):
-    api_key: str
+    def __init__(self, api_key: str):
+        super().__init__(api_key)
 
     async def compute_embedding(self, text):
         from openai import AsyncOpenAI
