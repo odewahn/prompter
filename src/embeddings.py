@@ -10,6 +10,15 @@ class Embedder(ABC):
         pass
 
 
+# This class is here for reference and to give a quick way to do tests
+@dataclass
+class DummyEmbedder(Embedder):
+    dimensionality: int = 8
+
+    async def compute_embedding(self, text):
+        return [0.0] * self.dimensionality
+
+
 @dataclass
 class OpenAIEmbedder(Embedder):
     api_key: str
@@ -24,14 +33,7 @@ class OpenAIEmbedder(Embedder):
         return response.data[0].embedding
 
 
-@dataclass
-class DummyEmbedder(Embedder):
-    dimensionality: int = 8
-
-    async def compute_embedding(self, text):
-        return [0.0] * self.dimensionality
-
-
+# Factory function to create an embedder
 def create_embedder(embedder_type, **kwargs):
     if embedder_type == "openai":
         return OpenAIEmbedder(**kwargs)
