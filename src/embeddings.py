@@ -21,7 +21,7 @@ class OpenAIEmbedder(Embedder):
         response = await client.embeddings.create(
             model="text-embedding-ada-002", input=text
         )
-        return response["data"][0]["embedding"]
+        return response.data[0].embedding
 
 
 @dataclass
