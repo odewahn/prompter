@@ -11,7 +11,7 @@
 Commands in prompter have a basic syntax that consists of a command name and a set of arguments that follow typical command line format. For example, completing a prompt looks like this:
 
 ```
-prompt --task=../prompts/tasks/extract-key-points.txt --persona=../prompts/tasks/oreilly-short.txt --global=../metadata.yaml
+complete extract-key-points.task --persona=oreilly-short.txt --context=metadata.yaml
 ```
 
 You can find full documentation for prompter at https://github.com/odewahn/prompter.
