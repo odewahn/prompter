@@ -1,18 +1,36 @@
-# Quickstart
+# Understanding Prompter
 
-[Prompter](https://github.com/odewahn/prompter) is a development that provides both a REPL and a GUI that allows you to tool for apply prompt templates to content.
+Prompter is a tool for applying Large Language Model (LLM) prompts to content at scale. It provides both a command-line REPL interface and a GUI for managing the workflow of:
 
-- block: chunks of text of any size. The goal of prompter is to get all blocks in a work to be smaller than the context window for LLM models
-- group: sets of blocks that are created during actions like loading, transforming, or squashing other blocks. You can give a group a meaningfule name by supplying a `--group_tag` in the command that is creting it. Otherwise prompter will generate a random name for you.
-- current group: the set of blocks that are the result of the most recent operation
+1. Loading content from various sources
+2. Processing that content into LLM-friendly chunks
+3. Applying prompts systematically
+4. Managing and storing the results
 
-Most prompter workflows look something like this:
+## Core Concepts
 
-- Load content into a SQLite database
-- Convert the content into a format approriate for use with an LLM (e.g., epub => markdown)
-- Break the content into smaller blocks that can fit within the context window of most LLMs (currently 8000 tokens). Most books or courses will be 200,000 tokens or more, so they require some degree of pre-processing.
-- Apply prompt templates (both task and persona) and metadata the blocks and sending them to the LLM for completion
-- Store and manage the results as new blocks
+Before diving in, it's important to understand these key concepts:
+
+### Blocks
+A block is a chunk of text that can be processed by an LLM. Blocks are the fundamental unit in Prompter:
+- They must fit within an LLM's context window (typically 8K tokens)
+- Can be in various formats (HTML, Markdown, plain text)
+- Have metadata like IDs and tags for tracking
+
+### Groups
+Groups are collections of related blocks:
+- Created when you load, transform, or combine blocks
+- Have a unique tag for identification (auto-generated or user-specified)
+- Only one group is "active" at a time (the current group)
+
+### Workflow
+A typical Prompter workflow follows these steps:
+
+1. **Load** content into the SQLite database
+2. **Transform** content into LLM-friendly format (e.g., HTML → Markdown)
+3. **Split** content into appropriate block sizes
+4. **Apply** prompts (tasks + personas) to blocks
+5. **Manage** the results as new blocks
 
 Commands in prompter have a basic syntax that consists of a command name and a set of arguments that follow typical command line format. For example, completing a prompt looks like this:
 
