@@ -236,6 +236,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         
   
@@ -305,42 +326,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-summary-from-an-epub" class="md-nav__link">
+  <a href="#summarize-an-epub" class="md-nav__link">
     <span class="md-ellipsis">
-      Create a summary from an epub
+      Summarize an EPUB
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Create a summary from an epub">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tasks" class="md-nav__link">
-    <span class="md-ellipsis">
-      Tasks
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#prompterfile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prompterfile
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-the-gist-of-a-book-using-chapter-headers" class="md-nav__link">
+  <a href="#make-an-audio-file-of-github-trending-repos" class="md-nav__link">
     <span class="md-ellipsis">
-      Get the gist of a book using chapter headers
+      Make an audio file of GitHub trending repos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#break-an-epub-into-chunks-and-compute-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Break an EPUB into chunks and compute embeddings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-jinja-in-a-prompterfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Jinja in a Prompterfile
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-retag-to-change-filenames" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using retag to change filenames
     </span>
   </a>
   
@@ -366,6 +390,27 @@
   
   <span class="md-ellipsis">
     Command Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
     
   </span>
   
@@ -402,42 +447,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-summary-from-an-epub" class="md-nav__link">
+  <a href="#summarize-an-epub" class="md-nav__link">
     <span class="md-ellipsis">
-      Create a summary from an epub
+      Summarize an EPUB
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Create a summary from an epub">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tasks" class="md-nav__link">
-    <span class="md-ellipsis">
-      Tasks
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#prompterfile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prompterfile
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-the-gist-of-a-book-using-chapter-headers" class="md-nav__link">
+  <a href="#make-an-audio-file-of-github-trending-repos" class="md-nav__link">
     <span class="md-ellipsis">
-      Get the gist of a book using chapter headers
+      Make an audio file of GitHub trending repos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#break-an-epub-into-chunks-and-compute-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Break an EPUB into chunks and compute embeddings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-jinja-in-a-prompterfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Jinja in a Prompterfile
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-retag-to-change-filenames" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using retag to change filenames
     </span>
   </a>
   
@@ -463,34 +511,97 @@
 
 
 <h1 id="examples">Examples</h1>
-<p>Here are a few samples.</p>
-<h2 id="create-a-summary-from-an-epub">Create a summary from an epub</h2>
-<h3 id="tasks">Tasks</h3>
-<p>There are two key tasks: summarizing an individual block and then summarizing the summary. Here's the prompt to summarize the block, which is saved in a file called <code>task-summarize-block.md</code>:</p>
-<div class="language-jinja highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="x">Summarize the following block of text:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">{{</span><span class="nv">content</span><span class="cp">}}</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="x">Do this in 250 words or fewer using markdown fomatting.  Focus on adding bullet lists.</span>
-</span></code></pre></div>
-<p>Here's the prompt to summarize the summary, which is saved in a file called <code>task-summarize-summary.md</code>:</p>
-<div class="language-jinja highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="x">This is a summary of a chapter that was constucted from overlapping chunks of text from a longer work:</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">{{</span><span class="nv">content</span><span class="cp">}}</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="x">Summarize it into 250 words or fewer.</span>
-</span></code></pre></div>
-<h3 id="prompterfile">Prompterfile</h3>
+<h2 id="summarize-an-epub">Summarize an EPUB</h2>
+<p>Here is an example of how you might make a summary of an EPUB book. It works by:</p>
+<ul>
+<li>splitting each chapter into overlapping blocks of text</li>
+<li>summarizing each block using a template</li>
+<li>squasing the summaries into a single summary</li>
+<li>using another prompt to clean up the summary</li>
+</ul>
 <p>Here's the full program in a <code>Prompterfile</code>:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>load<span class="w"> </span>test.epub
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>transform<span class="w"> </span>clean-epub<span class="w"> </span>html-to-md<span class="w"> </span>transform<span class="w"> </span>token-split<span class="w"> </span>--n<span class="o">=</span><span class="m">5000</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">complete</span><span class="w"> </span>summarize-block.task
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>squash
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">complete</span><span class="w"> </span>cleanup-summary.task
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>retag<span class="w"> </span>summary-<span class="o">{{</span>block_tag<span class="o">}}</span>.md
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>write
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>load<span class="w"> </span>test.epub
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">select</span><span class="w"> </span><span class="s2">&quot;block_tag like &#39;chapter%&#39;&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>transform<span class="w"> </span>clean-epub<span class="w"> </span>html-to-md<span class="w"> </span>token-split<span class="w"> </span>--n<span class="o">=</span><span class="m">5000</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">complete</span><span class="w"> </span>summarize-block.task
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>squash
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">complete</span><span class="w"> </span>cleanup-summary.task
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>retag<span class="w"> </span>summary-<span class="o">{{</span>block_tag<span class="o">}}</span>.md
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>write
 </span></code></pre></div>
-<h2 id="get-the-gist-of-a-book-using-chapter-headers">Get the gist of a book using chapter headers</h2>
+<p>Here is the first task, which summarizes a single block of text:</p>
+<div class="admonition note">
+<p class="admonition-title"><code>summarize-block.task</code></p>
+<p>Summarize the following block of text:</p>
+<p>{{content}}</p>
+<p>Do this in 250 words or fewer using markdown fomatting. Focus on adding bullet lists.</p>
+</div>
+<p>Here is the second task, which cleans up the "squashed" summaries of all the blocks:</p>
+<div class="admonition note">
+<p class="admonition-title"><code>task-summarize-summary.md</code></p>
+<p>This is a summary of a chapter that was constucted from overlapping chunks of text from a longer work:</p>
+<p>{{content}}</p>
+<p>Summarize it into 250 words or fewer.</p>
+</div>
+<h2 id="make-an-audio-file-of-github-trending-repos">Make an audio file of GitHub trending repos</h2>
+<p>This example use the <a href="https://github.com/mshibanami/GitHubTrendingRSS">mshibanami/GitHubTrendingRSS</a> project to convert an RSS feed (in this case, RSS 2.0) of GitHub trending projects into an audio file. Here's how it works:</p>
+<ul>
+<li><code>load</code> the feed from the "All Languages" feed on <a href="https://mshibanami.github.io/GitHubTrendingRSS/">GitHub Trending RSS</a></li>
+<li><code>transform</code> the feed into json using the <code>feed-to-abridged-json</code> command (there are several ways to summarize the feed data)</li>
+<li><code>complete</code> a prompt that converts the json into a markdown file</li>
+<li><code>speak</code> to make the audio file</li>
+</ul>
+<p>Here's an example of the output of the <code>feed-to-abridged-json</code> command when run on the feed:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;langgenius/dify&quot;</span><span class="p">,</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="nt">&quot;link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/langgenius/dify&quot;</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;p&gt;Dify is an open-source LLM app development platform. Dify&#39;s intuitive interface combines AI workflow, RAG pipeline, agent capabilities, model management, observability features and more, letting you quickly go from prototype to production.&lt;/p&gt;&lt;hr /&gt;&lt;p&gt;&lt;img alt=\&quot;cover-v5-optimized\&quot; src=\&quot;https://github.com/langgenius/dify/assets/13230914/f9e19af5-61ba-4119-b926-d10c4c06ebab\&quot; /&gt;&lt;/p&gt; \n&lt;p align=\&quot;center\&quot;&gt; \ud83d\udccc &lt;a href=\&quot;https://dify.ai/blog/introducing-dify-workflow-file-upload-a-demo-on-ai-podcast\&quot;&gt;Introducing Dify Workflow File Upload: Recreate Google NotebookLM Podcast&lt;/a&gt; &lt;/p&gt; \n&lt;p align=\&quot;center\&quot;&gt; &lt;a href=\&quot;https://cloud.dify.ai\&quot;&gt;Dify Cloud&lt;/a&gt; \u00b7 &lt;a href=\&quot;https://docs.dify.ai/getting-started/install-self-hosted\&quot;&gt;Self-hosting&lt;/a&gt; \u00b7 &lt;a href=\&quot;https://docs.dify.ai\&quot;&gt;Documentation&lt;/a&gt; \u00b7 &lt;a href=\&quot;https://udify.app/chat/22L1zSxg6yW1cWQg\&quot;&gt;Enterprise inquiry&lt;/a&gt; &lt;/p&gt; \n&lt;p align=\&quot;center\&quot;&gt; &lt;a href=\&quot;https://dify.ai\&quot; target=\&quot;_blank\&quot;&gt; &lt;img alt=\&quot;Static Badge\&quot; src=\&quot;https://img.shields.io/badge/Product-F04438&quot;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="err">...</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>Here's the <code>Prompterfile</code>:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>load<span class="w"> </span>https://mshibanami.github.io/GitHubTrendingRSS/weekly/all.xml
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>transform<span class="w"> </span>feed-to-abridged-json
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">complete</span><span class="w"> </span>summarize-trending-repos.task
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>speak
+</span></code></pre></div>
+<p>Here's the <code>summarize-trending-repos.task</code> task:</p>
+<div class="admonition note">
+<p class="admonition-title"><code>summarize-trending-repos.task</code></p>
+<p>The prompt goes here</p>
+</div>
+<h2 id="break-an-epub-into-chunks-and-compute-embeddings">Break an EPUB into chunks and compute embeddings</h2>
+<p>This Prompterfile shows how to break an EPUB into chunks of ~500 words and compute their embeddings. The embeddings are saved in a CSV file and the chunks are saved in a JSON file.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="ch">#! sh</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Set filename variable that excludes an extension</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">set</span><span class="w"> </span>FN<span class="w"> </span>my-ebook
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>load<span class="w"> </span><span class="o">{{</span>FN<span class="o">}}</span>.epub
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">select</span><span class="w"> </span><span class="s2">&quot;block_tag like &#39;ch%.html&#39;&quot;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>transform<span class="w"> </span>clean-epub<span class="w"> </span>html-to-md
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>transform<span class="w"> </span>token-split<span class="w"> </span>--n<span class="o">=</span><span class="m">500</span><span class="w"> </span>--overlap<span class="o">=</span><span class="m">0</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">export</span><span class="w"> </span>--fn<span class="o">=</span>out-<span class="o">{{</span><span class="w"> </span>FN<span class="w"> </span><span class="o">}}</span>.json
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>embed<span class="w"> </span>--fn<span class="o">=</span>out-<span class="o">{{</span><span class="w"> </span>FN<span class="w"> </span><span class="o">}}</span>.csv
+</span></code></pre></div>
+<h2 id="using-jinja-in-a-prompterfile">Using Jinja in a Prompterfile</h2>
+<p>You can use <a href="https://jinja.palletsprojects.com/en/stable/templates/">Jinja</a> template constructs to create more complex logic in a Prompterfile. For example, here's an example that uses Jinja to loop over a list of durations and generate a series of tasks that summarize a block of text:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>load<span class="w"> </span>data/source/*.html
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">select</span><span class="w"> </span><span class="s2">&quot;block_tag like &#39;%-ch%&#39;&quot;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>transform<span class="w"> </span>strip-attributes<span class="w"> </span>extract-headers
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">complete</span><span class="w"> </span>task-summarize-block.txt
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>retag<span class="w"> </span>gist
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>squash<span class="w"> </span>--tag<span class="o">=</span>squashed
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="o">{</span>%<span class="w"> </span><span class="k">for</span><span class="w"> </span>duration<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">[</span><span class="s1">&#39;30-seconds&#39;</span>,<span class="w"> </span><span class="s1">&#39;2-minutes&#39;</span><span class="o">]</span><span class="w"> </span>%<span class="o">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">   </span>checkout<span class="w"> </span>squashed
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">   </span><span class="c1"># Set an environment variable to set context that can be used in the prompt</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">   </span><span class="nb">set</span><span class="w"> </span>DURATION<span class="w"> </span><span class="o">{{</span>duration<span class="o">}}</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">   </span><span class="nb">complete</span><span class="w"> </span>task-get-the-gist-duration.txt<span class="w"> </span>--context<span class="o">=</span>data/metadata.yaml<span class="w"> </span>--model<span class="o">=</span>gpt-4o
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">   </span>retag<span class="w"> </span>gist-<span class="o">{{</span>duration<span class="o">}}</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">   </span>speak<span class="w"> </span>--speed<span class="o">=</span><span class="m">1</span>.2
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="o">{</span>%<span class="w"> </span>endfor<span class="w"> </span>%<span class="o">}</span>
+</span></code></pre></div>
+<h2 id="using-retag-to-change-filenames">Using <code>retag</code> to change filenames</h2>
 
 
 

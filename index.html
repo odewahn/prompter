@@ -10,7 +10,7 @@
       
       
       
-        <link rel="next" href="installation/">
+        <link rel="next" href="concepts/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -222,18 +222,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Home
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -245,34 +233,27 @@
 
       </a>
       
-        
+    </li>
+  
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
     
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
-        <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key Features
-    </span>
-  </a>
-  
-</li>
       
-    </ul>
   
-</nav>
-      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key Concepts
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -340,6 +321,27 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -360,23 +362,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key Features
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -394,26 +379,25 @@
   
 
 
-<h1 id="prompter">prompter</h1>
-<p>Prompter is a simple scripting language for text transformations with OpenAI:</p>
+<h1 id="prompter">Prompter</h1>
+<p>Prompter is a tool for developing content transformations with LLMs. It let's you create scripts that automate workflows, ike this:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>load<span class="w"> </span>test.epub
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>transform<span class="w"> </span>html-to-md<span class="w"> </span>token-split<span class="w"> </span>--n<span class="o">=</span><span class="m">5000</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">complete</span><span class="w"> </span>summarize-block.task
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>squash
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">complete</span><span class="w"> </span>cleanup-summary.task
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>retag<span class="w"> </span>summary-<span class="o">{{</span>block_tag<span class="o">}}</span>.md
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>write
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>write
 </span></code></pre></div>
-<p>It also has a simple IDE to help create and test your scripts and prompts:</p>
+<p>It also has an IDE to help create and test your scripts and prompts:</p>
 <p><img alt="Prompter" src="images/browser.png" /></p>
-<h2 id="key-features">Key Features</h2>
+<p>With prompter you can:</p>
 <ul>
 <li>Load text from files or EPUBs into a database</li>
 <li>Transform text using a variety of transformations. For example, convert an EPUB to markdown, split a long block into smaller blocks, or split a block into sentences. A lot of this work is required to fit the text into the LLM's token limit.</li>
 <li>Filter out blocks of text. For example, you might only want to process one chapter in a book.</li>
 <li>Apply templated prompts to your blocks and send them to an LLM. You can use context in your prompts to make them more dynamic. For example, you might have a context file with keys like <code>title</code>, <code>author</code>, and <code>topic</code>. You can include these keys in your prompt templates.</li>
+<li>Create scripts so that you can automate your workflows for new content</li>
 </ul>
-<p>You can create simple scripts so that you can automate many commaon transformation tasks:</p>
 
 
 

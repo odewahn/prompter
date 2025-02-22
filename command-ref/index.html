@@ -12,6 +12,8 @@
         <link rel="prev" href="../examples/">
       
       
+        <link rel="next" href="../api-ref/">
+      
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.2">
@@ -234,6 +236,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         
   
@@ -361,6 +384,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#embed" class="md-nav__link">
+    <span class="md-ellipsis">
+      embed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#run" class="md-nav__link">
     <span class="md-ellipsis">
       run
@@ -463,6 +495,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#export" class="md-nav__link">
+    <span class="md-ellipsis">
+      export
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#speak" class="md-nav__link">
     <span class="md-ellipsis">
       speak
@@ -477,13 +518,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-management" class="md-nav__link">
+  <a href="#context-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      Environment Management
+      Context Variables
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Environment Management">
+    <nav class="md-nav" aria-label="Context Variables">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -546,6 +587,27 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-ref/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -614,6 +676,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#embed" class="md-nav__link">
+    <span class="md-ellipsis">
+      embed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#run" class="md-nav__link">
     <span class="md-ellipsis">
       run
@@ -716,6 +787,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#export" class="md-nav__link">
+    <span class="md-ellipsis">
+      export
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#speak" class="md-nav__link">
     <span class="md-ellipsis">
       speak
@@ -730,13 +810,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-management" class="md-nav__link">
+  <a href="#context-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      Environment Management
+      Context Variables
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Environment Management">
+    <nav class="md-nav" aria-label="Context Variables">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -873,23 +953,34 @@
   <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>complete summarize.jinja --tag=summary --model=gpt-4o --temperature=0.3
 </span></code></pre></div></li>
 </ul>
+<h3 id="embed">embed</h3>
+<p>Embeds the current blocks and saves them to a CSV file. <em>ONLY WORKS WITH OPENAI</em></p>
+<ul>
+<li><strong>Arguments:</strong></li>
+<li><code>--fn</code> (optional): Filename pattern (jinja2) to write to (default: <code>embeddings.csv</code>).</li>
+<li><code>--where</code> (optional): Where clause for the blocks.</li>
+<li><code>--model</code>: (optional): Model to use: <code>openai</code> (default) or <code>dummy</code> (writes all zeros)</li>
+<li><strong>Example:</strong>
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>embed --fn=&quot;my-embeddings.csv&quot;
+</span></code></pre></div></li>
+</ul>
 <h3 id="run">run</h3>
 <p>Run a file containing of prompter commands. For example, the following file of commands would allow you to summarize an epub file:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>set FN test.epub
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>load {{FN}}
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>select &quot;block_tag like &#39;chapter%&#39;&quot;
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>transform clean-epub html-to-md token-split --n=1500
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>complete summarize-block.task
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>squash
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>complete cleanup-summary.task
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>retag summary-{{block_tag}}.md
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>write
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>set FN test.epub
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>load {{FN}}
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>select &quot;block_tag like &#39;chapter%&#39;&quot;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>transform clean-epub html-to-md token-split --n=1500
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>complete summarize-block.task
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>squash
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>complete cleanup-summary.task
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>retag summary-{{block_tag}}.md
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>write
 </span></code></pre></div>
 <ul>
 <li><strong>Arguments:</strong></li>
 <li><code>fn</code> (required): File or URL to run.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>run script.prompter
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>run script.prompter
 </span></code></pre></div></li>
 </ul>
 <h3 id="browse">browse</h3>
@@ -902,7 +993,7 @@
 <li><strong>Arguments:</strong></li>
 <li><code>db_name</code> (required): Database name to use.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>use summary.db
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>use summary.db
 </span></code></pre></div></li>
 </ul>
 <h3 id="blocks">blocks</h3>
@@ -911,7 +1002,7 @@
 <li><strong>Arguments:</strong></li>
 <li><code>--where</code> (optional): Where clause for the blocks.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>blocks --where=&quot;block_tag like &#39;ch%&#39;&quot;
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>blocks --where=&quot;block_tag like &#39;ch%&#39;&quot;
 </span></code></pre></div></li>
 </ul>
 <h3 id="groups">groups</h3>
@@ -920,7 +1011,7 @@
 <li><strong>Arguments:</strong></li>
 <li><code>--where</code> (optional): Where clause for the group.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>groups --where=&quot;group_tag like &#39;my_group%&#39;&quot;
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>groups --where=&quot;group_tag like &#39;my_group%&#39;&quot;
 </span></code></pre></div></li>
 </ul>
 <h3 id="checkout">checkout</h3>
@@ -936,7 +1027,7 @@
 </ul>
 </li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>checkout my_group
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>checkout my_group
 </span></code></pre></div></li>
 </ul>
 <h3 id="squash">squash</h3>
@@ -946,7 +1037,7 @@
 <li><code>--delimiter</code> (optional): Delimiter to use (default: "\n").</li>
 <li><code>--tag</code> (optional): Tag for the new group.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>squash --delimiter=&quot;\n\n&quot; --tag=squashed_group
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>squash --delimiter=&quot;\n\n&quot; --tag=squashed_group
 </span></code></pre></div></li>
 </ul>
 <h2 id="generating-output">Generating Output</h2>
@@ -958,11 +1049,26 @@
 <li><code>--where</code> (optional): Where clause for the blocks.</li>
 <li><strong>Examples:</strong>
   Write each block to a file named after its tag:
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>write --fn=&quot;output/{{block_tag}}.txt&quot;
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>write --fn=&quot;output/{{block_tag}}.txt&quot;
 </span></code></pre></div></li>
 </ul>
+<h3 id="export">export</h3>
+<p>Export all the current blocks to a json file.</p>
+<ul>
+<li>
+<p><strong>Arguments:</strong></p>
+</li>
+<li>
+<p><code>--fn</code> (optional): Filename pattern to write to (default: <code>blocks.json</code>).</p>
+</li>
+<li>
+<p><strong>Example:</strong>
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>export --fn=&quot;my_blocks.json&quot;
+</span></code></pre></div></p>
+</li>
+</ul>
 <h3 id="speak">speak</h3>
-<p>Convert the current block to audio files.</p>
+<p>Convert the current block to audio files. <em>ONLY WORKS WITH OPENAI</em></p>
 <ul>
 <li><strong>Arguments:</strong></li>
 <li><code>--fn</code> (optional): Filename pattern (jinja2) to write to (default: "{{block_tag.split('.') | first}}-{{ '%04d' % position}}.mp3").</li>
@@ -971,14 +1077,14 @@
 <li><code>--preview</code> (optional): Preview the filenames.</li>
 <li><strong>Example:</strong></li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>speak<span class="w"> </span>--fn<span class="o">=</span><span class="s2">&quot;audio/{{block_tag}}.mp3&quot;</span><span class="w"> </span>--voice<span class="o">=</span>alloy
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>speak<span class="w"> </span>--fn<span class="o">=</span><span class="s2">&quot;audio/{{block_tag}}.mp3&quot;</span><span class="w"> </span>--voice<span class="o">=</span>alloy
 </span></code></pre></div>
-<h2 id="environment-management">Environment Management</h2>
-<p>Environment variables allow you to create symbols you can use in instructions, rather than literal strings. For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>set SOURCE https://example.com
+<h2 id="context-variables">Context Variables</h2>
+<p>Context variables are like environment variables that allow you to create symbols you can use in instructions, rather than literal strings. For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>set SOURCE https://example.com
 </span></code></pre></div>
 <p>And then you can do something like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>complete {{SOURCE}}/summarize.md --persona={{SOURCE}}/persona.md
 </span></code></pre></div>
 <p>You can pass environment variable into your scripts when they starts by creating a (bash) variable that begins with <code>PROMPTER\_</code>. (Note that the "PROMPTER_" prefix will be stripped off.) For example, an environment variable created with <code>export PROMPTER_ENV=dev</code> automantically becomes available in the prompter environment as <code>ENV=dev</code>.</p>
 <h3 id="set">set</h3>
@@ -988,7 +1094,7 @@
 <li><code>key</code> (required): Key to set.</li>
 <li><code>value</code> (required): Value to set.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>set SOURCE https://example.com
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>set SOURCE https://example.com
 </span></code></pre></div></li>
 </ul>
 <h3 id="unset">unset</h3>
@@ -997,7 +1103,7 @@
 <li><strong>Arguments:</strong></li>
 <li><code>key</code> (required): Key to remove.</li>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>unset SOURCE
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>unset SOURCE
 </span></code></pre></div></li>
 </ul>
 <h2 id="other-commands">Other Commands</h2>
@@ -1005,7 +1111,7 @@
 <p>Print the version of the application.</p>
 <ul>
 <li><strong>Example:</strong>
-  <div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>version
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>version
 </span></code></pre></div></li>
 </ul>
 <h3 id="exit">exit</h3>
@@ -1013,7 +1119,7 @@
 <ul>
 <li><strong>Example:</strong></li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>exit
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>exit
 </span></code></pre></div>
 
 
