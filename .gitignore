@@ -12,6 +12,7 @@ dist
 *.csv
 node_modules/
 site
+blocks.json
 
 # Frontent things to exclude
 *.log

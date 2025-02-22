@@ -30,6 +30,7 @@ with console.status(f"[bold green]Loading required libraries...") as status:
     import yaml
     import traceback
     import urllib.parse
+    import json
 
 
 db_manager = None
@@ -82,6 +83,7 @@ async def handle_command(args, command):
         "select": handle_select_command,
         "retag": handle_retag_command,
         "embed": handle_embed_command,
+        "export": handle_export_command,
     }
     handler = command_handlers.get(args.command)
     if handler:
@@ -702,3 +704,14 @@ async def handle_embed_command(args, command):
 
     except Exception as e:
         raise Exception(f"Error embedding blocks: {e}")
+
+
+async def handle_export_command(args, command):
+    try:
+        blocks, column_names = await db_manager.get_current_blocks()
+        with open(args.fn, "w") as f:
+            f.write(json.dumps(blocks, indent=4))
+
+    except Exception as e:
+        print(f"[red]handle_export_command: {e}")
+        return

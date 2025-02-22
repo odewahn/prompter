@@ -24,12 +24,12 @@ class DummyEmbedder(Embedder):
 @dataclass
 class OpenAIEmbedder(Embedder):
 
-    # is os.environ["OPENAI_API_KEY"] is not set then print a warning
-    if "OPENAI_API_KEY" not in os.environ:
-        raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
-
     async def compute_embedding(self, text):
         from openai import AsyncOpenAI
+
+        # is os.environ["OPENAI_API_KEY"] is not set then print a warning
+        if "OPENAI_API_KEY" not in os.environ:
+            raise Exception(MESSAGE_OPENAI_KEY_NOT_SET)
 
         client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
         response = await client.embeddings.create(

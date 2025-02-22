@@ -65,6 +65,19 @@ Complete a block using OpenAI.
   complete summarize.jinja --tag=summary --model=gpt-4o --temperature=0.3
   ```
 
+### embed
+
+Embeds the current blocks and saves them to a CSV file. _ONLY WORKS WITH OPENAI_
+
+- **Arguments:**
+  - `--fn` (optional): Filename pattern (jinja2) to write to (default: `embeddings.csv`).
+  - `--where` (optional): Where clause for the blocks.
+  - `--model`: (optional): Model to use: `openai` (default) or `dummy` (writes all zeros)
+- **Example:**
+  ```
+  embed --fn="my-embeddings.csv"
+  ```
+
 ### run
 
 Run a file containing of prompter commands. For example, the following file of commands would allow you to summarize an epub file:
@@ -172,9 +185,22 @@ Write the current group to a file.
   write --fn="output/{{block_tag}}.txt"
   ```
 
+### export
+
+Export all the current blocks to a json file.
+
+- **Arguments:**
+
+  - `--fn` (optional): Filename pattern to write to (default: `blocks.json`).
+
+- **Example:**
+  ```
+  export --fn="my_blocks.json"
+  ```
+
 ### speak
 
-Convert the current block to audio files.
+Convert the current block to audio files. _ONLY WORKS WITH OPENAI_
 
 - **Arguments:**
   - `--fn` (optional): Filename pattern (jinja2) to write to (default: "{{block_tag.split('.') | first}}-{{ '%04d' % position}}.mp3").
@@ -187,9 +213,9 @@ Convert the current block to audio files.
   speak --fn="audio/{{block_tag}}.mp3" --voice=alloy
   ```
 
-## Environment Management
+## Context Variables
 
-Environment variables allow you to create symbols you can use in instructions, rather than literal strings. For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:
+Context variables are like environment variables that allow you to create symbols you can use in instructions, rather than literal strings. For example, you might use environment variables to set a source URL for the location of your task and persona prompts. When the script is run, the environment variables are replaced with their values. For example:
 
 ```
 set SOURCE https://example.com

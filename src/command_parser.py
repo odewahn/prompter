@@ -277,10 +277,6 @@ def create_parser():
                 },
             ),
             (
-                "--where",
-                {"help": "Where clause for the blocks", "required": False, "type": str},
-            ),
-            (
                 "--embedder",
                 {
                     "help": "Embedder to use to complete embeddings",
@@ -288,6 +284,22 @@ def create_parser():
                     "type": str,
                     "default": "openai",
                     "choices": ["openai", "dummy"],
+                },
+            ),
+        ],
+    )
+
+    add_subparser(
+        "export",
+        "Export the current group to a file (json)",
+        [
+            (
+                "--fn",
+                {
+                    "help": "Filename to use",
+                    "required": False,
+                    "type": str,
+                    "default": "blocks.json",
                 },
             ),
         ],

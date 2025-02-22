@@ -199,3 +199,13 @@ To publish the site:
 ```
 mkdocs gh-deploy
 ```
+
+## Markup notes
+
+There were some conflicts between markdown formatting in VSCode and MKDocs material theme, especially for the `admonition` element. Use [PyMdown Extensions](https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/admonition/) to get the same formatting in VSCode and the site.
+
+```
+/// admonition | Some title
+Some content
+///
+```
