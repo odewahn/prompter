@@ -83,7 +83,7 @@ async def run_file_mode(fn):
 
 
 if __name__ == "__main__":
-    # os.chdir("/Users/odewahn/Desktop/cat-essay")
+    # os.chdir("/Users/odewahn/Desktop/fireproof/embed")
     if len(sys.argv) > 1:
         # fn is the last argument in the command line
         fn = sys.argv[-1]

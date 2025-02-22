@@ -197,14 +197,17 @@ async def interpret(fn, preview=False):
     # Remove any blank lines from the instructions and return as a list
     commands = [line for line in instructions.split("\n") if line.strip()]
     # Test if we're just previewing.  If so, then print the commands and return
-    if preview:
+    if env.get("DEBUG") == "true":
         print("Commands to be run:")
         for command in commands:
             print(command)
+    # If we're just previewing, then return
+    if preview:
         return
     # process each command
     parser = create_parser()
     for command in commands:
+        command = render_file_or_instruction(command)
         print(command)
         # Skip comments
         if command.startswith("#"):
