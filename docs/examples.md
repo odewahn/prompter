@@ -79,7 +79,25 @@ Here's the `summarize-trending-repos.task` task:
 The prompt goes here
 ///
 
+## Break an EPUB into chunks and compute embeddings
+
+This Prompterfile shows how to break an EPUB into chunks of ~500 words and compute their embeddings. The embeddings are saved in a CSV file and the chunks are saved in a JSON file.
+
+```sh
+#! sh
+# Set filename variable that excludes an extension
+set FN my-ebook
+load {{FN}}.epub
+select "block_tag like 'ch%.html'"
+transform clean-epub html-to-md
+transform token-split --n=500 --overlap=0
+export --fn=out-{{ FN }}.json
+embed --fn=out-{{ FN }}.csv
+```
+
 ## Using Jinja in a Prompterfile
+
+You can use [Jinja](https://jinja.palletsprojects.com/en/stable/templates/) template constructs to create more complex logic in a Prompterfile. For example, here's an example that uses Jinja to loop over a list of durations and generate a series of tasks that summarize a block of text:
 
 ```sh
 load data/source/*.html
