@@ -318,7 +318,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Completions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#tasks" class="md-nav__link">
@@ -327,8 +328,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Tasks">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#personas" class="md-nav__link">
@@ -371,15 +371,6 @@
   <a href="#installation-and-setup" class="md-nav__link">
     <span class="md-ellipsis">
       Installation and setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summarizing-an-essay" class="md-nav__link">
-    <span class="md-ellipsis">
-      Summarizing an Essay
     </span>
   </a>
   
@@ -538,7 +529,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Completions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#tasks" class="md-nav__link">
@@ -547,8 +539,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Tasks">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#personas" class="md-nav__link">
@@ -596,15 +587,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#summarizing-an-essay" class="md-nav__link">
-    <span class="md-ellipsis">
-      Summarizing an Essay
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -644,7 +626,7 @@
 <h3 id="groups">Groups</h3>
 <p>Groups are collections of related blocks:</p>
 <ul>
-<li>Created when you load, transform, or combine blocks; thet are also created when you perform a completion ask with an LLM</li>
+<li>Created when you load, transform, or combine blocks; thet are also created when you perform a completion task with an LLM</li>
 <li>Have a unique tag for identification (auto-generated or user-specified)</li>
 <li>Only one group is "active" at a time (the current group)</li>
 </ul>
@@ -652,7 +634,7 @@
 <p>Suppying your own tag can be useful if you want to refer to the group later. For example, you might tag a group with a name like <code>final</code> if it represents the final step in a series of transformations. You can then perform various operations like completions, but then use the <code>checkout final</code> command to go back to the <code>final</code> group.</p>
 <h3 id="completions">Completions</h3>
 <p>A completion is the result of applying a prompt template to a block and then sending it to an LLM.</p>
-<h3 id="tasks">Tasks</h3>
+<h4 id="tasks">Tasks</h4>
 <p>A task is a prompt that is applied to a block. Tasks use <a href="https://jinja.palletsprojects.com/en/3.0.x/">jinja</a> templating to create prompts that can be applied to blocks. For example, a task might ask the LLM to summarize a block of text or generate a list of key points.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Here is a selection of text from a book called {{title}} by {{authors}}. Please summarize it in 250 words or fewer:
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -699,8 +681,6 @@
 </span></code></pre></div>
 <p>Within VSCode, open a terminal and type <code>prompter</code>. Your environment should look something like this:</p>
 <p><img alt="prompter in vscode" src="../images/prompter-in-vscode.png" /></p>
-<h2 id="summarizing-an-essay">Summarizing an Essay</h2>
-<p>Let's start with a simple example -- summarizing an essay. The main things to understand about using prompter are:</p>
 
 
 
